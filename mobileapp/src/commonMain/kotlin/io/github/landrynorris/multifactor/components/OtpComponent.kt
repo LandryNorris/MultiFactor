@@ -2,7 +2,6 @@ package io.github.landrynorris.multifactor.components
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
-import com.arkivanov.essenty.backpressed.BackPressedHandler
 import io.github.landrynorris.multifactor.models.OtpModel
 import io.github.landrynorris.multifactor.repository.OtpRepository
 import io.github.landrynorris.otp.Hotp
@@ -15,12 +14,12 @@ import kotlinx.coroutines.flow.update
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
 
 interface OtpLogic {
     val state: StateFlow<OtpScreenState>
     val createOtpLogic: CreateOtpLogic
 
+    fun incrementClicked(index: Int) {}
     fun addOtpPressed() {}
 }
 
@@ -61,6 +60,13 @@ class OtpComponent(private val context: ComponentContext): ComponentContext by c
                 delay(50)
             }
         }
+    }
+
+    override fun incrementClicked(clickedIndex: Int) {
+        val item = state.value.otpList[clickedIndex]
+        if(item.model?.otp !is Hotp) return
+        val hotp = item.model.otp as Hotp
+        repository.setHotpCount(item.model.id, hotp.counter + 1)
     }
 
     override fun addOtpPressed() {

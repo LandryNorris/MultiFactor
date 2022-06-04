@@ -21,8 +21,8 @@ import io.github.landrynorris.otp.Hotp
 import io.github.landrynorris.otp.OtpMethod
 
 @Composable
-fun HotpItem(pin: String, name: String,
-             onIncrementClicked: () -> Unit = {}) {
+fun HotpItem(index: Int, pin: String, name: String,
+             onIncrementClicked: (Int) -> Unit = {}) {
     Column(modifier = Modifier.fillMaxWidth().background(Color.White)) {
         Text(name, fontSize = 18.sp)
         Row(modifier = Modifier.fillMaxWidth(),
@@ -30,7 +30,7 @@ fun HotpItem(pin: String, name: String,
 
             Text(pin, modifier = Modifier.weight(1f),
                 fontSize = 20.sp, letterSpacing = 1.sp)
-            IconButton(onClick = onIncrementClicked) {
+            IconButton(onClick = { onIncrementClicked(index) }) {
                 Icon(Icons.Default.Add,
                     "Increment Counter")
             }
@@ -41,5 +41,5 @@ fun HotpItem(pin: String, name: String,
 @Preview
 @Composable
 fun HotpPreview() {
-    HotpItem("123 456", "My Pin")
+    HotpItem(0, "123 456", "My Pin")
 }

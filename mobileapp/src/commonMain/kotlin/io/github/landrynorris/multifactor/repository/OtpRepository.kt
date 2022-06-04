@@ -18,12 +18,17 @@ class OtpRepository: KoinComponent {
 
     fun createOtp(otp: OtpModel) {
         val entry = otp.toEntry()
-        database.otpQueries.insertOtp(id = null, secret = entry.secret, type = entry.type, name = entry.name)
+        database.otpQueries.insertOtp(id = null, secret = entry.secret, type = entry.type,
+            name = entry.name, count = entry.count)
     }
 
     fun getOtpModelFlow(): Flow<List<OtpModel>> {
         return database.otpQueries.selectAll().asFlow().mapToList().map { entries ->
             entries.map { entry -> entry.toModel() }
         }
+    }
+
+    fun setHotpCount(id: Long, count: Long) {
+        database.otpQueries.setCountById(count = count, id = id)
     }
 }

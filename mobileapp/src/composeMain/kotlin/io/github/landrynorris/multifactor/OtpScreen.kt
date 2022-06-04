@@ -2,6 +2,7 @@ package io.github.landrynorris.multifactor
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -29,6 +30,7 @@ fun OtpScreen(logic: OtpLogic) {
         }) {
         OtpList(state.otpList,
             createOtpState = if(state.showCreate) createState else null,
+            onIncrementClicked = logic::incrementClicked,
             onNameChanged = createOtpLogic::nameChanged,
             onSecretChanged = createOtpLogic::secretChanged,
             onTypeChanged = createOtpLogic::methodChanged,
@@ -39,13 +41,16 @@ fun OtpScreen(logic: OtpLogic) {
 @Composable
 fun OtpList(otpStates: List<OtpState>,
             createOtpState: CreateOtpState? = null,
+            onIncrementClicked: (Int) -> Unit = {},
             onNameChanged: (String) -> Unit = {},
             onSecretChanged: (String) -> Unit = {},
             onTypeChanged: (OtpMethod) -> Unit = {},
             onConfirmClicked: () -> Unit = {}) {
     LazyColumn {
-        items(otpStates) { otp ->
-            if(otp.type is OtpMethod.HOTP) HotpItem(otp.pin, otp.name)
+        itemsIndexed(otpStates) { index, otp ->
+            if(otp.type is OtpMethod.HOTP) HotpItem(index,
+                otp.pin, otp.name,
+                onIncrementClicked = onIncrementClicked)
             else TotpItem(otp.pin, otp.name, otp.value)
         }
 

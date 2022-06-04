@@ -3,14 +3,18 @@ CREATE TABLE OtpEntry (
     id INTEGER NOT NULL PRIMARY KEY,
     secret TEXT NOT NULL,
     name TEXT NOT NULL,
+    count INTEGER,
     type INTEGER NOT NULL
 );
 
 insertOtp:
-INSERT OR REPLACE INTO OtpEntry(id, secret, name, type) VALUES(?, ?, ?, ?);
+INSERT OR REPLACE INTO OtpEntry(id, secret, name, count, type) VALUES(?, ?, ?, ?, ?);
 
 selectAll:
 SELECT * FROM OtpEntry;
+
+setCountById:
+UPDATE OtpEntry SET count = ? WHERE id IS ?;
 
 getById:
 SELECT * FROM OtpEntry WHERE id IS ?;
