@@ -6,6 +6,7 @@ plugins {
     kotlin("multiplatform")
     id("com.android.application")
     id("org.jetbrains.compose")
+    id("kotlin-parcelize")
     id("com.squareup.sqldelight")
 }
 
@@ -47,6 +48,7 @@ kotlin {
                 implementation(compose.materialIconsExtended)
                 implementation(compose.preview)
                 implementation(compose.uiTooling)
+                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
             }
         }
         val androidMain by getting {
