@@ -26,6 +26,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":otp"))
+                implementation("org.jetbrains.kotlinx:atomicfu:0.17.2")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
                 implementation("io.insert-koin:koin-core:$koinVersion")

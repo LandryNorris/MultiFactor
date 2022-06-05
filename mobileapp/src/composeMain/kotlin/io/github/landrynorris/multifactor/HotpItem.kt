@@ -23,7 +23,8 @@ import io.github.landrynorris.otp.OtpMethod
 @Composable
 fun HotpItem(index: Int, pin: String, name: String,
              onIncrementClicked: (Int) -> Unit = {}) {
-    Column(modifier = Modifier.fillMaxWidth().background(Color.White)) {
+    Column(modifier = Modifier.fillMaxWidth()
+        .background(Theme.colors.background)) {
         Text(name, fontSize = 18.sp)
         Row(modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically) {

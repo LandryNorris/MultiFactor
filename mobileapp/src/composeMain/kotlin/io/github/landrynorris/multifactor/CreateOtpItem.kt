@@ -22,7 +22,8 @@ fun CreateOtpItem(createOtpState: CreateOtpState,
                   onSecretChanged: (String) -> Unit = {},
                   onTypeChanged: (OtpMethod) -> Unit = {},
                   onConfirmClicked: () -> Unit = {}) {
-    Row(modifier = Modifier.fillMaxWidth().background(Color.White),
+    Row(modifier = Modifier.fillMaxWidth()
+        .background(Theme.colors.background),
         verticalAlignment = Alignment.CenterVertically) {
         Column(modifier = Modifier.weight(1.0f)) {
             TextField(label = { Text("Name") },
