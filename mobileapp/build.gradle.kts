@@ -26,11 +26,12 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":otp"))
-                implementation("org.jetbrains.kotlinx:atomicfu:0.17.2")
+                implementation(project(":encryption"))
+                implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
                 implementation("io.insert-koin:koin-core:$koinVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("com.squareup.sqldelight:coroutines-extensions:$sqlVersion")
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -55,7 +56,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 dependsOn(composeMain)
-                implementation("androidx.activity:activity-compose:1.4.0")
+                implementation("androidx.activity:activity-compose:1.5.1")
                 implementation("com.google.android.material:material:1.6.1")
                 implementation("androidx.startup:startup-runtime:1.1.1")
                 implementation("com.squareup.sqldelight:android-driver:$sqlVersion")
@@ -91,6 +92,7 @@ android {
     buildFeatures {
         compose = true
     }
+    namespace = "io.github.landrynorris.multifactor"
 }
 
 sqldelight {

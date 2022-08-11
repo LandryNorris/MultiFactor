@@ -22,6 +22,6 @@ class PasswordRepository: KoinComponent {
     }
 
     fun insertPassword(model: PasswordModel) {
-        repository.passwordQueries.insertPassword(null, model.name, model.hash, model.encryptdValue)
+        repository.passwordQueries.insertPassword(null, model.name, model.salt, model.encryptedValue)
     }
 }

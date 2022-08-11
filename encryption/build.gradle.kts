@@ -55,5 +55,5 @@ android {
         minSdk = 21
         targetSdk = 32
     }
-    namespace = "io.github.landrynorris.otp"
+    namespace = "io.github.landrynorris.encryption"
 }

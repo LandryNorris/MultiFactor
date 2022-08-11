@@ -9,3 +9,4 @@ pluginManagement {
 rootProject.name = "MultiFactor"
 include(":mobileapp")
 include(":otp")
+include(":encryption")
