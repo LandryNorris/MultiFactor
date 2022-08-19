@@ -1,6 +1,5 @@
-package io.github.landrynorris.multifactor
+package io.github.landrynorris.multifactor.compose
 
-import android.graphics.fonts.FontFamily
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme

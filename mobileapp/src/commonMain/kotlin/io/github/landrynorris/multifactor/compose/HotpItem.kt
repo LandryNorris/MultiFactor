@@ -1,4 +1,4 @@
-package io.github.landrynorris.multifactor
+package io.github.landrynorris.multifactor.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -9,16 +9,10 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.PlusOne
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
-import io.github.landrynorris.multifactor.components.OtpState
-import io.github.landrynorris.otp.Hotp
-import io.github.landrynorris.otp.OtpMethod
 
 @Composable
 fun HotpItem(index: Int, pin: String, name: String,
@@ -37,10 +31,4 @@ fun HotpItem(index: Int, pin: String, name: String,
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun HotpPreview() {
-    HotpItem(0, "123 456", "My Pin")
 }

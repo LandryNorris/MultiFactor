@@ -1,27 +1,34 @@
 package io.github.landrynorris.multifactor.components
 
 import com.arkivanov.decompose.ComponentContext
-import io.github.landrynorris.multifactor.models.PasswordModel
-import kotlinx.coroutines.flow.Flow
+import com.arkivanov.decompose.childContext
+import io.github.landrynorris.multifactor.repository.PasswordRepository
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
 
 interface PasswordLogic {
-    val state: Flow<PasswordState>
+    val state: StateFlow<PasswordState>
+    val passwordListLogic: PasswordListLogic
+    val createPasswordLogic: CreatePasswordLogic
 
     fun addPasswordClicked() {}
     fun showPassword(index: Int) {}
 
 }
 
-class PasswordComponent(private val context: ComponentContext): PasswordLogic, ComponentContext by context {
+class PasswordComponent(
+    private val context: ComponentContext,
+    passwordRepository: PasswordRepository): PasswordLogic, ComponentContext by context {
     override val state = MutableStateFlow(PasswordState())
+    override val passwordListLogic = PasswordListComponent(childContext("PasswordListLogic"),
+        passwordRepository)
+    override val createPasswordLogic =
+        CreatePasswordComponent(childContext("CreatePasswordLogic"), passwordRepository)
 
     override fun addPasswordClicked() {
-        super.addPasswordClicked()
+        state.update { it.copy(showAddPassword = !it.showAddPassword) }
     }
 }
 
-data class Password(val name: String, val password: String?, val shouldShow: Boolean)
-
-data class PasswordState(val passwordModels: List<Password> = listOf(),
-                         val showAddPassword: Boolean = false)
+data class PasswordState(val showAddPassword: Boolean = false)

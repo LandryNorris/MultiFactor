@@ -11,9 +11,6 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import org.koin.core.component.KoinComponent
-import org.koin.core.component.inject
-import kotlin.time.ExperimentalTime
 
 interface OtpLogic {
     val state: StateFlow<OtpScreenState>
@@ -23,12 +20,11 @@ interface OtpLogic {
     fun addOtpPressed() {}
 }
 
-@OptIn(ExperimentalTime::class)
-class OtpComponent(private val context: ComponentContext): ComponentContext by context,
-    OtpLogic, KoinComponent {
+class OtpComponent(private val context: ComponentContext,
+                   private val repository: OtpRepository): ComponentContext by context,
+    OtpLogic {
     private val totpUpdateJob: Job
     override val state = MutableStateFlow(OtpScreenState())
-    private val repository by inject<OtpRepository>()
     override val createOtpLogic = CreateOtpComponent(childContext("create")) {
         println("Entry is $it")
         repository.createOtp(it)
@@ -62,8 +58,8 @@ class OtpComponent(private val context: ComponentContext): ComponentContext by c
         }
     }
 
-    override fun incrementClicked(clickedIndex: Int) {
-        val item = state.value.otpList[clickedIndex]
+    override fun incrementClicked(index: Int) {
+        val item = state.value.otpList[index]
         if(item.model?.otp !is Hotp) return
         val hotp = item.model.otp as Hotp
         repository.setHotpCount(item.model.id, hotp.counter + 1)

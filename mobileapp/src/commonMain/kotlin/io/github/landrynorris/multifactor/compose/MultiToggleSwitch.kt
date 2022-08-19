@@ -1,4 +1,4 @@
-package io.github.landrynorris.multifactor
+package io.github.landrynorris.multifactor.compose
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

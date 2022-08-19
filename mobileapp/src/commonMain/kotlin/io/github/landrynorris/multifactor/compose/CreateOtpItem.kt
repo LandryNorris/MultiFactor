@@ -1,4 +1,4 @@
-package io.github.landrynorris.multifactor
+package io.github.landrynorris.multifactor.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,8 +8,6 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import io.github.landrynorris.multifactor.components.CreateOtpState
 import io.github.landrynorris.otp.OtpMethod
 
@@ -48,10 +46,4 @@ fun CreateOtpItem(createOtpState: CreateOtpState,
 fun OtpMethod.index(): Int = when(this) {
     is OtpMethod.HOTP -> 0
     is OtpMethod.TOTP -> 1
-}
-
-@Preview
-@Composable
-fun CreateOtpPreview() {
-    CreateOtpItem(CreateOtpState(name = "name", secret = "abcdefg"))
 }

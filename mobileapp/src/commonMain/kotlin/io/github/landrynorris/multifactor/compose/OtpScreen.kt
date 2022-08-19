@@ -1,4 +1,4 @@
-package io.github.landrynorris.multifactor
+package io.github.landrynorris.multifactor.compose
 
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,7 +10,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.tooling.preview.Preview
 import io.github.landrynorris.multifactor.components.OtpLogic
 import io.github.landrynorris.multifactor.components.OtpState
 import io.github.landrynorris.otp.OtpMethod
@@ -62,19 +61,4 @@ fun OtpList(otpStates: List<OtpState>,
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun OtpListPreview() {
-    OtpList(
-        listOf(
-            OtpState(null, OtpMethod.HOTP, "my hotp pin", "123 456", 0f),
-            OtpState(null, OtpMethod.TOTP, "my totp pin", "628 234", 0.7f),
-            OtpState(null, OtpMethod.TOTP, "my totp pin 2", "712 938", 0.5f),
-            OtpState(null, OtpMethod.TOTP, "Wonka Bar app", "192 844", 0.2f),
-            OtpState(null, OtpMethod.TOTP, "Stark Industries Login", "019 233", 0.0f),
-            OtpState(null, OtpMethod.TOTP, "Weyland Corp login", "102 834", 1.0f),
-        )
-    )
 }
