@@ -12,9 +12,9 @@ interface PasswordLogic {
     val passwordListLogic: PasswordListLogic
     val createPasswordLogic: CreatePasswordLogic
 
-    fun addPasswordClicked() {}
+    fun toggleAddPassword() {}
+    fun hideAddPassword() {}
     fun showPassword(index: Int) {}
-
 }
 
 class PasswordComponent(
@@ -26,7 +26,11 @@ class PasswordComponent(
     override val createPasswordLogic =
         CreatePasswordComponent(childContext("CreatePasswordLogic"), passwordRepository)
 
-    override fun addPasswordClicked() {
+    override fun hideAddPassword() {
+        state.update { it.copy(showAddPassword = false) }
+    }
+
+    override fun toggleAddPassword() {
         state.update { it.copy(showAddPassword = !it.showAddPassword) }
     }
 }

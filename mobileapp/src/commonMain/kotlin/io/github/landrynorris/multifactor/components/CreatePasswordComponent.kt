@@ -1,17 +1,15 @@
 package io.github.landrynorris.multifactor.components
 
 import com.arkivanov.decompose.ComponentContext
-import io.github.landrynorris.encryption.Encryption
-import io.github.landrynorris.encryption.KeyStore
-import io.github.landrynorris.encryption.SaltGenerator
+import io.github.landrynorris.encryption.SecureCrypto
 import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.repository.PasswordRepository
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 
 interface CreatePasswordLogic {
-    val state: Flow<CreatePasswordState>
+    val state: StateFlow<CreatePasswordState>
 
     fun nameChanged(name: String) {}
     fun passwordChanged(password: String) {}
@@ -33,14 +31,10 @@ class CreatePasswordComponent(context: ComponentContext,
 
     override fun confirm() {
         val current = state.value
-        val salt = SaltGenerator.generateSalt(32)
-        val key = KeyStore.getKey()
-        val encryptedPassword = Encryption.encrypt(
-            state.value.password.encodeToByteArray(), salt = salt,
-            key = key
-        )
-        savePasswordModel(PasswordModel(-1L, current.name, salt = salt,
-            encryptedValue = encryptedPassword))
+        val encrypted = SecureCrypto.encrypt(state.value.password.encodeToByteArray())
+
+        savePasswordModel(PasswordModel(-1L, current.name, salt = encrypted.iv,
+            encryptedValue = encrypted.data))
     }
 
     private fun savePasswordModel(passwordModel: PasswordModel) {
