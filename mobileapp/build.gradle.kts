@@ -1,3 +1,6 @@
+import org.jetbrains.compose.experimental.dsl.IOSDevices
+import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
+
 val decomposeVersion: String by project
 val koinVersion: String by project
 val sqlVersion: String by project
@@ -14,11 +17,13 @@ kotlin {
     android()
     
     listOf(
-        iosX64(),
-        iosArm64()
+        iosX64("uikitX64"),
+        iosArm64("uikitArm64")
     ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
+        it.binaries {
+            framework {
+                baseName = "shared"
+            }
         }
     }
 
@@ -57,23 +62,18 @@ kotlin {
             }
         }
         val androidTest by getting
-        val iosX64Main by getting
-        val iosArm64Main by getting
+
+        val uikitX64Main by getting
+        val uikitArm64Main by getting
+
         val iosMain by creating {
             dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
+            uikitX64Main.dependsOn(this)
+            uikitArm64Main.dependsOn(this)
 
             dependencies {
                 implementation("com.squareup.sqldelight:native-driver:$sqlVersion")
             }
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
         }
     }
 }
@@ -90,6 +90,15 @@ android {
         compose = true
     }
     namespace = "io.github.landrynorris.multifactor"
+}
+
+kotlin {
+    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+        binaries.all {
+            // TODO: the current compose binary surprises LLVM, so disable checks for now.
+            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
+        }
+    }
 }
 
 sqldelight {
