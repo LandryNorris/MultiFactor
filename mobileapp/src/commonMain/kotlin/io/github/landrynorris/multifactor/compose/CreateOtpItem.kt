@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import io.github.landrynorris.multifactor.components.CreateOtpState
+import io.github.landrynorris.multifactor.theme.colors
 import io.github.landrynorris.otp.OtpMethod
 
 val names = listOf("Hotp", "Totp")
@@ -21,7 +22,7 @@ fun CreateOtpItem(createOtpState: CreateOtpState,
                   onTypeChanged: (OtpMethod) -> Unit = {},
                   onConfirmClicked: () -> Unit = {}) {
     Row(modifier = Modifier.fillMaxWidth()
-        .background(Theme.colors.background),
+        .background(colors.background),
         verticalAlignment = Alignment.CenterVertically) {
         Column(modifier = Modifier.weight(1.0f)) {
             TextField(label = { Text("Name") },

@@ -13,6 +13,7 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import io.github.landrynorris.multifactor.components.Root
+import io.github.landrynorris.multifactor.theme.AppTheme
 
 @OptIn(ExperimentalDecomposeApi::class)
 @Composable

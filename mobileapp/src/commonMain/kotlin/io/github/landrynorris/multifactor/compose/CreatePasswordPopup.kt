@@ -1,5 +1,6 @@
 package io.github.landrynorris.multifactor.compose
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Button
@@ -11,12 +12,13 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import io.github.landrynorris.multifactor.components.CreatePasswordLogic
 
 @Composable
 fun CreatePasswordPopup(logic: CreatePasswordLogic) {
     val state by logic.state.collectAsState()
-    Column(modifier = Modifier.fillMaxWidth(),
+    Column(modifier = Modifier.fillMaxWidth().background(Color.DarkGray),
         horizontalAlignment = Alignment.CenterHorizontally) {
         TextField(state.name, onValueChange = logic::nameChanged,
             label = { Text("Name") })
