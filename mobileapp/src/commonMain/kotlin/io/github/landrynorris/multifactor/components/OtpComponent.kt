@@ -66,11 +66,11 @@ class OtpComponent(private val context: ComponentContext,
     }
 
     override fun addOtpPressed() {
-        state.update { it.copy(showCreate = !it.showCreate) }
+        state.update { it.copy(isAdding = !it.isAdding) }
     }
 }
 
-data class OtpScreenState(val otpList: List<OtpState> = listOf(), val showCreate: Boolean = false)
+data class OtpScreenState(val otpList: List<OtpState> = listOf(), val isAdding: Boolean = false)
 
 data class OtpState(val model: OtpModel?, val type: OtpMethod, val name: String, val pin: String, val value: Float)
 

@@ -1,13 +1,8 @@
 package io.github.landrynorris.multifactor.compose
 
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import io.github.landrynorris.multifactor.components.OtpLogic
@@ -23,12 +18,10 @@ fun OtpScreen(logic: OtpLogic) {
     val createState by createOtpLogic.state.collectAsState(createOtpLogic.state.value)
     Scaffold(
         floatingActionButton = {
-            IconButton(onClick = logic::addOtpPressed) {
-                Icon(Icons.Default.Add, "")
-            }
+            AddButton(state.isAdding, logic::addOtpPressed)
         }) {
         OtpList(state.otpList,
-            createOtpState = if(state.showCreate) createState else null,
+            createOtpState = if(state.isAdding) createState else null,
             onIncrementClicked = logic::incrementClicked,
             onNameChanged = createOtpLogic::nameChanged,
             onSecretChanged = createOtpLogic::secretChanged,
