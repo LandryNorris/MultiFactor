@@ -50,8 +50,12 @@ class PasswordListComponent(context: ComponentContext,
         state.update {
             it.copy(passwords = it.passwords.map { value ->
                 if(value == field) {
-                    val decryptedPassword = decryptPassword(field.model)
-                    field.copy(isHidden = !field.isHidden, password = decryptedPassword)
+                    if(field.isHidden) {
+                        val decryptedPassword = decryptPassword(field.model)
+                        field.copy(isHidden = false, password = decryptedPassword)
+                    } else {
+                        field.copy(isHidden = true, password = null)
+                    }
                 } else value
             })
         }
@@ -62,7 +66,7 @@ class PasswordListComponent(context: ComponentContext,
         return decrypted.decodeToString()
     }
 
-    private fun PasswordModel.toNewField() = PasswordField(this, null, false)
+    private fun PasswordModel.toNewField() = PasswordField(this, null, true)
 }
 
 data class PasswordField(val model: PasswordModel, val password: String?,

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Password
+import androidx.compose.material.icons.filled.Pin
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -28,7 +29,7 @@ fun RootScreen(logic: Root) {
                 }
                 BottomNavigation(modifier = Modifier.fillMaxWidth()) {
                     BottomNavigationItem(false, onClick = logic::navigateToOtp,
-                        icon = { Icon(Icons.Default.Password, "password") },
+                        icon = { Icon(Icons.Default.Pin, "otp") },
                         label = { Text("otp") })
                     BottomNavigationItem(false, onClick = logic::navigateToPasswordManager,
                         icon = { Icon(Icons.Default.Password, "password") },
