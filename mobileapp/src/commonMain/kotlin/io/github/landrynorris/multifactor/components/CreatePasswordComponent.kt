@@ -1,5 +1,7 @@
 package io.github.landrynorris.multifactor.components
 
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.text.buildAnnotatedString
 import com.arkivanov.decompose.ComponentContext
 import io.github.landrynorris.encryption.SecureCrypto
 import io.github.landrynorris.multifactor.models.PasswordModel
@@ -13,7 +15,7 @@ interface CreatePasswordLogic {
 
     fun nameChanged(name: String) {}
     fun passwordChanged(password: String) {}
-    fun confirm() {}
+    fun confirm(clipboard: ClipboardManager) {}
 }
 
 class CreatePasswordComponent(context: ComponentContext,
@@ -29,12 +31,13 @@ class CreatePasswordComponent(context: ComponentContext,
         state.update { it.copy(password = password) }
     }
 
-    override fun confirm() {
+    override fun confirm(clipboard: ClipboardManager) {
         val current = state.value
-        val encrypted = SecureCrypto.encrypt(state.value.password.encodeToByteArray())
+        val encrypted = SecureCrypto.encrypt(current.password.encodeToByteArray())
 
         savePasswordModel(PasswordModel(-1L, current.name, salt = encrypted.iv,
             encryptedValue = encrypted.data))
+        //clipboard.setText(buildAnnotatedString { append(current.password) })
     }
 
     private fun savePasswordModel(passwordModel: PasswordModel) {

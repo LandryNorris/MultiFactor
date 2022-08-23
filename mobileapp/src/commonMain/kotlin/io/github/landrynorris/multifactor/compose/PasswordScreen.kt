@@ -8,6 +8,8 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.EnhancedEncryption
+import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
@@ -55,7 +57,7 @@ fun PasswordCard(name: String, password: String?, onToggleVisibleClick: () -> Un
         Spacer(modifier = Modifier.weight(1f))
         IconButton(onClick = onToggleVisibleClick) {
             Icon(
-                if(password == null) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                if(password == null) Icons.Default.EnhancedEncryption else Icons.Default.LockOpen,
                 if(password == null) "show" else "hide")
         }
     }
