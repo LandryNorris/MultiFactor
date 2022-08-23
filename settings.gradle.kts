@@ -11,3 +11,4 @@ rootProject.name = "MultiFactor"
 include(":mobileapp")
 include(":otp")
 include(":encryption")
+include(":password-generator")
