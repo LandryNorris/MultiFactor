@@ -12,8 +12,7 @@ val IronGray = ColorPair(
 
 val Background = ColorPair(
     light = Color(red = 0xCF, green = 0xCF, blue = 0xCF),
-    dark = Color(red = 0x84, green = 0x84, blue = 0x82)
-)
+    dark = Color(red = 0x84, green = 0x84, blue = 0x82))
 
 val SecondaryGray = ColorPair(
     light = Color(red = 0xE3, green = 0xDD, blue = 0xDA),
