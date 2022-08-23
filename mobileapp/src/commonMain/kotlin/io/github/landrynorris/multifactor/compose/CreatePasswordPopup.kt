@@ -15,12 +15,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import io.github.landrynorris.multifactor.components.CreatePasswordLogic
+import io.github.landrynorris.multifactor.theme.Background
+import io.github.landrynorris.multifactor.theme.colors
 
 @Composable
 fun CreatePasswordPopup(logic: CreatePasswordLogic) {
     val state by logic.state.collectAsState()
     val clipboard = LocalClipboardManager.current
-    Column(modifier = Modifier.fillMaxWidth().background(Color.DarkGray),
+    Column(modifier = Modifier.fillMaxWidth().background(colors.background),
         horizontalAlignment = Alignment.CenterHorizontally) {
         TextField(state.name, onValueChange = logic::nameChanged,
             label = { Text("Name") })
@@ -28,6 +30,6 @@ fun CreatePasswordPopup(logic: CreatePasswordLogic) {
             label = { Text("Password") })
         TextButton(onClick = {
             logic.confirm(clipboard)
-        }) { Text("Confirm") }
+        }, enabled = state.isConfirmEnabled) { Text("Confirm", color = colors.onBackground) }
     }
 }

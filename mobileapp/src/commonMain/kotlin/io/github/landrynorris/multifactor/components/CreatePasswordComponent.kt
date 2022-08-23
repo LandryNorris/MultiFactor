@@ -24,11 +24,13 @@ class CreatePasswordComponent(context: ComponentContext,
     override val state = MutableStateFlow(CreatePasswordState())
 
     override fun nameChanged(name: String) {
-        state.update { it.copy(name = name) }
+        state.update { it.copy(name = name,
+            isConfirmEnabled = isConfirmEnabled(name, it.password)) }
     }
 
     override fun passwordChanged(password: String) {
-        state.update { it.copy(password = password) }
+        state.update { it.copy(password = password,
+            isConfirmEnabled = isConfirmEnabled(it.name, password)) }
     }
 
     override fun confirm(clipboard: ClipboardManager) {
@@ -43,6 +45,10 @@ class CreatePasswordComponent(context: ComponentContext,
     private fun savePasswordModel(passwordModel: PasswordModel) {
         passwordRepository.insertPassword(passwordModel)
     }
+
+    private fun isConfirmEnabled(name: String, password: String) =
+        password.isNotBlank() && name.isNotBlank()
 }
 
-data class CreatePasswordState(val name: String = "", val password: String = "")
+data class CreatePasswordState(val name: String = "", val password: String = "",
+                               val isConfirmEnabled: Boolean = false)
