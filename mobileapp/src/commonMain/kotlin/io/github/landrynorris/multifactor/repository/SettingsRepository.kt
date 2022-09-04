@@ -1,10 +1,8 @@
 package io.github.landrynorris.multifactor.repository
 
-import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.flow.combine
 
-@OptIn(ExperimentalSettingsApi::class)
 class SettingsRepository(private val settings: FlowSettings) {
     private val includeDigitsFlow = settings.getBooleanFlow("includeDigits")
     private val includeSpecialFlow = settings.getBooleanFlow("includeSpecial")

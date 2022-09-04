@@ -27,9 +27,11 @@ fun RootScreen(logic: Root) {
                     when(val child = it.instance) {
                         is Root.Child.Otp -> OtpScreen(child.component)
                         is Root.Child.PasswordManager -> PasswordScreen(child.component)
+                        is Root.Child.Settings -> Settings(child.component)
                     }
                 }
-                BottomNav(logic::navigateToOtp, logic::navigateToPasswordManager)
+                BottomNav(logic::navigateToOtp, logic::navigateToPasswordManager,
+                    logic::navigateToSettings)
             }
         }
     }
@@ -38,6 +40,7 @@ fun RootScreen(logic: Root) {
 fun getName(child: Root.Child) = when(child) {
     is Root.Child.Otp -> "Otp"
     is Root.Child.PasswordManager -> "Password Manager"
+    is Root.Child.Settings -> "Settings"
 }
 
 @Composable
@@ -48,7 +51,8 @@ fun TopBar(title: String) {
 }
 
 @Composable
-fun BottomNav(navigateToOtp: () -> Unit, navigateToPasswordManager: () -> Unit) {
+fun BottomNav(navigateToOtp: () -> Unit, navigateToPasswordManager: () -> Unit,
+              navigateToSettings: () -> Unit) {
     BottomNavigation(modifier = Modifier.fillMaxWidth()) {
         BottomNavigationItem(false, onClick = navigateToOtp,
             icon = { Icon(Icons.Default.Pin, "otp") },
@@ -56,5 +60,8 @@ fun BottomNav(navigateToOtp: () -> Unit, navigateToPasswordManager: () -> Unit) 
         BottomNavigationItem(false, onClick = navigateToPasswordManager,
             icon = { Icon(Icons.Default.Password, "password") },
             label = { Text("password manager") })
+        BottomNavigationItem(false, onClick = navigateToSettings,
+            icon = { Icon(Icons.Default.Password, "settings") },
+            label = { Text("settings") })
     }
 }

@@ -40,7 +40,6 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("com.squareup.sqldelight:coroutines-extensions:$sqlVersion")
                 implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
-                implementation("com.russhwolf:multiplatform-settings:$settingsVersion")
                 implementation("com.russhwolf:multiplatform-settings-coroutines:$settingsVersion")
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -62,8 +61,8 @@ kotlin {
                 implementation("androidx.startup:startup-runtime:1.1.1")
                 implementation("com.squareup.sqldelight:android-driver:$sqlVersion")
                 implementation("io.insert-koin:koin-android:$koinVersion")
-                implementation("com.russhwolf:multiplatform-settings-android:$settingsVersion")
-
+                implementation("com.russhwolf:multiplatform-settings-datastore:$settingsVersion")
+                implementation("androidx.datastore:datastore-preferences:1.0.0")
             }
         }
         val androidTest by getting
