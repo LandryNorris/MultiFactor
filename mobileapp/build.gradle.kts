@@ -89,10 +89,20 @@ android {
     defaultConfig {
         minSdk = 23
         targetSdk = 32
+
+        applicationId = "io.github.landrynorris.multifactor"
     }
 
     buildFeatures {
         compose = true
+    }
+
+    productFlavors {
+        val production by creating
+
+        val dev by creating {
+            applicationIdSuffix = ".dev"
+        }
     }
     namespace = "io.github.landrynorris.multifactor"
 }
