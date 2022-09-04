@@ -2,14 +2,30 @@ package io.github.landrynorris.multifactor.repository
 
 import com.russhwolf.settings.coroutines.FlowSettings
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 class SettingsRepository(private val settings: FlowSettings) {
-    private val includeDigitsFlow = settings.getBooleanFlow("includeDigits")
-    private val includeSpecialFlow = settings.getBooleanFlow("includeSpecial")
-    private val excludeSimilarFlow = settings.getBooleanFlow("excludeSimilar")
-    private val passwordLengthFlow = settings.getIntFlow("passwordLength")
+    object Keys {
+        const val INCLUDE_DIGITS = "includeDigits"
+        const val INCLUDE_SPECIAL = "includeSpecial"
+        const val EXCLUDE_SIMILAR = "excludeSimilar"
+        const val PASSWORD_LENGTH = "passwordLength"
+    }
 
-    var currentPasswordSettings = PasswordSettings()
+    private val includeDigitsFlow = settings.getBooleanFlow(Keys.INCLUDE_DIGITS)
+    private val includeSpecialFlow = settings.getBooleanFlow(Keys.INCLUDE_SPECIAL)
+    private val excludeSimilarFlow = settings.getBooleanFlow(Keys.EXCLUDE_SIMILAR)
+    private val passwordLengthFlow = settings.getIntFlow(Keys.PASSWORD_LENGTH)
+
+    var currentPasswordSettings = runBlocking {
+        PasswordSettings(
+            includeDigits = includeDigitsFlow.first(),
+            includeSpecial = includeSpecialFlow.first(),
+            excludeSimilar = excludeSimilarFlow.first(),
+            passwordLength = passwordLengthFlow.first()
+        )
+    }
 
     val passwordSettingsFlow = combine(includeDigitsFlow, includeSpecialFlow,
         excludeSimilarFlow, passwordLengthFlow) {
@@ -20,19 +36,19 @@ class SettingsRepository(private val settings: FlowSettings) {
     }
 
     suspend fun setIncludeDigits(enable: Boolean) {
-        settings.putBoolean("includeDigits", enable)
+        settings.putBoolean(Keys.INCLUDE_DIGITS, enable)
     }
 
     suspend fun setIncludeSpecialChars(enable: Boolean) {
-        settings.putBoolean("includeSpecial", enable)
+        settings.putBoolean(Keys.INCLUDE_SPECIAL, enable)
     }
 
     suspend fun setExcludeSimilar(exclude: Boolean) {
-        settings.putBoolean("excludeSimilar", exclude)
+        settings.putBoolean(Keys.EXCLUDE_SIMILAR, exclude)
     }
 
     suspend fun setPasswordLength(length: Int) {
-        settings.putInt("passwordLength", length)
+        settings.putInt(Keys.PASSWORD_LENGTH, length)
     }
 }
 
