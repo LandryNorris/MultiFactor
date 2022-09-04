@@ -46,7 +46,7 @@ class RootComponent(context: ComponentContext): ComponentContext by context, Roo
 
     private fun otpComponent(context: ComponentContext) = OtpComponent(context, otpRepository)
     private fun passwordManager(context: ComponentContext) =
-        PasswordComponent(context, passwordRepository)
+        PasswordComponent(context, passwordRepository, settingsRepository)
     private fun settings(context: ComponentContext) = SettingsComponent(context,
         settingsRepository)
 

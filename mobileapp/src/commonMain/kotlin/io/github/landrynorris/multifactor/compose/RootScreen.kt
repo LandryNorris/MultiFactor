@@ -6,6 +6,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.filled.Pin
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -59,9 +60,9 @@ fun BottomNav(navigateToOtp: () -> Unit, navigateToPasswordManager: () -> Unit,
             label = { Text("otp") })
         BottomNavigationItem(false, onClick = navigateToPasswordManager,
             icon = { Icon(Icons.Default.Password, "password") },
-            label = { Text("password manager") })
+            label = { Text("passwords") })
         BottomNavigationItem(false, onClick = navigateToSettings,
-            icon = { Icon(Icons.Default.Password, "settings") },
+            icon = { Icon(Icons.Default.Settings, "settings") },
             label = { Text("settings") })
     }
 }

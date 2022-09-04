@@ -33,6 +33,7 @@ kotlin {
             dependencies {
                 implementation(project(":otp"))
                 implementation(project(":encryption"))
+                implementation(project(":password-generator"))
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")

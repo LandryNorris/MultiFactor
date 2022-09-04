@@ -2,11 +2,11 @@ package io.github.landrynorris.multifactor.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TextField
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Create
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -24,12 +24,17 @@ fun CreatePasswordPopup(logic: CreatePasswordLogic) {
     val clipboard = LocalClipboardManager.current
     Column(modifier = Modifier.fillMaxWidth().background(colors.background),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        TextField(state.name, onValueChange = logic::nameChanged,
-            label = { Text("Name") })
-        TextField(state.password, onValueChange = logic::passwordChanged,
-            label = { Text("Password") })
-        TextButton(onClick = {
-            logic.confirm(clipboard)
-        }, enabled = state.isConfirmEnabled) { Text("Confirm", color = colors.onBackground) }
+        TextField(modifier = Modifier.fillMaxWidth(), value = state.name,
+            onValueChange = logic::nameChanged, label = { Text("Name") })
+
+        Row {
+            TextField(state.password, onValueChange = logic::passwordChanged,
+                label = { Text("Password") })
+            IconButton(onClick = { logic.generateNewPassword(clipboard) }) {
+                Icon(Icons.Default.Create, "generate new password")
+            }
+        }
+        TextButton(onClick = logic::confirm,
+            enabled = state.isConfirmEnabled) { Text("Confirm", color = colors.onBackground) }
     }
 }
