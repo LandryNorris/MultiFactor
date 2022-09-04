@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Create
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -31,7 +32,7 @@ fun CreatePasswordPopup(logic: CreatePasswordLogic) {
             TextField(state.password, onValueChange = logic::passwordChanged,
                 label = { Text("Password") })
             IconButton(onClick = { logic.generateNewPassword(clipboard) }) {
-                Icon(Icons.Default.Create, "generate new password")
+                Icon(Icons.Default.Add, "generate new password")
             }
         }
         TextButton(onClick = logic::confirm,
