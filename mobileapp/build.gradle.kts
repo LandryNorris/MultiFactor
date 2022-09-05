@@ -93,6 +93,8 @@ android {
         applicationId = "io.github.landrynorris.multifactor"
     }
 
+    flavorDimensions += "track"
+
     buildFeatures {
         compose = true
     }
