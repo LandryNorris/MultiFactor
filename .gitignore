@@ -12,3 +12,4 @@ local.properties
 keystore/
 keystore_passwords.txt
 mobileapp/production/
+key.properties
