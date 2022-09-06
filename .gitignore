@@ -9,3 +9,6 @@
 .externalNativeBuild
 .cxx
 local.properties
+keystore/
+keystore_passwords.txt
+mobileapp/production/
