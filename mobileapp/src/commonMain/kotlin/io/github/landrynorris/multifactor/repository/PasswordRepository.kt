@@ -2,7 +2,7 @@ package io.github.landrynorris.multifactor.repository
 
 import com.squareup.sqldelight.runtime.coroutines.asFlow
 import com.squareup.sqldelight.runtime.coroutines.mapToList
-import io.github.landrynorris.multifactor.AppDatabase
+import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.models.toModel
 import kotlinx.coroutines.flow.Flow
