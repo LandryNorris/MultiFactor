@@ -116,8 +116,8 @@ android {
                         keyPassword = keystoreProperties.getProperty("keyPassword")
                     }
                 }
+                signingConfig = signingConfigs.getByName("release")
             }
-            signingConfig = signingConfigs.getByName("release")
         }
 
         val dev by creating {

@@ -33,7 +33,6 @@ jobs:
           KEYFILE_BASE64: ${{ secrets.KEYFILE_BASE64 }}
         run: bash echo $KEY_PROPERTIES_BASE64 | base64 -d >> key.properties && 
              echo KEYFILE_BASE64 | base64 -d >> keystore/Untitled
-
       - name: Setup JDK
         uses: actions/setup-java@v1
         with:
