@@ -4,6 +4,7 @@ import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.text.buildAnnotatedString
 import com.arkivanov.decompose.ComponentContext
 import io.github.landrynorris.encryption.SecureCrypto
+import io.github.landrynorris.multifactor.PasswordGeneratorDefaults
 import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.repository.PasswordRepository
 import io.github.landrynorris.multifactor.repository.SettingsRepository
@@ -43,7 +44,8 @@ class CreatePasswordComponent(context: ComponentContext,
             includeDigits = settings.includeDigits
             includeSpecial = settings.includeSpecial
             excludeSimilar = settings.excludeSimilar
-            length = settings.passwordLength
+            length = if(settings.passwordLength > 0) settings.passwordLength
+                     else PasswordGeneratorDefaults.PasswordLength
         }
         state.update { it.copy(password = password) }
         clipboardManager.setText(buildAnnotatedString { append(password) })
