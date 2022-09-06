@@ -37,4 +37,4 @@ jobs:
         uses: actions/upload-artifact@v1
         with:
           name: apk
-          path: mobileapp/build/outputs/apk/debug/app-debug.apk
+          path: mobileapp/build/outputs/apk/production/mobileapp-production-release-unsigned.apk
