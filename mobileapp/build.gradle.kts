@@ -117,12 +117,14 @@ android {
                     }
                 }
             }
+            signingConfig = signingConfigs.getByName("release")
         }
 
         val dev by creating {
             applicationIdSuffix = ".dev"
         }
     }
+
     namespace = "io.github.landrynorris.multifactor"
 }
 
