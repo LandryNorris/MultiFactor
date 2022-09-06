@@ -1,5 +1,11 @@
-import org.jetbrains.compose.experimental.dsl.IOSDevices
-import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
+import java.io.File
+import java.util.*
+
+val keystoreProperties =
+    Properties().apply {
+        val file = File("key.properties")
+        if (file.exists()) load(file.reader())
+    }
 
 val decomposeVersion: String by project
 val koinVersion: String by project
@@ -100,7 +106,18 @@ android {
     }
 
     productFlavors {
-        val production by creating
+        val production by creating {
+            if(keystoreProperties.isNotEmpty()) {
+                signingConfigs {
+                    create("release") {
+                        storeFile = file(keystoreProperties.getProperty("storeFile"))
+                        storePassword = keystoreProperties.getProperty("storePassword")
+                        keyAlias = keystoreProperties.getProperty("keyAlias")
+                        keyPassword = keystoreProperties.getProperty("keyPassword")
+                    }
+                }
+            }
+        }
 
         val dev by creating {
             applicationIdSuffix = ".dev"
