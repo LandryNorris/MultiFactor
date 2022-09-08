@@ -1,6 +1,6 @@
 package io.github.landrynorris.multifactor.models
 
-import io.github.landrynorris.multifactor.PasswordEntry
+import io.github.landrynorris.database.PasswordEntry
 
 data class PasswordModel(val id: Long, val name: String, val salt: ByteArray, val encryptedValue: ByteArray) {
     override fun equals(other: Any?): Boolean {

@@ -16,7 +16,7 @@ class AutoFillService: AutofillService() {
 
     }
 
-    val database by lazy {
+    private val database by lazy {
         val driver = AndroidSqliteDriver(AppDatabase.Schema, this, "multifactor-database")
         AppDatabase(driver)
     }

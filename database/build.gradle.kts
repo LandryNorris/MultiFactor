@@ -54,6 +54,7 @@ android {
 sqldelight {
     database("AppDatabase") {
         packageName = "io.github.landrynorris.database"
+        deriveSchemaFromMigrations = true
         verifyMigrations = true
     }
 }

@@ -1,0 +1,15 @@
+
+CREATE TABLE OtpEntry (
+    id INTEGER NOT NULL PRIMARY KEY,
+    secret TEXT NOT NULL,
+    name TEXT NOT NULL,
+    count INTEGER,
+    type INTEGER NOT NULL
+);
+
+CREATE TABLE PasswordEntry (
+    id INTEGER NOT NULL PRIMARY KEY,
+    name TEXT NOT NULL,
+    salt BLOB,
+    encryptedValue BLOB
+);
