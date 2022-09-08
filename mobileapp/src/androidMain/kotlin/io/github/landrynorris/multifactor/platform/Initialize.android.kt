@@ -14,7 +14,7 @@ import org.koin.dsl.module
 
 actual val platformModule = module {
     single {
-        val driver = AndroidSqliteDriver(AppDatabase.Schema, get(), "otpdatabase")
+        val driver = AndroidSqliteDriver(AppDatabase.Schema, get(), "multifactor-database")
         AppDatabase(driver)
     }
 

@@ -1,26 +1,19 @@
-val kryptoVersion: String by project
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
 }
 
+val sqlVersion: String by project
+
 kotlin {
     android()
 
-    listOf(
-        iosX64(),
-        iosArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-        }
-    }
+    listOf(iosX64(), iosArm64())
 
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.soywiz.korlibs.krypto:krypto:$kryptoVersion")
+                implementation(project(":database"))
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
             }
         }
@@ -29,7 +22,11 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation("com.squareup.sqldelight:android-driver:$sqlVersion")
+            }
+        }
         val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
