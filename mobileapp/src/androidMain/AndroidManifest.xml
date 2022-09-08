@@ -24,6 +24,10 @@
             </intent-filter>
         </service>
 
+        <activity android:name="io.github.landrynorris.autofill.AutoFillActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Dialog" />
+
         <activity android:name=".MainActivity"
                   android:exported="true">
             <intent-filter>
