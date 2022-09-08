@@ -62,7 +62,8 @@ class CreatePasswordComponent(context: ComponentContext,
         val encrypted = SecureCrypto.encrypt(current.password.encodeToByteArray())
 
         savePasswordModel(PasswordModel(-1L, current.name, salt = encrypted.iv,
-            encryptedValue = encrypted.data, domain = current.domain.takeIf { it.isNotBlank() }))
+            encryptedValue = encrypted.data, domain = current.domain.takeIf { it.isNotBlank() },
+            appId = null))
         state.update { CreatePasswordState() }
     }
 

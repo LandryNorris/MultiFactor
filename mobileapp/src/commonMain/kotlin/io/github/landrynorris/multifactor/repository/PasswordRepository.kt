@@ -20,6 +20,6 @@ class PasswordRepository(private val database: AppDatabase) {
 
     fun insertPassword(model: PasswordModel) {
         database.passwordQueries.insertPassword(null, model.name, model.salt,
-            model.encryptedValue, model.domain)
+            model.encryptedValue, model.domain, model.appId)
     }
 }
