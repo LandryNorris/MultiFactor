@@ -41,6 +41,7 @@ kotlin {
                 implementation(project(":encryption"))
                 implementation(project(":password-generator"))
                 implementation(project(":database"))
+                implementation(project(":autofill"))
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
@@ -94,7 +95,7 @@ android {
     compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = 23
+        minSdk = 26
         targetSdk = 33
 
         applicationId = "io.github.landrynorris.multifactor"
