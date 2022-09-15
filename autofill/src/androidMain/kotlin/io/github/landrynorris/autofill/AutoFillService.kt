@@ -1,26 +1,23 @@
 package io.github.landrynorris.autofill
 
-import android.app.PendingIntent
 import android.app.assist.AssistStructure
-import android.content.Intent
-import android.os.Build
 import android.os.CancellationSignal
 import android.service.autofill.*
 import android.view.autofill.AutofillId
 import com.squareup.sqldelight.android.AndroidSqliteDriver
+import io.github.landrynorris.autofill.parser.AssistStructureParser
+import io.github.landrynorris.autofill.parser.inlineSpec
+import io.github.landrynorris.autofill.response.AutoFillResponse
 import io.github.landrynorris.database.AppDatabase
 
 class AutoFillService: AutofillService() {
 
     override fun onFillRequest(request: FillRequest,
                                cancellationSignal: CancellationSignal, callback: FillCallback) {
-        val id = traverseStructure(request.fillContexts.last().structure)
+        val structure = request.fillContexts.last().structure
+        val parsedStructure = AssistStructureParser().parse(structure)
 
-        println("Found id with password: $id")
-
-        val i = Intent(this, AutoFillActivity::class.java)
-        i.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        startActivity(i)
+        AutoFillResponse.create(this, parsedStructure, request.inlineSpec)
     }
 
     override fun onSaveRequest(request: SaveRequest, callback: SaveCallback) {
@@ -63,7 +60,6 @@ class AutoFillService: AutofillService() {
         }
         return null
     }
-
 
     private val database by lazy {
         val driver = AndroidSqliteDriver(AppDatabase.Schema, this, "multifactor-database")
