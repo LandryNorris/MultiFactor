@@ -38,8 +38,8 @@ object AutoFillResponse {
         return response.build()
     }
 
-    fun createDataSet(id: AutofillId, pendingIntent: PendingIntent, context: Context,
-                      title: String, value: String, imeSpec: InlinePresentationSpec?): Dataset {
+    private fun createDataSet(id: AutofillId, pendingIntent: PendingIntent, context: Context,
+                              title: String, value: String, imeSpec: InlinePresentationSpec?): Dataset {
         val dataset = Dataset.Builder()
         val usernameView = createText(context, title)
         if(imeSpec != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
