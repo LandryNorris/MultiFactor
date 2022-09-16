@@ -7,14 +7,15 @@ import androidx.datastore.preferences.preferencesDataStore
 import com.russhwolf.settings.coroutines.FlowSettings
 import com.russhwolf.settings.datastore.DataStoreSettings
 import com.squareup.sqldelight.android.AndroidSqliteDriver
-import io.github.landrynorris.multifactor.AppDatabase
+import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.multifactor.repository.SettingsRepository
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
 actual val platformModule = module {
     single {
-        val driver = AndroidSqliteDriver(AppDatabase.Schema, get(), "otpdatabase")
+        val driver = AndroidSqliteDriver(AppDatabase.Schema, get(), "multifactor-database")
+        //AppDatabase.Schema.migrate(driver, 0, AppDatabase.Schema.version)
         AppDatabase(driver)
     }
 

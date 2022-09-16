@@ -27,6 +27,8 @@ fun CreatePasswordPopup(logic: CreatePasswordLogic) {
         horizontalAlignment = Alignment.CenterHorizontally) {
         TextField(modifier = Modifier.fillMaxWidth(), value = state.name,
             onValueChange = logic::nameChanged, label = { Text("Name") })
+        TextField(modifier = Modifier.fillMaxWidth(), value = state.domain,
+            onValueChange = logic::domainChanged, label = { Text("Domain") })
 
         Row {
             TextField(state.password, onValueChange = logic::passwordChanged,

@@ -4,6 +4,7 @@ import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.text.buildAnnotatedString
 import com.arkivanov.decompose.ComponentContext
 import io.github.landrynorris.encryption.SecureCrypto
+import io.github.landrynorris.multifactor.PasswordGeneratorDefaults
 import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.repository.PasswordRepository
 import io.github.landrynorris.multifactor.repository.SettingsRepository
@@ -16,6 +17,7 @@ interface CreatePasswordLogic {
     val state: StateFlow<CreatePasswordState>
 
     fun nameChanged(name: String) {}
+    fun domainChanged(domain: String) {}
     fun passwordChanged(password: String) {}
     fun generateNewPassword(clipboardManager: ClipboardManager) {}
     fun confirm() {}
@@ -32,6 +34,10 @@ class CreatePasswordComponent(context: ComponentContext,
             isConfirmEnabled = isConfirmEnabled(name, it.password)) }
     }
 
+    override fun domainChanged(domain: String) {
+        state.update { it.copy(domain = domain) }
+    }
+
     override fun passwordChanged(password: String) {
         state.update { it.copy(password = password,
             isConfirmEnabled = isConfirmEnabled(it.name, password)) }
@@ -43,9 +49,11 @@ class CreatePasswordComponent(context: ComponentContext,
             includeDigits = settings.includeDigits
             includeSpecial = settings.includeSpecial
             excludeSimilar = settings.excludeSimilar
-            length = settings.passwordLength
+            length = if(settings.passwordLength > 0) settings.passwordLength
+                     else PasswordGeneratorDefaults.PasswordLength
         }
-        state.update { it.copy(password = password) }
+        state.update { it.copy(password = password,
+            isConfirmEnabled = isConfirmEnabled(it.name, password)) }
         clipboardManager.setText(buildAnnotatedString { append(password) })
     }
 
@@ -54,7 +62,9 @@ class CreatePasswordComponent(context: ComponentContext,
         val encrypted = SecureCrypto.encrypt(current.password.encodeToByteArray())
 
         savePasswordModel(PasswordModel(-1L, current.name, salt = encrypted.iv,
-            encryptedValue = encrypted.data))
+            encryptedValue = encrypted.data, domain = current.domain.takeIf { it.isNotBlank() },
+            appId = null))
+        state.update { CreatePasswordState() }
     }
 
     private fun savePasswordModel(passwordModel: PasswordModel) {
@@ -66,4 +76,5 @@ class CreatePasswordComponent(context: ComponentContext,
 }
 
 data class CreatePasswordState(val name: String = "", val password: String = "",
+                               val domain: String = "",
                                val isConfirmEnabled: Boolean = false)

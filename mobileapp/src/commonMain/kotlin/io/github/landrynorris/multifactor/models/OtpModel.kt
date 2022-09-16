@@ -1,6 +1,6 @@
 package io.github.landrynorris.multifactor.models
 
-import io.github.landrynorris.multifactor.OtpEntry
+import io.github.landrynorris.database.OtpEntry
 import io.github.landrynorris.otp.Hotp
 import io.github.landrynorris.otp.Otp
 import io.github.landrynorris.otp.Totp

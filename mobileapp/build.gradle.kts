@@ -40,6 +40,8 @@ kotlin {
                 implementation(project(":otp"))
                 implementation(project(":encryption"))
                 implementation(project(":password-generator"))
+                implementation(project(":database"))
+                implementation(project(":autofill"))
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
@@ -90,11 +92,11 @@ kotlin {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 33
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = 23
-        targetSdk = 32
+        minSdk = 26
+        targetSdk = 33
 
         applicationId = "io.github.landrynorris.multifactor"
     }
@@ -127,6 +129,9 @@ android {
 
     namespace = "io.github.landrynorris.multifactor"
 }
+dependencies {
+    implementation(project(mapOf("path" to ":database")))
+}
 
 kotlin {
     targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
@@ -134,12 +139,5 @@ kotlin {
             // TODO: the current compose binary surprises LLVM, so disable checks for now.
             freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
         }
-    }
-}
-
-sqldelight {
-    database("AppDatabase") {
-        packageName = "io.github.landrynorris.multifactor"
-        verifyMigrations = true
     }
 }

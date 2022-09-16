@@ -1,12 +1,4 @@
 
-CREATE TABLE OtpEntry (
-    id INTEGER NOT NULL PRIMARY KEY,
-    secret TEXT NOT NULL,
-    name TEXT NOT NULL,
-    count INTEGER,
-    type INTEGER NOT NULL
-);
-
 insertOtp:
 INSERT OR REPLACE INTO OtpEntry(id, secret, name, count, type) VALUES(?, ?, ?, ?, ?);
 

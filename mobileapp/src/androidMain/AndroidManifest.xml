@@ -14,6 +14,20 @@
                     android:value="androidx.startup" />
         </provider>
 
+        <service
+            android:name="io.github.landrynorris.autofill.AutoFillService"
+            android:label="MultiFactor Autofill"
+            android:permission="android.permission.BIND_AUTOFILL_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.service.autofill.AutofillService" />
+            </intent-filter>
+        </service>
+
+        <activity android:name="io.github.landrynorris.autofill.AutoFillActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Dialog" />
+
         <activity android:name=".MainActivity"
                   android:exported="true">
             <intent-filter>
