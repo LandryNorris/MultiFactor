@@ -26,6 +26,12 @@ val ViewNode.clues: List<String> get() {
 fun ViewNode.containsKeywords(keywords: List<String>) =
     clues.any { clue -> keywords.any { clue.contains(it) } }
 
+val ViewNode.hasFocusedChild: Boolean get() {
+    if(isFocused) return true
+
+    return children.any { it.hasFocusedChild }
+}
+
 val ViewNode.children get() = (0 until childCount).map { getChildAt(it) }
 
 fun ViewNode.htmlAttr(name: String) = htmlInfo?.attributes?.find { it.first == name }?.second
@@ -46,6 +52,8 @@ val ViewNode.isButton get() = when {
         else -> false
     }
 }
+
+val AssistStructure.focusedRoot get() = rootNodes.firstOrNull { it.hasFocusedChild }
 
 val AssistStructure.rootNodes get() =
     (0 until windowNodeCount).map { getWindowNodeAt(0).rootViewNode }

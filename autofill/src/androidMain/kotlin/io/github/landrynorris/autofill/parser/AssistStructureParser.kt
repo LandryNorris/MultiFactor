@@ -12,16 +12,15 @@ class AssistStructureParser {
         "account_name")
 
     fun parse(structure: AssistStructure): ParsedStructure {
-        val rootNodes = structure.rootNodes
-        val passwordIds = rootNodes.mapNotNull { it.findMatchingKeywords(passwordKeywords) }
-        val usernameIds = rootNodes.mapNotNull { it.findMatchingKeywords(usernameKeywords) }
-        val focusedId = rootNodes.firstNotNullOfOrNull { it.focusedChild() }
+        val pkg = structure.activityComponent.packageName
+        val focusedRoot = structure.focusedRoot
+            ?: return ParsedStructure()
+        val passwordId = focusedRoot.findMatchingKeywords(passwordKeywords)
+        val usernameId = focusedRoot.findMatchingKeywords(usernameKeywords)
+        val focusedId = focusedRoot.focusedChild()
 
-        println("Focused view: $focusedId")
-        println("Found ${usernameIds.size} username nodes")
-        println("Found ${passwordIds.size} password nodes")
-
-        return ParsedStructure(passwordIds.firstOrNull(), usernameIds.firstOrNull())
+        return ParsedStructure(pkg = pkg, passwordNode = passwordId,
+            usernameNode = usernameId, focused = focusedId)
     }
 
     private fun ViewNode.focusedChild(): AutofillId? {
@@ -33,7 +32,6 @@ class AssistStructureParser {
     }
 
     private fun ViewNode.findMatchingKeywords(keywords: List<String>): AutofillId? {
-        println("Clues for $autofillId are ${clues.joinToString(", ")}")
         if(doesEditTextMatch(this, keywords) || doesHtmlInputFieldMatch(this, keywords))
             return this.autofillId
 
