@@ -12,7 +12,7 @@ import androidx.compose.runtime.getValue
 import io.github.landrynorris.multifactor.components.CreateOtpState
 
 @Composable
-fun OtpScreen(logic: OtpLogic) {
+internal fun OtpScreen(logic: OtpLogic) {
     val state by logic.state.collectAsState(logic.state.value)
     val createOtpLogic = logic.createOtpLogic
     val createState by createOtpLogic.state.collectAsState(createOtpLogic.state.value)
@@ -31,7 +31,7 @@ fun OtpScreen(logic: OtpLogic) {
 }
 
 @Composable
-fun OtpList(otpStates: List<OtpState>,
+internal fun OtpList(otpStates: List<OtpState>,
             createOtpState: CreateOtpState? = null,
             onIncrementClicked: (Int) -> Unit = {},
             onNameChanged: (String) -> Unit = {},

@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 import io.github.landrynorris.multifactor.theme.colors
 
 @Composable
-fun TotpItem(pin: String, name: String, progress: Float) {
+internal fun TotpItem(pin: String, name: String, progress: Float) {
     Column(modifier = Modifier.fillMaxWidth()
         .background(colors.background)) {
         Text(name, fontSize = 18.sp)
