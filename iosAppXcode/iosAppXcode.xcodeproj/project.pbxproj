@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		09CEF5EE4092974C9356D69D /* Pods_iosAppXcode.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3AC9D758D4AB89D6E14A3FF /* Pods_iosAppXcode.framework */; };
 		B6835EAA28F9E19C000D98D0 /* iosAppXcodeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835EA928F9E19C000D98D0 /* iosAppXcodeApp.swift */; };
-		B6835EAC28F9E19C000D98D0 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835EAB28F9E19C000D98D0 /* ContentView.swift */; };
 		B6835EAE28F9E19E000D98D0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6835EAD28F9E19E000D98D0 /* Assets.xcassets */; };
 		B6835EB128F9E19E000D98D0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6835EB028F9E19E000D98D0 /* Preview Assets.xcassets */; };
 		B6835EBB28F9E19E000D98D0 /* iosAppXcodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835EBA28F9E19E000D98D0 /* iosAppXcodeTests.swift */; };
@@ -90,7 +89,6 @@
 				EF07648F30C9C7CD878B9467 /* Pods-iosAppXcode.debug.xcconfig */,
 				6E3BC91D7D3C59E80AEB0F53 /* Pods-iosAppXcode.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -326,7 +324,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6835EAC28F9E19C000D98D0 /* ContentView.swift in Sources */,
 				B6835EAA28F9E19C000D98D0 /* iosAppXcodeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

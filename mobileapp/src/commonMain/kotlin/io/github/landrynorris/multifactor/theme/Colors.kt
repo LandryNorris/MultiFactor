@@ -24,7 +24,7 @@ val lightColors = lightColors(primary = IronGray.light, secondary = SecondaryGra
 val darkColors = darkColors(primary = IronGray.dark, secondary = SecondaryGray.dark,
     onPrimary = Color.White, onSecondary = Color.White, background = Background.dark)
 
-val colors
+internal val colors
     @Composable get() = if(isSystemInDarkTheme()) darkColors else lightColors
 
 data class ColorPair(val light: Color, val dark: Color)

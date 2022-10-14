@@ -23,7 +23,7 @@ import io.github.landrynorris.multifactor.components.SettingsLogic
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Settings(logic: SettingsLogic) {
+internal fun Settings(logic: SettingsLogic) {
     val state by logic.passwordSettings.collectAsState(listOf())
     LazyColumn(Modifier.fillMaxSize()) {
         stickyHeader { Text("Password Settings") }
@@ -38,7 +38,7 @@ fun Settings(logic: SettingsLogic) {
 }
 
 @Composable
-fun BooleanSettingsSwitch(setting: Setting<Boolean>,
+internal fun BooleanSettingsSwitch(setting: Setting<Boolean>,
                           value: Boolean, onValueChanged: (Boolean) -> Unit) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
@@ -53,7 +53,7 @@ fun BooleanSettingsSwitch(setting: Setting<Boolean>,
 
 
 @Composable
-fun IntSettingsBox(setting: Setting<Int>,
+internal fun IntSettingsBox(setting: Setting<Int>,
                    value: Int, onValueChanged: (Int) -> Unit) {
     Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {

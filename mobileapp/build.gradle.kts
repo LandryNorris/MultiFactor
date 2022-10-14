@@ -33,6 +33,12 @@ kotlin {
         it.binaries {
             framework {
                 baseName = "shared"
+
+                freeCompilerArgs += listOf(
+                    "-linker-option", "-framework", "-linker-option", "Metal",
+                    "-linker-option", "-framework", "-linker-option", "CoreText",
+                    "-linker-option", "-framework", "-linker-option", "CoreGraphics"
+                )
             }
         }
     }
@@ -109,6 +115,12 @@ kotlin {
 
             isStatic = false
             embedBitcode(BitcodeEmbeddingMode.DISABLE)
+
+            freeCompilerArgs += listOf(
+                "-linker-option", "-framework", "-linker-option", "Metal",
+                "-linker-option", "-framework", "-linker-option", "CoreText",
+                "-linker-option", "-framework", "-linker-option", "CoreGraphics"
+            )
         }
     }
 }

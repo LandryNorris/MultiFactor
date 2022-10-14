@@ -7,18 +7,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.filled.Pin
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import io.github.landrynorris.multifactor.components.Root
 import io.github.landrynorris.multifactor.theme.AppTheme
 
-@OptIn(ExperimentalDecomposeApi::class)
 @Composable
-fun RootScreen(logic: Root) {
+internal fun RootScreen(logic: Root) {
     AppTheme {
         Surface {
             val stack by logic.routerState.subscribeAsState()
@@ -45,14 +40,14 @@ fun getName(child: Root.Child) = when(child) {
 }
 
 @Composable
-fun TopBar(title: String) {
+internal fun TopBar(title: String) {
     TopAppBar {
         Text(title)
     }
 }
 
 @Composable
-fun BottomNav(navigateToOtp: () -> Unit, navigateToPasswordManager: () -> Unit,
+internal fun BottomNav(navigateToOtp: () -> Unit, navigateToPasswordManager: () -> Unit,
               navigateToSettings: () -> Unit) {
     BottomNavigation(modifier = Modifier.fillMaxWidth()) {
         BottomNavigationItem(false, onClick = navigateToOtp,
