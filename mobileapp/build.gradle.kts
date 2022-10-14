@@ -41,7 +41,6 @@ kotlin {
                 implementation(project(":encryption"))
                 implementation(project(":password-generator"))
                 implementation(project(":database"))
-                implementation(project(":autofill"))
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
@@ -65,6 +64,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 dependsOn(commonMain)
+                implementation(project(":autofill"))
                 implementation("androidx.activity:activity-compose:1.5.1")
                 implementation("com.google.android.material:material:1.6.1")
                 implementation("androidx.startup:startup-runtime:1.1.1")
