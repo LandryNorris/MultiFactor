@@ -1,0 +1,7 @@
+platform :ios, '12.1'
+
+target 'iosAppXcode' do
+  use_frameworks!
+
+  pod 'mobileapp', :path => '../mobileapp'
+end

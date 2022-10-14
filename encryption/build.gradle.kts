@@ -10,7 +10,8 @@ kotlin {
 
     listOf(
         iosX64(),
-        iosArm64()
+        iosArm64(),
+        iosSimulatorArm64()
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
@@ -40,10 +41,12 @@ kotlin {
         }
         val iosX64Test by getting
         val iosArm64Test by getting
+        val iosSimulatorArm64Main by getting
         val iosTest by creating {
             dependsOn(commonTest)
             iosX64Test.dependsOn(this)
             iosArm64Test.dependsOn(this)
+            iosSimulatorArm64Main.dependsOn(this)
         }
     }
 }

@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 import java.io.File
 import java.util.*
 
@@ -14,6 +15,7 @@ val settingsVersion: String by project
 
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("com.android.application")
     id("org.jetbrains.compose")
     id("kotlin-parcelize")
@@ -25,7 +27,8 @@ kotlin {
     
     listOf(
         iosX64("uikitX64"),
-        iosArm64("uikitArm64")
+        iosArm64("uikitArm64"),
+        iosSimulatorArm64("uikitSimulatorArm64")
     ).forEach {
         it.binaries {
             framework {
@@ -47,7 +50,7 @@ kotlin {
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("com.squareup.sqldelight:coroutines-extensions:$sqlVersion")
-                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                //implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
                 implementation("com.russhwolf:multiplatform-settings-coroutines:$settingsVersion")
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -78,15 +81,34 @@ kotlin {
 
         val uikitX64Main by getting
         val uikitArm64Main by getting
+        val uikitSimulatorArm64Main by getting
 
         val iosMain by creating {
             dependsOn(commonMain)
             uikitX64Main.dependsOn(this)
             uikitArm64Main.dependsOn(this)
+            uikitSimulatorArm64Main.dependsOn(this)
 
             dependencies {
                 implementation("com.squareup.sqldelight:native-driver:$sqlVersion")
             }
+        }
+    }
+}
+
+kotlin {
+    cocoapods {
+        version = "0.0.1"
+        homepage = "https://github.com/LandryNorris/MultiFactor"
+        summary = "Logic for MultiFactor app"
+
+        podfile = project.file("../iosAppXcode/Podfile")
+
+        framework {
+            baseName = "MobileApp"
+
+            isStatic = false
+            embedBitcode(BitcodeEmbeddingMode.DISABLE)
         }
     }
 }
