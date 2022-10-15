@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import UIKit
 import MobileApp
 
 @main
@@ -14,3 +15,8 @@ class iosXCodeApp {
         EntryPoint.shared.main()
     }
 }
+
+// @UIApplicationMain
+// class AppDelegate: UIResponder, UIApplicationDelegate {
+//
+// }

@@ -14,6 +14,7 @@
 		B6835EBB28F9E19E000D98D0 /* iosAppXcodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835EBA28F9E19E000D98D0 /* iosAppXcodeTests.swift */; };
 		B6835EC528F9E19E000D98D0 /* iosAppXcodeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835EC428F9E19E000D98D0 /* iosAppXcodeUITests.swift */; };
 		B6835EC728F9E19E000D98D0 /* iosAppXcodeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835EC628F9E19E000D98D0 /* iosAppXcodeUITestsLaunchTests.swift */; };
+		B6835ED628FB30C2000D98D0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835ED528FB30C2000D98D0 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		B6835EC028F9E19E000D98D0 /* iosAppXcodeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosAppXcodeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6835EC428F9E19E000D98D0 /* iosAppXcodeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppXcodeUITests.swift; sourceTree = "<group>"; };
 		B6835EC628F9E19E000D98D0 /* iosAppXcodeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosAppXcodeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		B6835ED528FB30C2000D98D0 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		D3AC9D758D4AB89D6E14A3FF /* Pods_iosAppXcode.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iosAppXcode.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF07648F30C9C7CD878B9467 /* Pods-iosAppXcode.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-iosAppXcode.debug.xcconfig"; path = "Target Support Files/Pods-iosAppXcode/Pods-iosAppXcode.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,6 +119,7 @@
 		B6835EA828F9E19C000D98D0 /* iosAppXcode */ = {
 			isa = PBXGroup;
 			children = (
+				B6835ED528FB30C2000D98D0 /* SceneDelegate.swift */,
 				B6835EA928F9E19C000D98D0 /* iosAppXcodeApp.swift */,
 				B6835EAB28F9E19C000D98D0 /* ContentView.swift */,
 				B6835EAD28F9E19E000D98D0 /* Assets.xcassets */,
@@ -325,6 +328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6835EAA28F9E19C000D98D0 /* iosAppXcodeApp.swift in Sources */,
+				B6835ED628FB30C2000D98D0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -486,7 +490,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"iosAppXcode/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -515,7 +519,7 @@
 				DEVELOPMENT_ASSET_PATHS = "\"iosAppXcode/Preview Content\"";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = NO;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

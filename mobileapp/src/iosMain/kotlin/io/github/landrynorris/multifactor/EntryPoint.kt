@@ -1,5 +1,7 @@
 package io.github.landrynorris.multifactor
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.material.Text
 import androidx.compose.ui.window.Application
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
@@ -9,6 +11,7 @@ import kotlinx.cinterop.*
 import platform.Foundation.NSStringFromClass
 import platform.UIKit.*
 
+@Suppress("unused") //called from Swift
 object EntryPoint {
     fun createEntryPoint(): UIViewController {
         val logic = RootComponent(DefaultComponentContext(LifecycleRegistry()))
@@ -44,6 +47,7 @@ object EntryPoint {
         override fun application(application: UIApplication, didFinishLaunchingWithOptions: Map<Any?, *>?): Boolean {
             initKoin()
             window = UIWindow(frame = UIScreen.mainScreen.bounds)
+            println("Bounds: ${UIScreen.mainScreen.bounds.useContents { size.width }}x${UIScreen.mainScreen.bounds.useContents { size.width }}")
             window!!.rootViewController = createEntryPoint()
             window!!.makeKeyAndVisible()
             println("Set up window")

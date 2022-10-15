@@ -14,11 +14,15 @@ import io.github.landrynorris.multifactor.theme.AppTheme
 
 @Composable
 internal fun RootScreen(logic: Root) {
+    println("Setting up theme")
     AppTheme {
+        println("Setting up surface")
         Surface {
             val stack by logic.routerState.subscribeAsState()
+            println("Stack instance is ${stack.active.instance}")
             Column {
                 TopBar(getName(stack.active.instance))
+                println("Name is ${getName(stack.active.instance)}")
                 Children(stack = stack, modifier = Modifier.weight(1f)) {
                     when(val child = it.instance) {
                         is Root.Child.Otp -> OtpScreen(child.component)
