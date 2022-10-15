@@ -14,7 +14,6 @@
 		B6835EBB28F9E19E000D98D0 /* iosAppXcodeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835EBA28F9E19E000D98D0 /* iosAppXcodeTests.swift */; };
 		B6835EC528F9E19E000D98D0 /* iosAppXcodeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835EC428F9E19E000D98D0 /* iosAppXcodeUITests.swift */; };
 		B6835EC728F9E19E000D98D0 /* iosAppXcodeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835EC628F9E19E000D98D0 /* iosAppXcodeUITestsLaunchTests.swift */; };
-		B6835ED628FB30C2000D98D0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6835ED528FB30C2000D98D0 /* SceneDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -328,7 +327,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B6835EAA28F9E19C000D98D0 /* iosAppXcodeApp.swift in Sources */,
-				B6835ED628FB30C2000D98D0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
