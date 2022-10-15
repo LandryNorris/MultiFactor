@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import MobileApp
 
 @main
 class iosXCodeApp {
     static func main() {
-
+        EntryPoint.shared.main()
     }
 }
