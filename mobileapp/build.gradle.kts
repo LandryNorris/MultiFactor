@@ -57,6 +57,7 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("com.squareup.sqldelight:coroutines-extensions:$sqlVersion")
                 //implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                implementation("com.russhwolf:multiplatform-settings:$settingsVersion")
                 implementation("com.russhwolf:multiplatform-settings-coroutines:$settingsVersion")
                 implementation(compose.runtime)
                 implementation(compose.foundation)
