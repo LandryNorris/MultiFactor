@@ -2,36 +2,50 @@ package io.github.landrynorris.encryption
 
 import kotlinx.cinterop.*
 import platform.CoreFoundation.*
-import platform.Foundation.CFBridgingRetain
-import platform.Foundation.NSNumber
+import platform.Foundation.*
 import platform.Security.*
+import platform.darwin.NSInteger
+import platform.darwin.OSStatus
 
 actual object SecureCrypto {
     private const val ALIAS = "MultiFactorKeyStore"
     private val algorithm = kSecKeyAlgorithmECIESEncryptionCofactorVariableIVX963SHA256AESGCM
 
-    actual fun generateKey(alias: String) {
-        println("Generating key")
+    actual fun generateKey(alias: String): Unit = memScoped {
         val access = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
-            kSecAttrAccessibleWhenUnlockedThisDeviceOnly,
+            kSecAttrAccessibleWhenUnlockedThisDeviceOnly?.reinterpret(),
             kSecAccessControlPrivateKeyUsage, null)
 
-        val privateKeyAttr = CFDictionaryCreateMutable(null, 2,
+        val aliasData = (alias as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+        //val aliasData = NSData.dataWithBytes(tag.ptr, alias.length.toULong())
+        val privateKeyAttr = CFDictionaryCreateMutable(null, 3,
             null, null)
-        CFDictionaryAddValue(privateKeyAttr, kSecAttrIsPermanent, CFBridgingRetain(NSNumber(true)))
-        CFDictionaryAddValue(privateKeyAttr, kSecAttrApplicationTag, CFBridgingRetain(alias.utf8))
+        CFDictionaryAddValue(privateKeyAttr, kSecAttrIsPermanent, kCFBooleanTrue)
+
+        CFDictionaryAddValue(privateKeyAttr, kSecAttrApplicationTag, CFBridgingRetain(aliasData))
         CFDictionaryAddValue(privateKeyAttr, kSecAttrAccessControl, CFBridgingRetain(access))
 
         val d = CFDictionaryCreateMutable(null, 4, null, null)
-        CFDictionaryAddValue(d, kSecAttrKeyType, CFBridgingRetain(kSecAttrKeyTypeEC))
+        CFDictionaryAddValue(d, kSecAttrKeyType, kSecAttrKeyTypeEC)
         CFDictionaryAddValue(d, kSecAttrKeySizeInBits, CFBridgingRetain(NSNumber(256)))
-        CFDictionaryAddValue(d, kSecAttrTokenID, CFBridgingRetain(kSecAttrTokenIDSecureEnclave))
-        CFDictionaryAddValue(d, kSecPrivateKeyAttrs, CFBridgingRetain(privateKeyAttr))
+        //CFDictionaryAddValue(d, kSecAttrTokenID, kSecAttrTokenIDSecureEnclave)
+        CFDictionaryAddValue(d, kSecPrivateKeyAttrs, privateKeyAttr)
 
-        val error = cValue<CFErrorRefVar>()
+        val error = alloc<CFErrorRefVar>()
 
         println("Generating key")
-        SecKeyCreateRandomKey(d, error)
+        val key = SecKeyCreateRandomKey(d, error.ptr)
+
+        if(error.value != null) {
+            println("Error: ${error.pointed}")
+            val nsErrorText = CFBridgingRelease(CFErrorCopyDescription(error.value)) as NSString
+            val errorText = nsErrorText as String
+            val code = CFErrorGetCode(error.value)
+            println("Error Description is $errorText, code is $code")
+        } else {
+            println("No errors creating key")
+            println("Generated Key is ${key?.pointed}")
+        }
     }
 
     private fun getKey(alias: String): SecKeyRef {
@@ -39,23 +53,32 @@ actual object SecureCrypto {
         return loadKey(alias) ?: error("Unable to generate key")
     }
 
-    private fun loadKey(alias: String): SecKeyRef? {
-        val tag = alias.utf8
+    private fun loadKey(alias: String): SecKeyRef? = memScoped {
+        println("Loading key")
+        val aliasData = (alias as NSString).dataUsingEncoding(NSUTF8StringEncoding)
+        //val aliasData = NSData.dataWithBytes(tag.ptr, alias.length.toULong())
 
         val d = CFDictionaryCreateMutable(null, 4, null, null)
         CFDictionaryAddValue(d, kSecClass, kSecClassKey)
-        CFDictionaryAddValue(d, kSecAttrApplicationTag, CFBridgingRetain(tag))
+        CFDictionaryAddValue(d, kSecAttrApplicationTag, CFBridgingRetain(aliasData))
         CFDictionaryAddValue(d, kSecAttrKeyType, kSecAttrKeyTypeEC)
-        CFDictionaryAddValue(d, kSecReturnRef, CFBridgingRetain(NSNumber(true)))
+        CFDictionaryAddValue(d, kSecMatchLimit, kSecMatchLimitOne)
+        CFDictionaryAddValue(d, kSecReturnRef, kCFBooleanTrue)
 
-        memScoped {
-            val item = alloc<CFTypeRefVar>()
-            SecItemCopyMatching(d, item.ptr)
+        val item = alloc<CFArrayRefVar>()
+        val result = SecItemCopyMatching(d, item.ptr.reinterpret())
 
-            println("Key is ${item.value}")
-            val v = item.value
-            return v?.reinterpret()
-        }
+        println("Query result is ${result.errorString()}")
+        println("Key is ${item.value}")
+        val v = item.value
+        return v?.reinterpret()
+    }
+
+    private fun OSStatus.errorString(): String? {
+        if(this == 0) return null
+        val cfMessage = SecCopyErrorMessageString(this, null)
+        val nsMessage = CFBridgingRelease(cfMessage) as? NSString
+        return nsMessage as? String
     }
 
     actual fun encrypt(data: ByteArray): EncryptResult {
@@ -96,4 +119,21 @@ actual object SecureCrypto {
         val publicKey = SecKeyCopyPublicKey(key)
         return SecKeyIsAlgorithmSupported(publicKey, kSecKeyOperationTypeEncrypt, algorithm)
     }
+}
+
+internal inline fun MemScope.cfDictionaryOf(vararg items: Pair<CFStringRef?, CFTypeRef?>): CFDictionaryRef? =
+    cfDictionaryOf(mapOf(*items))
+
+internal inline fun MemScope.cfDictionaryOf(map: Map<CFStringRef?, CFTypeRef?>): CFDictionaryRef? {
+    val size = map.size
+    val keys = allocArrayOf(*map.keys.toTypedArray())
+    val values = allocArrayOf(*map.values.toTypedArray())
+    return CFDictionaryCreate(
+        kCFAllocatorDefault,
+        keys.reinterpret(),
+        values.reinterpret(),
+        size.convert(),
+        null,
+        null
+    )
 }
