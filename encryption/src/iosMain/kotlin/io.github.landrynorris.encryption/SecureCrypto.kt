@@ -17,7 +17,6 @@ actual object SecureCrypto {
             kSecAccessControlPrivateKeyUsage, null)
 
         val aliasData = (alias as NSString).dataUsingEncoding(NSUTF8StringEncoding)
-        //val aliasData = NSData.dataWithBytes(tag.ptr, alias.length.toULong())
         val privateKeyAttr = CFDictionaryCreateMutable(null, 3,
             null, null)
         CFDictionaryAddValue(privateKeyAttr, kSecAttrIsPermanent, kCFBooleanTrue)
@@ -34,29 +33,27 @@ actual object SecureCrypto {
         val error = alloc<CFErrorRefVar>()
 
         println("Generating key")
-        val key = SecKeyCreateRandomKey(d, error.ptr)
+        SecKeyCreateRandomKey(d, error.ptr)
 
         if(error.value != null) {
-            println("Error: ${error.pointed}")
-            val nsErrorText = CFBridgingRelease(CFErrorCopyDescription(error.value)) as NSString
-            val errorText = nsErrorText as String
+            val errorText = error.value?.errorString()
             val code = CFErrorGetCode(error.value)
             println("Error Description is $errorText, code is $code")
-        } else {
-            println("No errors creating key")
-            println("Generated Key is ${key?.pointed}")
         }
     }
 
     private fun getKey(alias: String): SecKeyRef {
-        if(loadKey(alias) == null) generateKey(alias)
-        return loadKey(alias) ?: error("Unable to generate key")
+        var initialKey = loadKey(alias)
+        if(initialKey == null) {
+            generateKey(alias)
+            initialKey = loadKey(alias)
+        }
+        return initialKey ?: error("Unable to generate key")
     }
 
     private fun loadKey(alias: String): SecKeyRef? = memScoped {
         println("Loading key")
         val aliasData = (alias as NSString).dataUsingEncoding(NSUTF8StringEncoding)
-        //val aliasData = NSData.dataWithBytes(tag.ptr, alias.length.toULong())
 
         val d = CFDictionaryCreateMutable(null, 4, null, null)
         CFDictionaryAddValue(d, kSecClass, kSecClassKey)
@@ -68,7 +65,7 @@ actual object SecureCrypto {
         val item = alloc<CFArrayRefVar>()
         val result = SecItemCopyMatching(d, item.ptr.reinterpret())
 
-        println("Query result is ${result.errorString()}")
+        println("Query result is ${result.errorString() ?: "success"}")
         println("Key is ${item.value}")
         val v = item.value
         return v?.reinterpret()
@@ -83,18 +80,26 @@ actual object SecureCrypto {
 
     actual fun encrypt(data: ByteArray): EncryptResult {
         val key = getKey(ALIAS)
+        println("Got key for encryption")
         if(!checkCanEncrypt(key)) error("Algorithm is not supported")
+        println("Starting to encrypt")
 
-        val error = cValue<CFErrorRefVar>()
+        val publicKey = SecKeyCopyPublicKey(key)
         val encrypted = memScoped {
+            val error = alloc<CFErrorRefVar>()
             val ref = data.refTo(0).getPointer(this)
 
             val cfData = CFDataCreate(kCFAllocatorDefault, ref.reinterpret(), data.size.toLong())
-            val cipherData = SecKeyCreateEncryptedData(key, algorithm, cfData, error)
+            val cipherData = SecKeyCreateEncryptedData(publicKey, algorithm, cfData, error.ptr)
+
+            println("Result is ${error.value?.errorString() ?: "success"}")
 
             val length = CFDataGetLength(cipherData)
-            return@memScoped CFDataGetBytePtr(cipherData)?.readBytes(length.toInt())
+            println("Length of data is $length")
+            CFDataGetBytePtr(cipherData)?.readBytes(length.toInt())
         } ?: error("Unable to encrypt data")
+
+        println("Encrypted data")
 
         return EncryptResult(byteArrayOf(), encrypted)
     }
@@ -103,12 +108,13 @@ actual object SecureCrypto {
         val key = getKey(ALIAS)
         if(!checkCanEncrypt(key)) error("Algorithm is not supported")
 
+        val publicKey = SecKeyCopyPublicKey(key)
         val error = cValue<CFErrorRefVar>()
         return memScoped {
             val ref = data.refTo(0).getPointer(this)
 
             val cfData = CFDataCreate(kCFAllocatorDefault, ref.reinterpret(), data.size.toLong())
-            val cipherData = SecKeyCreateDecryptedData(key, algorithm, cfData, error)
+            val cipherData = SecKeyCreateDecryptedData(publicKey, algorithm, cfData, error)
 
             val length = CFDataGetLength(cipherData)
             return@memScoped CFDataGetBytePtr(cipherData)?.readBytes(length.toInt())
@@ -117,7 +123,13 @@ actual object SecureCrypto {
 
     private fun checkCanEncrypt(key: SecKeyRef): Boolean {
         val publicKey = SecKeyCopyPublicKey(key)
+        println("Got public key")
         return SecKeyIsAlgorithmSupported(publicKey, kSecKeyOperationTypeEncrypt, algorithm)
+    }
+
+    private fun CFErrorRef.errorString(): String {
+        val nsErrorText = CFBridgingRelease(CFErrorCopyDescription(this)) as NSString
+        return nsErrorText as String
     }
 }
 

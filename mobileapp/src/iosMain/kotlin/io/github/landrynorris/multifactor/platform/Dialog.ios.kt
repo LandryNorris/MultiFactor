@@ -22,9 +22,7 @@ fun positionProvider(): PopupPositionProvider {
             layoutDirection: LayoutDirection, popupContentSize: IntSize
         ): IntOffset {
             return IntOffset(windowSize.width/2 - popupContentSize.width/2,
-                windowSize.height/2 - popupContentSize.height/2).also {
-                    println("Result: $it")
-            }
+                windowSize.height/2 - popupContentSize.height/2)
         }
     }
 }
