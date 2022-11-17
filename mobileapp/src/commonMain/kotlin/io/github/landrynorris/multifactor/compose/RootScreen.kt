@@ -9,6 +9,7 @@ import androidx.compose.material.icons.filled.Pin
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import io.github.landrynorris.encryption.SecureCrypto
 import io.github.landrynorris.multifactor.components.Root
 import io.github.landrynorris.multifactor.theme.AppTheme
 

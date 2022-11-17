@@ -23,7 +23,7 @@ actual object SecureCrypto {
         CFDictionaryAddValue(privateKeyAttr, kSecAttrIsPermanent, kCFBooleanTrue)
 
         CFDictionaryAddValue(privateKeyAttr, kSecAttrApplicationTag, CFBridgingRetain(aliasData))
-        CFDictionaryAddValue(privateKeyAttr, kSecAttrAccessControl, CFBridgingRetain(access))
+        CFDictionaryAddValue(privateKeyAttr, kSecAttrAccessControl, access)
 
         val d = CFDictionaryCreateMutable(null, 4, null, null)
         CFDictionaryAddValue(d, kSecAttrKeyType, kSecAttrKeyTypeEC)
