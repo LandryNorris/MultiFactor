@@ -9,6 +9,7 @@ import platform.darwin.OSStatus
 
 actual object SecureCrypto {
     private const val ALIAS = "MultiFactorKeyStore"
+    private val iv = ByteArray(16) { 0 }
     private val algorithm = kSecKeyAlgorithmECIESEncryptionCofactorVariableIVX963SHA256AESGCM
 
     actual fun generateKey(alias: String): Unit = memScoped {
@@ -24,11 +25,19 @@ actual object SecureCrypto {
         CFDictionaryAddValue(privateKeyAttr, kSecAttrApplicationTag, CFBridgingRetain(aliasData))
         CFDictionaryAddValue(privateKeyAttr, kSecAttrAccessControl, access)
 
+        val publicKeyAttr = CFDictionaryCreateMutable(null, 3,
+            null, null)
+        CFDictionaryAddValue(publicKeyAttr, kSecAttrIsPermanent, kCFBooleanTrue)
+
+        CFDictionaryAddValue(publicKeyAttr, kSecAttrApplicationTag, CFBridgingRetain(aliasData))
+        CFDictionaryAddValue(publicKeyAttr, kSecAttrAccessControl, access)
+
         val d = CFDictionaryCreateMutable(null, 4, null, null)
         CFDictionaryAddValue(d, kSecAttrKeyType, kSecAttrKeyTypeEC)
         CFDictionaryAddValue(d, kSecAttrKeySizeInBits, CFBridgingRetain(NSNumber(256)))
         //CFDictionaryAddValue(d, kSecAttrTokenID, kSecAttrTokenIDSecureEnclave)
         CFDictionaryAddValue(d, kSecPrivateKeyAttrs, privateKeyAttr)
+        CFDictionaryAddValue(d, kSecPublicKeyAttrs, publicKeyAttr)
 
         val error = alloc<CFErrorRefVar>()
 
@@ -65,8 +74,7 @@ actual object SecureCrypto {
         val item = alloc<CFArrayRefVar>()
         val result = SecItemCopyMatching(d, item.ptr.reinterpret())
 
-        println("Query result is ${result.errorString() ?: "success"}")
-        println("Key is ${item.value}")
+        if(result != 0) println("Query result is ${result.errorString() ?: "success"}")
         val v = item.value
         return v?.reinterpret()
     }
@@ -80,11 +88,10 @@ actual object SecureCrypto {
 
     actual fun encrypt(data: ByteArray): EncryptResult {
         val key = getKey(ALIAS)
-        println("Got key for encryption")
-        if(!checkCanEncrypt(key)) error("Algorithm is not supported")
+        val publicKey = SecKeyCopyPublicKey(key) ?: error("No public key found")
+        if(!checkCanEncrypt(publicKey)) error("Algorithm is not supported")
         println("Starting to encrypt")
 
-        val publicKey = SecKeyCopyPublicKey(key)
         val encrypted = memScoped {
             val error = alloc<CFErrorRefVar>()
             val ref = data.refTo(0).getPointer(this)
@@ -101,30 +108,35 @@ actual object SecureCrypto {
 
         println("Encrypted data")
 
-        return EncryptResult(byteArrayOf(), encrypted)
+        return EncryptResult(iv, encrypted)
     }
 
     actual fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
         val key = getKey(ALIAS)
-        if(!checkCanEncrypt(key)) error("Algorithm is not supported")
+        val publicKey = SecKeyCopyPublicKey(key) ?: error("No public key found")
+        if(!checkCanDecrypt(key)) error("Algorithm is not supported")
+        println("Starting to decrypt")
 
-        val publicKey = SecKeyCopyPublicKey(key)
-        val error = cValue<CFErrorRefVar>()
         return memScoped {
+            val error = alloc<CFErrorRefVar>()
             val ref = data.refTo(0).getPointer(this)
 
             val cfData = CFDataCreate(kCFAllocatorDefault, ref.reinterpret(), data.size.toLong())
-            val cipherData = SecKeyCreateDecryptedData(publicKey, algorithm, cfData, error)
+            val cipherData = SecKeyCreateDecryptedData(key, algorithm, cfData, error.ptr)
+
+            println("Result is ${error.value?.errorString() ?: "success"}")
 
             val length = CFDataGetLength(cipherData)
             return@memScoped CFDataGetBytePtr(cipherData)?.readBytes(length.toInt())
-        } ?: error("Unable to encrypt data")
+        } ?: error("Unable to decrypt data")
     }
 
     private fun checkCanEncrypt(key: SecKeyRef): Boolean {
-        val publicKey = SecKeyCopyPublicKey(key)
-        println("Got public key")
-        return SecKeyIsAlgorithmSupported(publicKey, kSecKeyOperationTypeEncrypt, algorithm)
+        return SecKeyIsAlgorithmSupported(key, kSecKeyOperationTypeEncrypt, algorithm)
+    }
+
+    private fun checkCanDecrypt(key: SecKeyRef): Boolean {
+        return SecKeyIsAlgorithmSupported(key, kSecKeyOperationTypeDecrypt, algorithm)
     }
 
     private fun CFErrorRef.errorString(): String {
