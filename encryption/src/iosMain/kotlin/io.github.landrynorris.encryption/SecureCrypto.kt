@@ -18,31 +18,37 @@ actual object SecureCrypto {
             kSecAccessControlPrivateKeyUsage, null)
 
         val aliasData = (alias as NSString).dataUsingEncoding(NSUTF8StringEncoding)
-        val privateKeyAttr = CFDictionaryCreateMutable(null, 3,
-            null, null)
-        CFDictionaryAddValue(privateKeyAttr, kSecAttrIsPermanent, kCFBooleanTrue)
 
-        CFDictionaryAddValue(privateKeyAttr, kSecAttrApplicationTag, CFBridgingRetain(aliasData))
-        CFDictionaryAddValue(privateKeyAttr, kSecAttrAccessControl, access)
+        val privateKeyProperties = cfDictionaryOf(
+            mapOf(
+                kSecAttrIsPermanent to kCFBooleanTrue,
+                kSecAttrApplicationTag to CFBridgingRetain(aliasData),
+                kSecAttrAccessControl to access
+            )
+        )
 
-        val publicKeyAttr = CFDictionaryCreateMutable(null, 3,
-            null, null)
-        CFDictionaryAddValue(publicKeyAttr, kSecAttrIsPermanent, kCFBooleanTrue)
+        val publicKeyProperties = cfDictionaryOf(
+            mapOf(
+                kSecAttrIsPermanent to kCFBooleanTrue,
+                kSecAttrApplicationTag to CFBridgingRetain(aliasData),
+                kSecAttrAccessControl to access
+            )
+        )
 
-        CFDictionaryAddValue(publicKeyAttr, kSecAttrApplicationTag, CFBridgingRetain(aliasData))
-        CFDictionaryAddValue(publicKeyAttr, kSecAttrAccessControl, access)
-
-        val d = CFDictionaryCreateMutable(null, 4, null, null)
-        CFDictionaryAddValue(d, kSecAttrKeyType, kSecAttrKeyTypeEC)
-        CFDictionaryAddValue(d, kSecAttrKeySizeInBits, CFBridgingRetain(NSNumber(256)))
-        CFDictionaryAddValue(d, kSecAttrTokenID, kSecAttrTokenIDSecureEnclave)
-        CFDictionaryAddValue(d, kSecPrivateKeyAttrs, privateKeyAttr)
-        CFDictionaryAddValue(d, kSecPublicKeyAttrs, publicKeyAttr)
+        val properties = cfDictionaryOf(
+            mapOf(
+                kSecAttrKeyType to kSecAttrKeyTypeEC,
+                kSecAttrKeySizeInBits to CFBridgingRetain(NSNumber(256)),
+                kSecAttrTokenID to kSecAttrTokenIDSecureEnclave,
+                kSecPrivateKeyAttrs to privateKeyProperties,
+                kSecPublicKeyAttrs to publicKeyProperties
+            )
+        )
 
         val error = alloc<CFErrorRefVar>()
 
         println("Generating key")
-        SecKeyCreateRandomKey(d, error.ptr)
+        SecKeyCreateRandomKey(properties, error.ptr)
 
         if(error.value != null) {
             val errorText = error.value?.errorString()
@@ -64,15 +70,18 @@ actual object SecureCrypto {
         println("Loading key")
         val aliasData = (alias as NSString).dataUsingEncoding(NSUTF8StringEncoding)
 
-        val d = CFDictionaryCreateMutable(null, 4, null, null)
-        CFDictionaryAddValue(d, kSecClass, kSecClassKey)
-        CFDictionaryAddValue(d, kSecAttrApplicationTag, CFBridgingRetain(aliasData))
-        CFDictionaryAddValue(d, kSecAttrKeyType, kSecAttrKeyTypeEC)
-        CFDictionaryAddValue(d, kSecMatchLimit, kSecMatchLimitOne)
-        CFDictionaryAddValue(d, kSecReturnRef, kCFBooleanTrue)
+        val query = cfDictionaryOf(
+            mapOf(
+                kSecClass to kSecClassKey,
+                kSecAttrApplicationTag to CFBridgingRetain(aliasData),
+                kSecAttrKeyType to kSecAttrKeyTypeEC,
+                kSecMatchLimit to kSecMatchLimitOne,
+                kSecReturnRef to kCFBooleanTrue
+            )
+        )
 
         val item = alloc<CFArrayRefVar>()
-        val result = SecItemCopyMatching(d, item.ptr.reinterpret())
+        val result = SecItemCopyMatching(query, item.ptr.reinterpret())
 
         if(result != 0) println("Query result is ${result.errorString() ?: "success"}")
         val v = item.value
@@ -142,19 +151,11 @@ actual object SecureCrypto {
     }
 }
 
-internal inline fun MemScope.cfDictionaryOf(vararg items: Pair<CFStringRef?, CFTypeRef?>): CFDictionaryRef? =
-    cfDictionaryOf(mapOf(*items))
-
 internal inline fun MemScope.cfDictionaryOf(map: Map<CFStringRef?, CFTypeRef?>): CFDictionaryRef? {
     val size = map.size
     val keys = allocArrayOf(*map.keys.toTypedArray())
     val values = allocArrayOf(*map.values.toTypedArray())
-    return CFDictionaryCreate(
-        kCFAllocatorDefault,
-        keys.reinterpret(),
-        values.reinterpret(),
-        size.convert(),
-        null,
-        null
-    )
+    return CFDictionaryCreate(kCFAllocatorDefault,
+        keys.reinterpret(), values.reinterpret(),
+        size.convert(), null, null)
 }
