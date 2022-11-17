@@ -35,7 +35,7 @@ actual object SecureCrypto {
         val d = CFDictionaryCreateMutable(null, 4, null, null)
         CFDictionaryAddValue(d, kSecAttrKeyType, kSecAttrKeyTypeEC)
         CFDictionaryAddValue(d, kSecAttrKeySizeInBits, CFBridgingRetain(NSNumber(256)))
-        //CFDictionaryAddValue(d, kSecAttrTokenID, kSecAttrTokenIDSecureEnclave)
+        CFDictionaryAddValue(d, kSecAttrTokenID, kSecAttrTokenIDSecureEnclave)
         CFDictionaryAddValue(d, kSecPrivateKeyAttrs, privateKeyAttr)
         CFDictionaryAddValue(d, kSecPublicKeyAttrs, publicKeyAttr)
 
@@ -113,7 +113,6 @@ actual object SecureCrypto {
 
     actual fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
         val key = getKey(ALIAS)
-        val publicKey = SecKeyCopyPublicKey(key) ?: error("No public key found")
         if(!checkCanDecrypt(key)) error("Algorithm is not supported")
         println("Starting to decrypt")
 
@@ -123,8 +122,6 @@ actual object SecureCrypto {
 
             val cfData = CFDataCreate(kCFAllocatorDefault, ref.reinterpret(), data.size.toLong())
             val cipherData = SecKeyCreateDecryptedData(key, algorithm, cfData, error.ptr)
-
-            println("Result is ${error.value?.errorString() ?: "success"}")
 
             val length = CFDataGetLength(cipherData)
             return@memScoped CFDataGetBytePtr(cipherData)?.readBytes(length.toInt())
