@@ -20,7 +20,7 @@ import io.github.landrynorris.multifactor.theme.Background
 import io.github.landrynorris.multifactor.theme.colors
 
 @Composable
-fun CreatePasswordPopup(logic: CreatePasswordLogic) {
+internal fun CreatePasswordPopup(logic: CreatePasswordLogic) {
     val state by logic.state.collectAsState()
     val clipboard = LocalClipboardManager.current
     Column(modifier = Modifier.fillMaxWidth().background(colors.background),

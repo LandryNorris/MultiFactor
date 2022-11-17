@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 import java.io.File
 import java.util.*
 
@@ -14,6 +15,7 @@ val settingsVersion: String by project
 
 plugins {
     kotlin("multiplatform")
+    kotlin("native.cocoapods")
     id("com.android.application")
     id("org.jetbrains.compose")
     id("kotlin-parcelize")
@@ -25,11 +27,18 @@ kotlin {
     
     listOf(
         iosX64("uikitX64"),
-        iosArm64("uikitArm64")
+        iosArm64("uikitArm64"),
+        iosSimulatorArm64("uikitSimulatorArm64")
     ).forEach {
         it.binaries {
             framework {
                 baseName = "shared"
+
+                freeCompilerArgs += listOf(
+                    "-linker-option", "-framework", "-linker-option", "Metal",
+                    "-linker-option", "-framework", "-linker-option", "CoreText",
+                    "-linker-option", "-framework", "-linker-option", "CoreGraphics"
+                )
             }
         }
     }
@@ -41,14 +50,14 @@ kotlin {
                 implementation(project(":encryption"))
                 implementation(project(":password-generator"))
                 implementation(project(":database"))
-                implementation(project(":autofill"))
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.3.3")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("com.squareup.sqldelight:coroutines-extensions:$sqlVersion")
-                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                //implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                implementation("com.russhwolf:multiplatform-settings:$settingsVersion")
                 implementation("com.russhwolf:multiplatform-settings-coroutines:$settingsVersion")
                 implementation(compose.runtime)
                 implementation(compose.foundation)
@@ -65,6 +74,7 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 dependsOn(commonMain)
+                implementation(project(":autofill"))
                 implementation("androidx.activity:activity-compose:1.5.1")
                 implementation("com.google.android.material:material:1.6.1")
                 implementation("androidx.startup:startup-runtime:1.1.1")
@@ -78,15 +88,40 @@ kotlin {
 
         val uikitX64Main by getting
         val uikitArm64Main by getting
+        val uikitSimulatorArm64Main by getting
 
         val iosMain by creating {
             dependsOn(commonMain)
             uikitX64Main.dependsOn(this)
             uikitArm64Main.dependsOn(this)
+            uikitSimulatorArm64Main.dependsOn(this)
 
             dependencies {
                 implementation("com.squareup.sqldelight:native-driver:$sqlVersion")
             }
+        }
+    }
+}
+
+kotlin {
+    cocoapods {
+        version = "0.0.1"
+        homepage = "https://github.com/LandryNorris/MultiFactor"
+        summary = "Logic for MultiFactor app"
+
+        podfile = project.file("../iosAppXcode/Podfile")
+
+        framework {
+            baseName = "MobileApp"
+
+            isStatic = false
+            embedBitcode(BitcodeEmbeddingMode.DISABLE)
+
+            freeCompilerArgs += listOf(
+                "-linker-option", "-framework", "-linker-option", "Metal",
+                "-linker-option", "-framework", "-linker-option", "CoreText",
+                "-linker-option", "-framework", "-linker-option", "CoreGraphics"
+            )
         }
     }
 }

@@ -16,7 +16,7 @@ import androidx.compose.ui.text.toUpperCase
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun MultiToggleSwitch(currentIndex: Int, names: List<String>, onToggleChanged: (Int) -> Unit) {
+internal fun MultiToggleSwitch(currentIndex: Int, names: List<String>, onToggleChanged: (Int) -> Unit) {
     val selectedTint = MaterialTheme.colors.primary
     val unselectedTint = Color.Unspecified
 

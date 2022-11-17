@@ -20,7 +20,7 @@ import io.github.landrynorris.multifactor.components.PasswordLogic
 import io.github.landrynorris.multifactor.platform.Dialog
 
 @Composable
-fun PasswordScreen(logic: PasswordLogic) {
+internal fun PasswordScreen(logic: PasswordLogic) {
     val state by logic.state.collectAsState()
     val passwordListState by logic.passwordListLogic.state.collectAsState()
 
@@ -46,7 +46,7 @@ fun PasswordScreen(logic: PasswordLogic) {
 }
 
 @Composable
-fun PasswordCard(name: String, password: String?, onToggleVisibleClick: () -> Unit = {}) {
+internal fun PasswordCard(name: String, password: String?, onToggleVisibleClick: () -> Unit = {}) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column {
             Text(name)
@@ -64,6 +64,6 @@ fun PasswordCard(name: String, password: String?, onToggleVisibleClick: () -> Un
 }
 
 @Composable
-fun HiddenPasswordText() {
+internal fun HiddenPasswordText() {
     Text("************")
 }

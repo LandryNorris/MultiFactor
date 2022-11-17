@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.sp
 import io.github.landrynorris.multifactor.theme.colors
 
 @Composable
-fun HotpItem(index: Int, pin: String, name: String,
+internal fun HotpItem(index: Int, pin: String, name: String,
              onIncrementClicked: (Int) -> Unit = {}) {
     Column(modifier = Modifier.fillMaxWidth()
         .background(colors.background)) {

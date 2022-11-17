@@ -16,7 +16,7 @@ val names = listOf("Hotp", "Totp")
 val types = listOf(OtpMethod.HOTP, OtpMethod.TOTP)
 
 @Composable
-fun CreateOtpItem(createOtpState: CreateOtpState,
+internal fun CreateOtpItem(createOtpState: CreateOtpState,
                   onNameChanged: (String) -> Unit = {},
                   onSecretChanged: (String) -> Unit = {},
                   onTypeChanged: (OtpMethod) -> Unit = {},
