@@ -9,6 +9,8 @@ object Base32 {
     fun decode(encoded: String): ByteArray {
         val trimmed = encoded.trim()
             .replace(" ", "")
+            .replace("1", "I")
+            .replace("0", "O")
             .replace("-", "").uppercase()
 
         val length = encoded.length
