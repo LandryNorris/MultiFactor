@@ -9,6 +9,6 @@ fun Long.toBytes(): ByteArray {
         this.and(0xFF.toLong().shl(24)).shr(24).toByte(),
         this.and(0xFF.toLong().shl(16)).shr(16).toByte(),
         this.and(0xFF.toLong().shl(8)).shr(8).toByte(),
-        this.and(0xFF.toLong().shl(0)).shr(0).toByte(),
+        this.and(0xFF.toLong()).toByte(),
     )
 }
