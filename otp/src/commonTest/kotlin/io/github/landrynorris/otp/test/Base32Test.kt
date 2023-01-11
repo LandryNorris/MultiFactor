@@ -3,7 +3,6 @@ package io.github.landrynorris.otp.test
 import io.github.landrynorris.otp.Base32
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
-import kotlin.test.assertEquals
 
 class Base32Test {
     @Test
