@@ -5,36 +5,33 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class TotpTest {
+    private val otp = Totp("12345678901234567890", "test", codeLength = 8)
+
     @Test
-    fun testTotpProgress() {
-        val secret = "abcdefg"
-        val totp = Totp(secret, "A name")
-        var time = 1234567L
+    fun testTotp59() {
+        otp.setTime(59)
 
-        totp.setTime(time)
-        assertEquals(0.23333333f, totp.progress)
-
-        time++
-        totp.setTime(time)
-        assertEquals(0.26666668f, totp.progress)
-
-        time++
-        totp.setTime(time)
-        assertEquals(0.3f, totp.progress)
+        assertEquals("94287082", otp.generatePin())
     }
 
     @Test
-    fun testTotpCode8Digit() {
-        val secret = "abcdefg"
-        val totp = Totp(secret, "A name")
+    fun testTotp1111111109() {
+        otp.setTime(1111111109)
 
-        totp.setTime(123456789)
-        assertEquals("006026", totp.generatePin())
+        assertEquals("07081804", otp.generatePin())
+    }
 
-        totp.setTime(234567890)
-        assertEquals("934913", totp.generatePin())
+    @Test
+    fun testTotp1234567890() {
+        otp.setTime(1234567890)
 
-        totp.setTime(0)
-        assertEquals("042814", totp.generatePin())
+        assertEquals("89005924", otp.generatePin())
+    }
+
+    @Test
+    fun testTotp2000000000() {
+        otp.setTime(2000000000)
+
+        assertEquals("69279037", otp.generatePin())
     }
 }
