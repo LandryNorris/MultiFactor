@@ -3,35 +3,56 @@ package io.github.landrynorris.otp.test
 import io.github.landrynorris.otp.Totp
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
 class TotpTest {
-    private val otp = Totp("12345678901234567890", "test", codeLength = 8)
-
     @Test
-    fun testTotp59() {
-        otp.setTime(59)
+    fun testTotpProgress() {
+        val secret = "abcdefg"
+        val totp = Totp(secret, "A name")
+        var time = 1234567L
 
-        assertEquals("94287082", otp.generatePin())
+        totp.setTime(time)
+        assertEquals(0.23333333f, totp.progress)
+
+        time++
+        totp.setTime(time)
+        assertEquals(0.26666668f, totp.progress)
+
+        time++
+        totp.setTime(time)
+        assertEquals(0.3f, totp.progress)
     }
 
     @Test
-    fun testTotp1111111109() {
-        otp.setTime(1111111109)
+    fun testTotpCode8Digit() {
+        val secret = "abcdefg"
+        val totp = Totp(secret, "A name")
 
-        assertEquals("07081804", otp.generatePin())
+        totp.setTime(123456789)
+        assertEquals("006026", totp.generatePin())
+
+        totp.setTime(234567890)
+        assertEquals("934913", totp.generatePin())
+
+        totp.setTime(234567900)
+        assertEquals("934913", totp.generatePin())
     }
 
     @Test
-    fun testTotp1234567890() {
-        otp.setTime(1234567890)
+    fun testCodeDoesntChangeDuringPeriod() {
+        val secret = "alongsecret"
+        val totp = Totp(secret, "A name")
 
-        assertEquals("89005924", otp.generatePin())
-    }
+        var time = 234567900L
 
-    @Test
-    fun testTotp2000000000() {
-        otp.setTime(2000000000)
+        repeat(30) {
+            totp.setTime(time)
+            assertEquals("015045", totp.generatePin())
+            time++
+        }
 
-        assertEquals("69279037", otp.generatePin())
+        totp.setTime(time)
+        assertNotEquals("015045", totp.generatePin())
     }
 }
