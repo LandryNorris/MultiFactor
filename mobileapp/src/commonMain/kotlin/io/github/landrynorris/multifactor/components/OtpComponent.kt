@@ -76,7 +76,8 @@ data class OtpState(val model: OtpModel?, val type: OtpMethod, val name: String,
 
 fun OtpModel.toState(): OtpState {
     return OtpState(model = this,
-        type = if(otp is Hotp) OtpMethod.HOTP else OtpMethod.TOTP, name = otp.name,
+        type = if(otp is Hotp) OtpMethod.HOTP else OtpMethod.TOTP,
+        name = otp.name,
         pin = otp.generatePin(),
         value = when (otp) {
             is Hotp -> otp.counter.toFloat()
