@@ -20,6 +20,7 @@ plugins {
     id("org.jetbrains.compose")
     id("kotlin-parcelize")
     id("com.squareup.sqldelight")
+    id("org.jetbrains.kotlinx.kover")
 }
 
 kotlin {
