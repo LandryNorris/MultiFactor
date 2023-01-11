@@ -2,7 +2,7 @@ package io.github.landrynorris.otp
 
 private const val table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
 private val shift = table.length.countTrailingZeroBits()
-private val mask = table.length-1
+private const val mask = table.length-1
 
 object Base32 {
 
@@ -13,7 +13,7 @@ object Base32 {
             .replace("0", "O")
             .replace("-", "").uppercase()
 
-        val length = encoded.length
+        val length = trimmed.length
         val outLength = length * shift/8
         val result = ByteArray(outLength)
 
