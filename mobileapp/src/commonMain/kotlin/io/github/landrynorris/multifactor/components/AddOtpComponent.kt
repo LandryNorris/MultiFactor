@@ -45,4 +45,6 @@ class CreateOtpComponent(context: ComponentContext,
     }
 }
 
-data class CreateOtpState(val name: String = "", val secret: String = "", val type: OtpMethod = OtpMethod.HOTP)
+data class CreateOtpState(val name: String = "",
+                          val secret: String = "",
+                          val type: OtpMethod = OtpMethod.HOTP)
