@@ -29,9 +29,12 @@ class TotpTest {
         val totp = Totp(secret, "A name")
 
         totp.setTime(123456789)
-        assertEquals("342241", totp.generatePin())
+        assertEquals("006026", totp.generatePin())
 
         totp.setTime(234567890)
-        assertEquals("842292", totp.generatePin())
+        assertEquals("934913", totp.generatePin())
+
+        totp.setTime(0)
+        assertEquals("042814", totp.generatePin())
     }
 }
