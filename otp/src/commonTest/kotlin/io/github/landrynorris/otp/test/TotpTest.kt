@@ -36,7 +36,7 @@ class TotpTest {
         assertEquals("934913", totp.generatePin())
 
         totp.setTime(234567900)
-        assertEquals("934913", totp.generatePin())
+        assertEquals("896506", totp.generatePin())
     }
 
     @Test
