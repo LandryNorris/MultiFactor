@@ -86,7 +86,6 @@ fun OtpModel.toState(): OtpState {
         value = when (otp) {
             is Hotp -> otp.counter.toFloat()
             is Totp -> otp.progress
-            else -> 0f
         }
     )
 }
