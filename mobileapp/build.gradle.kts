@@ -25,24 +25,12 @@ plugins {
 
 kotlin {
     android()
-    
+
     listOf(
         iosX64("uikitX64"),
         iosArm64("uikitArm64"),
         iosSimulatorArm64("uikitSimulatorArm64")
-    ).forEach {
-        it.binaries {
-            framework {
-                baseName = "shared"
-
-                freeCompilerArgs += listOf(
-                    "-linker-option", "-framework", "-linker-option", "Metal",
-                    "-linker-option", "-framework", "-linker-option", "CoreText",
-                    "-linker-option", "-framework", "-linker-option", "CoreGraphics"
-                )
-            }
-        }
-    }
+    )
 
     sourceSets {
         val commonMain by getting {
@@ -85,12 +73,15 @@ kotlin {
                 implementation("androidx.datastore:datastore-preferences:1.0.0")
             }
         }
-        val androidTest by getting
+        val androidTest by getting {
+            dependencies {
+                implementation("com.squareup.sqldelight:sqlite-driver:$sqlVersion")
+            }
+        }
 
         val uikitX64Main by getting
         val uikitArm64Main by getting
         val uikitSimulatorArm64Main by getting
-
         val iosMain by creating {
             dependsOn(commonMain)
             uikitX64Main.dependsOn(this)
@@ -100,6 +91,16 @@ kotlin {
             dependencies {
                 implementation("com.squareup.sqldelight:native-driver:$sqlVersion")
             }
+        }
+
+
+        val uikitX64Test by getting
+        val uikitArm64Test by getting
+        val uikitSimulatorArm64Test by getting
+        val iosTest by creating {
+            uikitArm64Test.dependsOn(this)
+            uikitX64Test.dependsOn(this)
+            uikitSimulatorArm64Test.dependsOn(this)
         }
     }
 }

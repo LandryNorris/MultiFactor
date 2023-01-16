@@ -27,7 +27,7 @@ class OtpComponent(private val context: ComponentContext,
     override val state = MutableStateFlow(OtpScreenState())
     override val createOtpLogic = CreateOtpComponent(childContext("create")) {
         println("Entry is $it")
-        repository.createOtp(it)
+        addOtp(it)
     }
 
     init {
@@ -67,6 +67,10 @@ class OtpComponent(private val context: ComponentContext,
 
     override fun addOtpPressed() {
         state.update { it.copy(isAdding = !it.isAdding) }
+    }
+
+    private fun addOtp(model: OtpModel) {
+        repository.createOtp(model)
     }
 }
 
