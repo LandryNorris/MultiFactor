@@ -45,7 +45,7 @@ class OtpComponent(private val context: ComponentContext,
             while(isActive) {
                 state.update {
                     it.copy(otpList = it.otpList.map { state ->
-                        if(state.model?.otp is Totp) {
+                        if(state.model.otp is Totp) {
                             val totp = state.model.otp as Totp
                             state.copy(pin = totp.generatePin(), value = totp.progress)
                         } else { //Leave not-time based codes alone.
@@ -60,7 +60,7 @@ class OtpComponent(private val context: ComponentContext,
 
     override fun incrementClicked(index: Int) {
         val item = state.value.otpList[index]
-        if(item.model?.otp !is Hotp) return
+        if(item.model.otp !is Hotp) return
         val hotp = item.model.otp as Hotp
         repository.setHotpCount(item.model.id, hotp.counter + 1)
     }
@@ -76,7 +76,7 @@ class OtpComponent(private val context: ComponentContext,
 
 data class OtpScreenState(val otpList: List<OtpState> = listOf(), val isAdding: Boolean = false)
 
-data class OtpState(val model: OtpModel?, val type: OtpMethod, val name: String, val pin: String, val value: Float)
+data class OtpState(val model: OtpModel, val type: OtpMethod, val name: String, val pin: String, val value: Float)
 
 fun OtpModel.toState(): OtpState {
     return OtpState(model = this,
