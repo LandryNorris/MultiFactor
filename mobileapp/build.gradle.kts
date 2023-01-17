@@ -58,6 +58,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("com.russhwolf:multiplatform-settings-test:$settingsVersion")
             }
         }
         val androidMain by getting {

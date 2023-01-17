@@ -4,15 +4,14 @@ import kotlinx.cinterop.*
 import platform.CoreFoundation.*
 import platform.Foundation.*
 import platform.Security.*
-import platform.darwin.NSInteger
 import platform.darwin.OSStatus
 
-actual object SecureCrypto {
+actual object SecureCrypto: Crypto {
     private const val ALIAS = "MultiFactorKeyStore"
     private val iv = ByteArray(16) { 0 }
     private val algorithm = kSecKeyAlgorithmECIESEncryptionCofactorVariableIVX963SHA256AESGCM
 
-    actual fun generateKey(alias: String): Unit = memScoped {
+    actual override fun generateKey(alias: String): Unit = memScoped {
         val access = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
             kSecAttrAccessibleWhenUnlockedThisDeviceOnly?.reinterpret(),
             kSecAccessControlPrivateKeyUsage, null)
@@ -95,7 +94,7 @@ actual object SecureCrypto {
         return nsMessage as? String
     }
 
-    actual fun encrypt(data: ByteArray): EncryptResult {
+    actual override fun encrypt(data: ByteArray): EncryptResult {
         val key = getKey(ALIAS)
         val publicKey = SecKeyCopyPublicKey(key) ?: error("No public key found")
         if(!checkCanEncrypt(publicKey)) error("Algorithm is not supported")
@@ -118,7 +117,7 @@ actual object SecureCrypto {
         return EncryptResult(iv, encrypted)
     }
 
-    actual fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
+    actual override fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
         val key = getKey(ALIAS)
         if(!checkCanDecrypt(key)) error("Algorithm is not supported")
 

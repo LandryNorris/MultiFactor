@@ -1,7 +1,7 @@
 package io.github.landrynorris.multifactor.components
 
 import com.arkivanov.decompose.ComponentContext
-import io.github.landrynorris.encryption.SecureCrypto
+import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.repository.PasswordRepository
 import kotlinx.coroutines.CoroutineScope
@@ -18,6 +18,7 @@ interface PasswordListLogic {
 }
 
 class PasswordListComponent(context: ComponentContext,
+                            private val crypto: Crypto,
                             private val repository: PasswordRepository): ComponentContext by context,
     PasswordListLogic {
     override val state = MutableStateFlow(PasswordListState())
@@ -62,7 +63,7 @@ class PasswordListComponent(context: ComponentContext,
     }
 
     private fun decryptPassword(model: PasswordModel): String {
-        val decrypted = SecureCrypto.decrypt(model.encryptedValue, model.salt)
+        val decrypted = crypto.decrypt(model.encryptedValue, model.salt)
         return decrypted.decodeToString()
     }
 

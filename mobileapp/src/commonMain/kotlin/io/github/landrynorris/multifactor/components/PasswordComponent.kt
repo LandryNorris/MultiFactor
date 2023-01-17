@@ -2,6 +2,7 @@ package io.github.landrynorris.multifactor.components
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
+import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.multifactor.repository.PasswordRepository
 import io.github.landrynorris.multifactor.repository.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,21 +16,20 @@ interface PasswordLogic {
 
     fun toggleAddPassword() {}
     fun hideAddPassword() {}
-    fun showPassword(index: Int) {}
 }
 
 class PasswordComponent(
     private val context: ComponentContext,
+    crypto: Crypto,
     passwordRepository: PasswordRepository,
-    private val settingsRepository: SettingsRepository
+    settingsRepository: SettingsRepository
     ): PasswordLogic, ComponentContext by context {
-
     override val state = MutableStateFlow(PasswordState())
     override val passwordListLogic = PasswordListComponent(childContext("PasswordListLogic"),
-        passwordRepository)
+        crypto, passwordRepository)
     override val createPasswordLogic =
         CreatePasswordComponent(childContext("CreatePasswordLogic"),
-            passwordRepository, settingsRepository)
+            crypto, passwordRepository, settingsRepository)
 
     override fun hideAddPassword() {
         state.update { it.copy(showAddPassword = false) }

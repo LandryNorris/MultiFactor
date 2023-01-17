@@ -81,12 +81,6 @@ class OtpComponentTest {
         }
     }
 
-    private fun createOtpRepository(): OtpRepository {
-        val driver = createInMemoryTestDriver()
-        val database = AppDatabase(driver)
-        return OtpRepository(database)
-    }
-
     private fun createComponent(): OtpLogic {
         return OtpComponent(createContext(), createOtpRepository())
     }

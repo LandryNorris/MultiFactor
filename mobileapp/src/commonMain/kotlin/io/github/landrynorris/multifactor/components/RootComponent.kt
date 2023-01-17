@@ -5,6 +5,8 @@ import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
+import io.github.landrynorris.encryption.Crypto
+import io.github.landrynorris.encryption.SecureCrypto
 import io.github.landrynorris.multifactor.compose.Settings
 import io.github.landrynorris.multifactor.repository.OtpRepository
 import io.github.landrynorris.multifactor.repository.PasswordRepository
@@ -26,7 +28,8 @@ interface Root {
     }
 }
 
-class RootComponent(context: ComponentContext): ComponentContext by context, Root, KoinComponent {
+class RootComponent(context: ComponentContext,
+                    private val crypto: Crypto): ComponentContext by context, Root, KoinComponent {
     private val navigation = StackNavigation<Config>()
     private val otpRepository by inject<OtpRepository>()
     private val passwordRepository by inject<PasswordRepository>()
@@ -46,7 +49,7 @@ class RootComponent(context: ComponentContext): ComponentContext by context, Roo
 
     private fun otpComponent(context: ComponentContext) = OtpComponent(context, otpRepository)
     private fun passwordManager(context: ComponentContext) =
-        PasswordComponent(context, passwordRepository, settingsRepository)
+        PasswordComponent(context, crypto, passwordRepository, settingsRepository)
     private fun settings(context: ComponentContext) = SettingsComponent(context,
         settingsRepository)
 
