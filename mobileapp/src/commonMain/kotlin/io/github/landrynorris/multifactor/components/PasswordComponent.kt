@@ -14,8 +14,8 @@ interface PasswordLogic {
     val passwordListLogic: PasswordListLogic
     val createPasswordLogic: CreatePasswordLogic
 
-    fun toggleAddPassword() {}
-    fun hideAddPassword() {}
+    fun toggleAddPassword()
+    fun hideAddPassword()
 }
 
 class PasswordComponent(

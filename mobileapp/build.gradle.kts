@@ -59,6 +59,7 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("com.russhwolf:multiplatform-settings-test:$settingsVersion")
+                implementation("io.insert-koin:koin-test:$koinVersion")
             }
         }
         val androidMain by getting {

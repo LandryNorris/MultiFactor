@@ -5,11 +5,8 @@ import io.github.landrynorris.multifactor.components.PasswordListComponent
 import io.github.landrynorris.multifactor.components.PasswordListLogic
 import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.repository.PasswordRepository
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import kotlin.random.Random
 import kotlin.test.Test
-import kotlin.test.assertEquals
 
 class PasswordListTest {
 
@@ -21,6 +18,17 @@ class PasswordListTest {
         val component = createComponent(passwordRepository = passwordRepository)
 
         assertOccursWithin(1000) { component.state.value.passwords.size == 3 }
+    }
+
+    @Test
+    fun testListPasswordsReactsToChanges() = runBlocking {
+        val passwordRepository = createPasswordRepository()
+        passwordRepository.fillFakePasswords()
+
+        val component = createComponent(passwordRepository = passwordRepository)
+        passwordRepository.fillFakePasswords()
+
+        assertOccursWithin(1000) { component.state.value.passwords.size == 6 }
     }
 
     @Test

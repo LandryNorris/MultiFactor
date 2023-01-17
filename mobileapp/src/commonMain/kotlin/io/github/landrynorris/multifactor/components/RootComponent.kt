@@ -17,9 +17,9 @@ import org.koin.core.component.inject
 interface Root {
     val routerState: Value<ChildStack<*, Child>>
 
-    fun navigateToOtp() {}
-    fun navigateToPasswordManager() {}
-    fun navigateToSettings() {}
+    fun navigateToOtp()
+    fun navigateToPasswordManager()
+    fun navigateToSettings()
 
     sealed class Child {
         class Otp(val component: OtpLogic): Child()
