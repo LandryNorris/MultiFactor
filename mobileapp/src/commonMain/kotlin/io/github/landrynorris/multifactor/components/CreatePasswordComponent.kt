@@ -16,11 +16,11 @@ import kotlinx.coroutines.flow.update
 interface CreatePasswordLogic {
     val state: StateFlow<CreatePasswordState>
 
-    fun nameChanged(name: String) {}
-    fun domainChanged(domain: String) {}
-    fun passwordChanged(password: String) {}
-    fun generateNewPassword(clipboardManager: ClipboardManager? = null) {}
-    fun confirm() {}
+    fun nameChanged(name: String)
+    fun domainChanged(domain: String)
+    fun passwordChanged(password: String)
+    fun generateNewPassword(clipboardManager: ClipboardManager? = null)
+    fun confirm()
 }
 
 class CreatePasswordComponent(context: ComponentContext,

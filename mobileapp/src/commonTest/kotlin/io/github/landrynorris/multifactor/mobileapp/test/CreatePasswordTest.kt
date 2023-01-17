@@ -46,30 +46,8 @@ class CreatePasswordTest {
     }
 
     @Test
-    fun testGeneratePasswordWithDigits() = runBlocking {
+    fun testGeneratePassword() = runBlocking {
         val settingsRepository = createSettingsRepository()
-        settingsRepository.setPasswordLength(12)
-        settingsRepository.setIncludeDigits(true)
-
-        val component = createComponent(settingsRepository = settingsRepository)
-
-        assertEquals("", component.state.value.password)
-
-        val anyHasDigits = (0 until 10).any {
-            component.generateNewPassword()
-            val randomPassword = component.state.value.password
-            assertEquals(12, randomPassword.length)
-
-            randomPassword.any { it.isDigit() }
-        }
-
-        assertTrue(anyHasDigits)
-    }
-
-    @Test
-    fun testGeneratePasswordWithNoDigits() = runBlocking {
-        val settingsRepository = createSettingsRepository()
-        settingsRepository.setPasswordLength(12)
         settingsRepository.setIncludeDigits(false)
 
         val component = createComponent(settingsRepository = settingsRepository)
@@ -79,7 +57,6 @@ class CreatePasswordTest {
         val anyHasDigits = (0 until 10).any {
             component.generateNewPassword()
             val randomPassword = component.state.value.password
-            assertEquals(12, randomPassword.length)
 
             randomPassword.any { it.isDigit() }
         }

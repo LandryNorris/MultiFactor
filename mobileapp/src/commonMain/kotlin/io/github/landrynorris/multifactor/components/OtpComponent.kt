@@ -16,8 +16,8 @@ interface OtpLogic {
     val state: StateFlow<OtpScreenState>
     val createOtpLogic: CreateOtpLogic
 
-    fun incrementClicked(index: Int) {}
-    fun addOtpPressed() {}
+    fun incrementClicked(index: Int)
+    fun addOtpPressed()
 }
 
 class OtpComponent(private val context: ComponentContext,
@@ -46,7 +46,7 @@ class OtpComponent(private val context: ComponentContext,
                 state.update {
                     it.copy(otpList = it.otpList.map { state ->
                         if(state.model.otp is Totp) {
-                            val totp = state.model.otp as Totp
+                            val totp = state.model.otp
                             state.copy(pin = totp.generatePin(), value = totp.progress)
                         } else { //Leave not-time based codes alone.
                             state
@@ -61,7 +61,7 @@ class OtpComponent(private val context: ComponentContext,
     override fun incrementClicked(index: Int) {
         val item = state.value.otpList[index]
         if(item.model.otp !is Hotp) return
-        val hotp = item.model.otp as Hotp
+        val hotp = item.model.otp
         repository.setHotpCount(item.model.id, hotp.counter + 1)
     }
 
