@@ -71,6 +71,17 @@ class OtpComponentTest {
         }
     }
 
+    @Test
+    fun testBuggedCallToIncrementTotp() = runBlocking {
+        val component = createComponent()
+
+        val testOtp = Totp("A secret", "A value")
+        component.createOtpLogic.enter(OtpModel(-1L, testOtp))
+
+        delay(50)
+        component.incrementClicked(0)
+    }
+
     private suspend fun OtpLogic.awaitNonEmptyOtpList(): OtpScreenState {
         return withTimeout(1000) {
             var otpState: OtpScreenState

@@ -1,4 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeCompilation
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable
 import java.io.File
 import java.util.*
 
@@ -95,7 +98,6 @@ kotlin {
             }
         }
 
-
         val uikitX64Test by getting
         val uikitArm64Test by getting
         val uikitSimulatorArm64Test by getting
@@ -126,6 +128,14 @@ kotlin {
                 "-linker-option", "-framework", "-linker-option", "CoreText",
                 "-linker-option", "-framework", "-linker-option", "CoreGraphics"
             )
+        }
+    }
+}
+
+kotlin {
+    targets.withType<KotlinNativeTarget> {
+        binaries.withType<TestExecutable> {
+            freeCompilerArgs += listOf("-linker-option", "-framework", "-linker-option", "Metal")
         }
     }
 }
@@ -168,12 +178,13 @@ android {
 
     namespace = "io.github.landrynorris.multifactor"
 }
+
 dependencies {
     implementation(project(mapOf("path" to ":database")))
 }
 
 kotlin {
-    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+    targets.withType<KotlinNativeTarget> {
         binaries.all {
             // TODO: the current compose binary surprises LLVM, so disable checks for now.
             freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
