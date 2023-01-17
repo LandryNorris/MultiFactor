@@ -8,6 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
@@ -19,10 +20,10 @@ interface PasswordListLogic {
 
 class PasswordListComponent(context: ComponentContext,
                             private val crypto: Crypto,
-                            private val repository: PasswordRepository): ComponentContext by context,
+                            repository: PasswordRepository): ComponentContext by context,
     PasswordListLogic {
-    override val state = MutableStateFlow(PasswordListState())
     private val modelsFlow = repository.getPasswordsFlow()
+    override val state = MutableStateFlow(PasswordListState())
 
     init {
         CoroutineScope(Dispatchers.Default).launch {
