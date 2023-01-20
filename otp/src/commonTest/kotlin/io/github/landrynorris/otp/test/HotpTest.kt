@@ -1,4 +1,4 @@
-package io.github.landrynorris.opt.test
+package io.github.landrynorris.otp.test
 
 import io.github.landrynorris.otp.Hotp
 import kotlin.test.Test

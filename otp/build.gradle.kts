@@ -3,6 +3,7 @@ val kryptoVersion: String by project
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("org.jetbrains.kotlinx.kover")
 }
 
 kotlin {
