@@ -9,17 +9,5 @@ import io.github.landrynorris.database.AppDatabase
 var index = 0
 
 actual fun createInMemoryTestDriver(): SqlDriver {
-    val schema = AppDatabase.Schema
-    return NativeSqliteDriver(DatabaseConfiguration(name = "test-$index.db",
-        version = schema.version,
-        create = { connection ->
-            wrapConnection(connection) { schema.create(it) }
-        },
-        upgrade = { connection, oldVersion, newVersion ->
-            wrapConnection(connection) {
-                schema.migrate(it, oldVersion, newVersion)
-            }
-        },
-        inMemory = true
-    ))
+    return NativeSqliteDriver(AppDatabase.Schema, "test.db")
 }

@@ -11,7 +11,7 @@ import kotlin.test.Test
 class PasswordListTest {
 
     @Test
-    fun testListPasswords() = runBlocking {
+    fun testListPasswords(): Unit = runBlocking {
         val passwordRepository = createPasswordRepository()
         passwordRepository.fillFakePasswords()
 
@@ -21,7 +21,7 @@ class PasswordListTest {
     }
 
     @Test
-    fun testListPasswordsReactsToChanges() = runBlocking {
+    fun testListPasswordsReactsToChanges(): Unit = runBlocking {
         val passwordRepository = createPasswordRepository()
         passwordRepository.fillFakePasswords()
 
@@ -32,7 +32,7 @@ class PasswordListTest {
     }
 
     @Test
-    fun testDecryptPasswords() = runBlocking {
+    fun testDecryptPasswords(): Unit = runBlocking {
         val passwordRepository = createPasswordRepository()
         passwordRepository.fillFakePasswords()
 
@@ -61,12 +61,12 @@ class PasswordListTest {
     }
 
     private fun PasswordRepository.fillFakePasswords() {
-        insertPassword(createPassword("pass1", "password"))
-        insertPassword(createPassword("pass2", "something"))
-        insertPassword(createPassword("pass3", "multi word"))
+        insertPasswords(createPassword("pass1", "password"),
+            createPassword("pass2", "something"),
+            createPassword("pass3", "multi word"))
     }
 
-    fun createPassword(name: String, password: String): PasswordModel {
+    private fun createPassword(name: String, password: String): PasswordModel {
         val encrypted = MockCrypto().encrypt(password.encodeToByteArray())
         return PasswordModel(-1L, name, encrypted.iv, encrypted.data, null, null)
     }
