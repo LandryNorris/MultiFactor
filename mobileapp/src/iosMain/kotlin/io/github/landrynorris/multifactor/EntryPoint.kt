@@ -5,6 +5,7 @@ import androidx.compose.material.Text
 import androidx.compose.ui.window.Application
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import io.github.landrynorris.encryption.SecureCrypto
 import io.github.landrynorris.multifactor.components.RootComponent
 import io.github.landrynorris.multifactor.compose.RootScreen
 import kotlinx.cinterop.*
@@ -14,7 +15,7 @@ import platform.UIKit.*
 @Suppress("unused") //called from Swift
 object EntryPoint {
     fun createEntryPoint(): UIViewController {
-        val logic = RootComponent(DefaultComponentContext(LifecycleRegistry()))
+        val logic = RootComponent(DefaultComponentContext(LifecycleRegistry()), SecureCrypto)
         println("Starting application")
         return Application("MultiFactor") {
             RootScreen(logic)

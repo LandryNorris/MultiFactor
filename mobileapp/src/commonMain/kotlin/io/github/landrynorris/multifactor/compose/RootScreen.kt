@@ -7,9 +7,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.filled.Pin
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import io.github.landrynorris.encryption.SecureCrypto
+import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
+import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import io.github.landrynorris.multifactor.components.Root
 import io.github.landrynorris.multifactor.theme.AppTheme
 
@@ -23,7 +25,6 @@ internal fun RootScreen(logic: Root) {
             println("Stack instance is ${stack.active.instance}")
             Column {
                 TopBar(getName(stack.active.instance))
-                println("Name is ${getName(stack.active.instance)}")
                 Children(stack = stack, modifier = Modifier.weight(1f)) {
                     when(val child = it.instance) {
                         is Root.Child.Otp -> OtpScreen(child.component)

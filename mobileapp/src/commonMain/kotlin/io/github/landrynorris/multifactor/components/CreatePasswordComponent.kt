@@ -3,7 +3,7 @@ package io.github.landrynorris.multifactor.components
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.text.buildAnnotatedString
 import com.arkivanov.decompose.ComponentContext
-import io.github.landrynorris.encryption.SecureCrypto
+import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.multifactor.PasswordGeneratorDefaults
 import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.repository.PasswordRepository
@@ -16,14 +16,15 @@ import kotlinx.coroutines.flow.update
 interface CreatePasswordLogic {
     val state: StateFlow<CreatePasswordState>
 
-    fun nameChanged(name: String) {}
-    fun domainChanged(domain: String) {}
-    fun passwordChanged(password: String) {}
-    fun generateNewPassword(clipboardManager: ClipboardManager) {}
-    fun confirm() {}
+    fun nameChanged(name: String)
+    fun domainChanged(domain: String)
+    fun passwordChanged(password: String)
+    fun generateNewPassword(clipboardManager: ClipboardManager? = null)
+    fun confirm()
 }
 
 class CreatePasswordComponent(context: ComponentContext,
+                              private val crypto: Crypto,
                               private val passwordRepository: PasswordRepository,
                               private val settingsRepository: SettingsRepository
                               ): CreatePasswordLogic, ComponentContext by context {
@@ -43,7 +44,7 @@ class CreatePasswordComponent(context: ComponentContext,
             isConfirmEnabled = isConfirmEnabled(it.name, password)) }
     }
 
-    override fun generateNewPassword(clipboardManager: ClipboardManager) {
+    override fun generateNewPassword(clipboardManager: ClipboardManager?) {
         val settings = settingsRepository.currentPasswordSettings
         val password = createPassword {
             includeDigits = settings.includeDigits
@@ -54,12 +55,12 @@ class CreatePasswordComponent(context: ComponentContext,
         }
         state.update { it.copy(password = password,
             isConfirmEnabled = isConfirmEnabled(it.name, password)) }
-        clipboardManager.setText(buildAnnotatedString { append(password) })
+        clipboardManager?.setText(buildAnnotatedString { append(password) })
     }
 
     override fun confirm() {
         val current = state.value
-        val encrypted = SecureCrypto.encrypt(current.password.encodeToByteArray())
+        val encrypted = crypto.encrypt(current.password.encodeToByteArray())
 
         savePasswordModel(PasswordModel(-1L, current.name, salt = encrypted.iv,
             encryptedValue = encrypted.data, domain = current.domain.takeIf { it.isNotBlank() },

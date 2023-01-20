@@ -16,8 +16,8 @@ interface OtpLogic {
     val state: StateFlow<OtpScreenState>
     val createOtpLogic: CreateOtpLogic
 
-    fun incrementClicked(index: Int) {}
-    fun addOtpPressed() {}
+    fun incrementClicked(index: Int)
+    fun addOtpPressed()
 }
 
 class OtpComponent(private val context: ComponentContext,
@@ -27,7 +27,7 @@ class OtpComponent(private val context: ComponentContext,
     override val state = MutableStateFlow(OtpScreenState())
     override val createOtpLogic = CreateOtpComponent(childContext("create")) {
         println("Entry is $it")
-        repository.createOtp(it)
+        addOtp(it)
     }
 
     init {
@@ -45,8 +45,8 @@ class OtpComponent(private val context: ComponentContext,
             while(isActive) {
                 state.update {
                     it.copy(otpList = it.otpList.map { state ->
-                        if(state.model?.otp is Totp) {
-                            val totp = state.model.otp as Totp
+                        if(state.model.otp is Totp) {
+                            val totp = state.model.otp
                             state.copy(pin = totp.generatePin(), value = totp.progress)
                         } else { //Leave not-time based codes alone.
                             state
@@ -60,19 +60,23 @@ class OtpComponent(private val context: ComponentContext,
 
     override fun incrementClicked(index: Int) {
         val item = state.value.otpList[index]
-        if(item.model?.otp !is Hotp) return
-        val hotp = item.model.otp as Hotp
+        if(item.model.otp !is Hotp) return
+        val hotp = item.model.otp
         repository.setHotpCount(item.model.id, hotp.counter + 1)
     }
 
     override fun addOtpPressed() {
         state.update { it.copy(isAdding = !it.isAdding) }
     }
+
+    private fun addOtp(model: OtpModel) {
+        repository.createOtp(model)
+    }
 }
 
 data class OtpScreenState(val otpList: List<OtpState> = listOf(), val isAdding: Boolean = false)
 
-data class OtpState(val model: OtpModel?, val type: OtpMethod, val name: String, val pin: String, val value: Float)
+data class OtpState(val model: OtpModel, val type: OtpMethod, val name: String, val pin: String, val value: Float)
 
 fun OtpModel.toState(): OtpState {
     return OtpState(model = this,
@@ -82,7 +86,6 @@ fun OtpModel.toState(): OtpState {
         value = when (otp) {
             is Hotp -> otp.counter.toFloat()
             is Totp -> otp.progress
-            else -> 0f
         }
     )
 }

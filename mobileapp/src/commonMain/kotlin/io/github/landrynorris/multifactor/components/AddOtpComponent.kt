@@ -18,7 +18,7 @@ interface CreateOtpLogic {
 }
 
 class CreateOtpComponent(context: ComponentContext,
-                      private val otpCreated: (OtpModel) -> Unit = {}):
+                      private val otpCreated: (OtpModel) -> Unit):
     ComponentContext by context, CreateOtpLogic {
     override val state = MutableStateFlow(CreateOtpState())
 

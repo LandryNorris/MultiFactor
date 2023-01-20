@@ -13,3 +13,6 @@ SELECT * FROM OtpEntry WHERE id IS ?;
 
 deleteById:
 DELETE FROM OtpEntry WHERE id IS ?;
+
+clear:
+DELETE FROM OtpEntry;
