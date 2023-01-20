@@ -15,7 +15,8 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 internal fun HotpItem(index: Int, pin: String, name: String,
-             onIncrementClicked: (Int) -> Unit = {}) {
+                      onIncrementClicked: (Int) -> Unit = {},
+                      onCopyClicked: () -> Unit = {}) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(name, fontSize = 18.sp)
         Row(modifier = Modifier.fillMaxWidth(),
@@ -23,6 +24,7 @@ internal fun HotpItem(index: Int, pin: String, name: String,
 
             Text(pin, modifier = Modifier.weight(1f),
                 fontSize = 20.sp, letterSpacing = 1.sp)
+            CopyButton(onClick = onCopyClicked)
             IconButton(onClick = { onIncrementClicked(index) }) {
                 Icon(Icons.Default.Add,
                     "Increment Counter")

@@ -11,12 +11,15 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.text.buildAnnotatedString
 
 interface OtpLogic {
     val state: StateFlow<OtpScreenState>
     val createOtpLogic: CreateOtpLogic
 
     fun incrementClicked(index: Int)
+    fun copyClicked(clipboardManager: ClipboardManager, otp: OtpState)
     fun addOtpPressed()
 }
 
@@ -71,6 +74,11 @@ class OtpComponent(private val context: ComponentContext,
 
     private fun addOtp(model: OtpModel) {
         repository.createOtp(model)
+    }
+
+    override fun copyClicked(clipboardManager: ClipboardManager, otp: OtpState) {
+        val annotatedString = buildAnnotatedString { append(otp.pin) }
+        clipboardManager.setText(annotatedString)
     }
 }
 

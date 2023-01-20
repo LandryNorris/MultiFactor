@@ -9,6 +9,8 @@ import io.github.landrynorris.multifactor.components.OtpLogic
 import io.github.landrynorris.multifactor.components.OtpState
 import io.github.landrynorris.otp.OtpMethod
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.platform.LocalClipboardManager
 import io.github.landrynorris.multifactor.components.CreateOtpState
 
 @Composable
@@ -26,25 +28,30 @@ internal fun OtpScreen(logic: OtpLogic) {
             onNameChanged = createOtpLogic::nameChanged,
             onSecretChanged = createOtpLogic::secretChanged,
             onTypeChanged = createOtpLogic::methodChanged,
+            onCopyClicked = logic::copyClicked,
             onConfirmClicked = createOtpLogic::confirm)
     }
 }
 
 @Composable
 internal fun OtpList(otpStates: List<OtpState>,
-            createOtpState: CreateOtpState? = null,
-            onIncrementClicked: (Int) -> Unit = {},
-            onNameChanged: (String) -> Unit = {},
-            onSecretChanged: (String) -> Unit = {},
-            onTypeChanged: (OtpMethod) -> Unit = {},
-            onConfirmClicked: () -> Unit = {}) {
+                     createOtpState: CreateOtpState? = null,
+                     onIncrementClicked: (Int) -> Unit = {},
+                     onNameChanged: (String) -> Unit = {},
+                     onSecretChanged: (String) -> Unit = {},
+                     onTypeChanged: (OtpMethod) -> Unit = {},
+                     onCopyClicked: (ClipboardManager, OtpState) -> Unit,
+                     onConfirmClicked: () -> Unit = {}) {
     LazyColumn {
         itemsIndexed(otpStates) { index, otp ->
             MultiFactorCard {
+                val clipboardManager = LocalClipboardManager.current
                 if(otp.type is OtpMethod.HOTP)
-                    HotpItem(index, otp.pin, otp.name, onIncrementClicked = onIncrementClicked)
+                    HotpItem(index, otp.pin, otp.name, onIncrementClicked = onIncrementClicked,
+                        onCopyClicked = { onCopyClicked(clipboardManager, otp) })
                 else
-                    TotpItem(otp.pin, otp.name, otp.value)
+                    TotpItem(otp.pin, otp.name, otp.value,
+                        onCopyClicked = { onCopyClicked(clipboardManager, otp) })
             }
         }
 
