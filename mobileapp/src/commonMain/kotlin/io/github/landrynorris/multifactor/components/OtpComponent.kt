@@ -19,7 +19,7 @@ interface OtpLogic {
     val createOtpLogic: CreateOtpLogic
 
     fun incrementClicked(index: Int)
-    fun copyClicked(clipboardManager: ClipboardManager, otp: OtpState)
+    fun copyClicked(clipboardManager: ClipboardManager?, otp: OtpState)
     fun addOtpPressed()
 }
 
@@ -76,9 +76,9 @@ class OtpComponent(private val context: ComponentContext,
         repository.createOtp(model)
     }
 
-    override fun copyClicked(clipboardManager: ClipboardManager, otp: OtpState) {
+    override fun copyClicked(clipboardManager: ClipboardManager?, otp: OtpState) {
         val annotatedString = buildAnnotatedString { append(otp.pin) }
-        clipboardManager.setText(annotatedString)
+        clipboardManager?.setText(annotatedString)
     }
 }
 
