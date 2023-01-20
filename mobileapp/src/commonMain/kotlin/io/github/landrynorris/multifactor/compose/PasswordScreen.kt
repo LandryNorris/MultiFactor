@@ -37,8 +37,10 @@ internal fun PasswordScreen(logic: PasswordLogic) {
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(passwordListState.passwords) { field ->
-                PasswordCard(field.model.name, field.password) {
-                    logic.passwordListLogic.showHidePressed(field)
+                MultiFactorCard {
+                    PasswordCard(field.model.name, field.password) {
+                        logic.passwordListLogic.showHidePressed(field)
+                    }
                 }
             }
         }

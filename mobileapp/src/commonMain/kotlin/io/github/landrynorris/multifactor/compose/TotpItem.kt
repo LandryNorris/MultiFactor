@@ -1,7 +1,6 @@
 package io.github.landrynorris.multifactor.compose
 
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.ProgressIndicatorDefaults
@@ -11,12 +10,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalViewConfiguration
 import androidx.compose.ui.unit.sp
-import io.github.landrynorris.multifactor.theme.colors
 
 @Composable
 internal fun TotpItem(pin: String, name: String, progress: Float) {
-    Column(modifier = Modifier.fillMaxWidth()
-        .background(colors.background)) {
+    Column(modifier = Modifier.fillMaxWidth()) {
         Text(name, fontSize = 18.sp)
         Row(modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically) {

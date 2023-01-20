@@ -40,17 +40,21 @@ internal fun OtpList(otpStates: List<OtpState>,
             onConfirmClicked: () -> Unit = {}) {
     LazyColumn {
         itemsIndexed(otpStates) { index, otp ->
-            if(otp.type is OtpMethod.HOTP) HotpItem(index,
-                otp.pin, otp.name,
-                onIncrementClicked = onIncrementClicked)
-            else TotpItem(otp.pin, otp.name, otp.value)
+            MultiFactorCard {
+                if(otp.type is OtpMethod.HOTP)
+                    HotpItem(index, otp.pin, otp.name, onIncrementClicked = onIncrementClicked)
+                else
+                    TotpItem(otp.pin, otp.name, otp.value)
+            }
         }
 
         item {
             if(createOtpState != null) {
-                CreateOtpItem(createOtpState, onNameChanged,
-                    onSecretChanged, onTypeChanged,
-                    onConfirmClicked)
+                MultiFactorCard {
+                    CreateOtpItem(createOtpState, onNameChanged,
+                        onSecretChanged, onTypeChanged,
+                        onConfirmClicked)
+                }
             }
         }
     }
