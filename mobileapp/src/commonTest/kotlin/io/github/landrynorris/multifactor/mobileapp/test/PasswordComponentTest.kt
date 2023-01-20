@@ -1,5 +1,7 @@
 package io.github.landrynorris.multifactor.mobileapp.test
 
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.multifactor.components.PasswordComponent
 import io.github.landrynorris.multifactor.components.PasswordLogic
@@ -43,6 +45,16 @@ class PasswordComponentTest {
         assertOccursWithin(1000) {
             component.passwordListLogic.state.value.passwords.size == 1
         }
+    }
+
+    @Test
+    fun testCopyPassword() {
+        val clipboardManager = MockClipboardManager()
+        val component = createComponent()
+
+        component.copyPasswordClicked(clipboardManager, "A password")
+
+        assertEquals("A password", clipboardManager.getText()?.text)
     }
 
     private fun createComponent(

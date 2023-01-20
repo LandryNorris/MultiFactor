@@ -2,6 +2,7 @@ package io.github.landrynorris.multifactor.mobileapp.test
 
 import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.multifactor.components.*
+import io.github.landrynorris.multifactor.compose.HotpItem
 import io.github.landrynorris.multifactor.models.OtpModel
 import io.github.landrynorris.multifactor.repository.OtpRepository
 import io.github.landrynorris.otp.Hotp
@@ -80,6 +81,18 @@ class OtpComponentTest {
 
         delay(50)
         component.incrementClicked(0)
+    }
+
+    @Test
+    fun testCopyOtp() {
+        val clipboardManager = MockClipboardManager()
+        val component = createComponent()
+
+        val model = OtpModel(0, Hotp("A secret", "A name", 0))
+        val state = OtpState(model, OtpMethod.HOTP, "otp", "abcdefg", 0.5f)
+        component.copyClicked(clipboardManager, state)
+
+        assertEquals(state.pin, clipboardManager.getText()?.text)
     }
 
     private suspend fun OtpLogic.awaitNonEmptyOtpList(): OtpScreenState {
