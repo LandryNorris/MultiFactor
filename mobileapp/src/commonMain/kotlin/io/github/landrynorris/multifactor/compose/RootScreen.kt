@@ -10,8 +10,6 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
-import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
 import io.github.landrynorris.multifactor.components.Root
 import io.github.landrynorris.multifactor.theme.AppTheme
 

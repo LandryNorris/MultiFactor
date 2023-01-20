@@ -1,4 +1,7 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeCompilation
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+import org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable
 import java.io.File
 import java.util.*
 
@@ -20,28 +23,17 @@ plugins {
     id("org.jetbrains.compose")
     id("kotlin-parcelize")
     id("com.squareup.sqldelight")
+    id("org.jetbrains.kotlinx.kover")
 }
 
 kotlin {
     android()
-    
+
     listOf(
         iosX64("uikitX64"),
         iosArm64("uikitArm64"),
         iosSimulatorArm64("uikitSimulatorArm64")
-    ).forEach {
-        it.binaries {
-            framework {
-                baseName = "shared"
-
-                freeCompilerArgs += listOf(
-                    "-linker-option", "-framework", "-linker-option", "Metal",
-                    "-linker-option", "-framework", "-linker-option", "CoreText",
-                    "-linker-option", "-framework", "-linker-option", "CoreGraphics"
-                )
-            }
-        }
-    }
+    )
 
     sourceSets {
         val commonMain by getting {
@@ -69,14 +61,16 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("com.russhwolf:multiplatform-settings-test:$settingsVersion")
+                implementation("io.insert-koin:koin-test:$koinVersion")
             }
         }
         val androidMain by getting {
             dependencies {
                 dependsOn(commonMain)
                 implementation(project(":autofill"))
-                implementation("androidx.activity:activity-compose:1.5.1")
-                implementation("com.google.android.material:material:1.6.1")
+                implementation("androidx.activity:activity-compose:1.6.1")
+                implementation("com.google.android.material:material:1.7.0")
                 implementation("androidx.startup:startup-runtime:1.1.1")
                 implementation("com.squareup.sqldelight:android-driver:$sqlVersion")
                 implementation("io.insert-koin:koin-android:$koinVersion")
@@ -84,12 +78,15 @@ kotlin {
                 implementation("androidx.datastore:datastore-preferences:1.0.0")
             }
         }
-        val androidTest by getting
+        val androidTest by getting {
+            dependencies {
+                implementation("com.squareup.sqldelight:sqlite-driver:$sqlVersion")
+            }
+        }
 
         val uikitX64Main by getting
         val uikitArm64Main by getting
         val uikitSimulatorArm64Main by getting
-
         val iosMain by creating {
             dependsOn(commonMain)
             uikitX64Main.dependsOn(this)
@@ -99,6 +96,15 @@ kotlin {
             dependencies {
                 implementation("com.squareup.sqldelight:native-driver:$sqlVersion")
             }
+        }
+
+        val uikitX64Test by getting
+        val uikitArm64Test by getting
+        val uikitSimulatorArm64Test by getting
+        val iosTest by creating {
+            uikitArm64Test.dependsOn(this)
+            uikitX64Test.dependsOn(this)
+            uikitSimulatorArm64Test.dependsOn(this)
         }
     }
 }
@@ -122,6 +128,14 @@ kotlin {
                 "-linker-option", "-framework", "-linker-option", "CoreText",
                 "-linker-option", "-framework", "-linker-option", "CoreGraphics"
             )
+        }
+    }
+}
+
+kotlin {
+    targets.withType<KotlinNativeTarget> {
+        binaries.withType<TestExecutable> {
+            freeCompilerArgs += listOf("-linker-option", "-framework", "-linker-option", "Metal")
         }
     }
 }
@@ -164,12 +178,13 @@ android {
 
     namespace = "io.github.landrynorris.multifactor"
 }
+
 dependencies {
     implementation(project(mapOf("path" to ":database")))
 }
 
 kotlin {
-    targets.withType<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget> {
+    targets.withType<KotlinNativeTarget> {
         binaries.all {
             // TODO: the current compose binary surprises LLVM, so disable checks for now.
             freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"

@@ -22,7 +22,7 @@ data class Totp(override val secret: String, override val name: String,
         return (time % timeStepMs).toFloat() / timeStepMs
     }
 
-    val t: Long get() {
+    private val t: Long get() {
         val time = getTime()
         return time/timeStep
     }

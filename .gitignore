@@ -13,3 +13,5 @@ keystore/
 keystore_passwords.txt
 mobileapp/production/
 key.properties
+iosAppXcode/iosAppXcode.xcodeproj/project.xcworkspace/xcuserdata
+iosAppXcode/Pods

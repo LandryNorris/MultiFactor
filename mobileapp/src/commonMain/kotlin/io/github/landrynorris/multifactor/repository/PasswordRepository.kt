@@ -22,4 +22,12 @@ class PasswordRepository(private val database: AppDatabase) {
         database.passwordQueries.insertPassword(null, model.name, model.salt,
             model.encryptedValue, model.domain, model.appId)
     }
+
+    fun insertPasswords(vararg models: PasswordModel) {
+        database.transaction {
+            models.forEach {
+                insertPassword(it)
+            }
+        }
+    }
 }

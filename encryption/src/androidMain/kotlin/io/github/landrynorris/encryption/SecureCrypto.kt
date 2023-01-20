@@ -9,7 +9,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 
-actual object SecureCrypto {
+actual object SecureCrypto: Crypto {
     private const val ANDROID_KEY_STORE = "AndroidKeyStore"
     private const val ALIAS = "MultiFactorKeyStore"
     private const val CIPHER = "AES/GCM/NoPadding"
@@ -22,7 +22,7 @@ actual object SecureCrypto {
         result
     }
 
-    actual fun generateKey(alias: String) {
+    actual override fun generateKey(alias: String) {
         val generator = KeyGenerator.getInstance(
             KeyProperties.KEY_ALGORITHM_AES,
             ANDROID_KEY_STORE
@@ -46,7 +46,7 @@ actual object SecureCrypto {
         return entry.secretKey
     }
 
-    actual fun encrypt(data: ByteArray): EncryptResult {
+    actual override fun encrypt(data: ByteArray): EncryptResult {
         val key = getKey()
         val cipher = Cipher.getInstance(CIPHER)
         cipher.init(Cipher.ENCRYPT_MODE, key)
@@ -54,7 +54,7 @@ actual object SecureCrypto {
         return EncryptResult(cipher.iv, cipher.doFinal(data))
     }
 
-    actual fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
+    actual override fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
         val key = getKey()
         val cipher = Cipher.getInstance(CIPHER)
         val params = GCMParameterSpec(TAG_LENGTH, iv)

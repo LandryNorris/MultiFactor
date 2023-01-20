@@ -4,15 +4,14 @@ import kotlinx.cinterop.*
 import platform.CoreFoundation.*
 import platform.Foundation.*
 import platform.Security.*
-import platform.darwin.NSInteger
 import platform.darwin.OSStatus
 
-actual object SecureCrypto {
+actual object SecureCrypto: Crypto {
     private const val ALIAS = "MultiFactorKeyStore"
     private val iv = ByteArray(16) { 0 }
     private val algorithm = kSecKeyAlgorithmECIESEncryptionCofactorVariableIVX963SHA256AESGCM
 
-    actual fun generateKey(alias: String): Unit = memScoped {
+    actual override fun generateKey(alias: String): Unit = memScoped {
         val access = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
             kSecAttrAccessibleWhenUnlockedThisDeviceOnly?.reinterpret(),
             kSecAccessControlPrivateKeyUsage, null)
@@ -39,7 +38,7 @@ actual object SecureCrypto {
             mapOf(
                 kSecAttrKeyType to kSecAttrKeyTypeEC,
                 kSecAttrKeySizeInBits to CFBridgingRetain(NSNumber(256)),
-                kSecAttrTokenID to kSecAttrTokenIDSecureEnclave,
+                //kSecAttrTokenID to kSecAttrTokenIDSecureEnclave,
                 kSecPrivateKeyAttrs to privateKeyProperties,
                 kSecPublicKeyAttrs to publicKeyProperties
             )
@@ -95,11 +94,10 @@ actual object SecureCrypto {
         return nsMessage as? String
     }
 
-    actual fun encrypt(data: ByteArray): EncryptResult {
+    actual override fun encrypt(data: ByteArray): EncryptResult {
         val key = getKey(ALIAS)
         val publicKey = SecKeyCopyPublicKey(key) ?: error("No public key found")
         if(!checkCanEncrypt(publicKey)) error("Algorithm is not supported")
-        println("Starting to encrypt")
 
         val encrypted = memScoped {
             val error = alloc<CFErrorRefVar>()
@@ -108,22 +106,20 @@ actual object SecureCrypto {
             val cfData = CFDataCreate(kCFAllocatorDefault, ref.reinterpret(), data.size.toLong())
             val cipherData = SecKeyCreateEncryptedData(publicKey, algorithm, cfData, error.ptr)
 
-            println("Result is ${error.value?.errorString() ?: "success"}")
+            if(error.value != null) {
+                println("Result is ${error.value?.errorString()}")
+            }
 
             val length = CFDataGetLength(cipherData)
-            println("Length of data is $length")
             CFDataGetBytePtr(cipherData)?.readBytes(length.toInt())
         } ?: error("Unable to encrypt data")
-
-        println("Encrypted data")
 
         return EncryptResult(iv, encrypted)
     }
 
-    actual fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
+    actual override fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
         val key = getKey(ALIAS)
         if(!checkCanDecrypt(key)) error("Algorithm is not supported")
-        println("Starting to decrypt")
 
         return memScoped {
             val error = alloc<CFErrorRefVar>()
@@ -157,5 +153,6 @@ internal inline fun MemScope.cfDictionaryOf(map: Map<CFStringRef?, CFTypeRef?>):
     val values = allocArrayOf(*map.values.toTypedArray())
     return CFDictionaryCreate(kCFAllocatorDefault,
         keys.reinterpret(), values.reinterpret(),
-        size.convert(), null, null)
+        size.convert(), kCFTypeDictionaryKeyCallBacks.ptr,
+        kCFTypeDictionaryValueCallBacks.ptr)
 }
