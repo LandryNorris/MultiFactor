@@ -25,12 +25,12 @@ internal fun CreateOtpItem(createOtpState: CreateOtpState,
                   onConfirmClicked: () -> Unit = {}) {
     Column(modifier = Modifier.fillMaxWidth()
         .background(colors.background),
-        verticalArrangement = Arrangement.spacedBy(4.dp),
         horizontalAlignment = Alignment.CenterHorizontally) {
         TextField(label = { Text("Name") },
             value = createOtpState.name, onValueChange = onNameChanged)
         TextField(label = { Text("Secret") },
             value = createOtpState.secret, onValueChange = onSecretChanged)
+        Spacer(modifier = Modifier.height(8.dp))
         MultiToggleSwitch(createOtpState.type.index(), names, onToggleChanged = { index ->
             onTypeChanged(types[index])
         })
