@@ -4,7 +4,7 @@ import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 
 @Composable
-fun MultiFactorCard(content: @Composable () -> Unit) {
+internal fun MultiFactorCard(content: @Composable () -> Unit) {
     Card {
         content()
     }

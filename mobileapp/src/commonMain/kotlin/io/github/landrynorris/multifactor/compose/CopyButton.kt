@@ -7,7 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 @Composable
-fun CopyButton(isEnabled: Boolean = true, onClick: () -> Unit) {
+internal fun CopyButton(isEnabled: Boolean = true, onClick: () -> Unit) {
     TextButton(onClick) { Text("copy",
         color = if(isEnabled) MaterialTheme.colors.onBackground else Color.DarkGray ) }
 }
