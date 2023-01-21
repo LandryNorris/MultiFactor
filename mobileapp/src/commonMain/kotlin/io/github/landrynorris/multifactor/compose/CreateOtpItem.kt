@@ -8,6 +8,7 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import io.github.landrynorris.multifactor.components.CreateOtpState
 import io.github.landrynorris.multifactor.theme.colors
 import io.github.landrynorris.otp.OtpMethod
@@ -21,25 +22,20 @@ internal fun CreateOtpItem(createOtpState: CreateOtpState,
                   onSecretChanged: (String) -> Unit = {},
                   onTypeChanged: (OtpMethod) -> Unit = {},
                   onConfirmClicked: () -> Unit = {}) {
-    Row(modifier = Modifier.fillMaxWidth()
+    Column(modifier = Modifier.fillMaxWidth()
         .background(colors.background),
-        verticalAlignment = Alignment.CenterVertically) {
-        Column(modifier = Modifier.weight(1.0f)) {
-            TextField(label = { Text("Name") },
-                value = createOtpState.name, onValueChange = onNameChanged)
-            TextField(label = { Text("Secret") },
-                value = createOtpState.secret, onValueChange = onSecretChanged)
-        }
+        verticalArrangement = Arrangement.spacedBy(4.dp),
+        horizontalAlignment = Alignment.CenterHorizontally) {
+        TextField(label = { Text("Name") },
+            value = createOtpState.name, onValueChange = onNameChanged)
+        TextField(label = { Text("Secret") },
+            value = createOtpState.secret, onValueChange = onSecretChanged)
+        MultiToggleSwitch(createOtpState.type.index(), names, onToggleChanged = { index ->
+            onTypeChanged(types[index])
+        })
 
-        Column(modifier = Modifier.height(IntrinsicSize.Max),
-            verticalArrangement = Arrangement.SpaceEvenly, horizontalAlignment = Alignment.CenterHorizontally) {
-            MultiToggleSwitch(createOtpState.type.index(), names, onToggleChanged = { index ->
-                onTypeChanged(types[index])
-            })
-
-            Button(onClick = onConfirmClicked) {
-                Text("Confirm")
-            }
+        Button(onClick = onConfirmClicked) {
+            Text("Confirm")
         }
     }
 }
