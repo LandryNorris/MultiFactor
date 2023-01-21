@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,8 +35,8 @@ internal fun CreateOtpItem(createOtpState: CreateOtpState,
             onTypeChanged(types[index])
         })
 
-        Button(onClick = onConfirmClicked) {
-            Text("Confirm")
+        TextButton(onClick = onConfirmClicked) {
+            Text("Confirm", color = colors.onBackground)
         }
     }
 }
