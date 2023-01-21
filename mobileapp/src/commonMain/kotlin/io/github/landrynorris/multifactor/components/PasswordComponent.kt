@@ -1,5 +1,7 @@
 package io.github.landrynorris.multifactor.components
 
+import androidx.compose.ui.platform.ClipboardManager
+import androidx.compose.ui.text.buildAnnotatedString
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import io.github.landrynorris.encryption.Crypto
@@ -16,6 +18,7 @@ interface PasswordLogic {
 
     fun toggleAddPassword()
     fun hideAddPassword()
+    fun copyPasswordClicked(clipboardManager: ClipboardManager?, password: String)
 }
 
 class PasswordComponent(
@@ -37,6 +40,11 @@ class PasswordComponent(
 
     override fun toggleAddPassword() {
         state.update { it.copy(showAddPassword = !it.showAddPassword) }
+    }
+
+    override fun copyPasswordClicked(clipboardManager: ClipboardManager?, password: String) {
+        val annotatedString = buildAnnotatedString { append(password) }
+        clipboardManager?.setText(annotatedString)
     }
 }
 

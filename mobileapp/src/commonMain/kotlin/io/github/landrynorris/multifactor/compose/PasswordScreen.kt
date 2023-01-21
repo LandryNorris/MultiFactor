@@ -10,12 +10,11 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.EnhancedEncryption
 import androidx.compose.material.icons.filled.LockOpen
-import androidx.compose.material.icons.filled.Visibility
-import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboardManager
 import io.github.landrynorris.multifactor.components.PasswordLogic
 import io.github.landrynorris.multifactor.platform.Dialog
 
@@ -37,8 +36,13 @@ internal fun PasswordScreen(logic: PasswordLogic) {
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(passwordListState.passwords) { field ->
-                PasswordCard(field.model.name, field.password) {
-                    logic.passwordListLogic.showHidePressed(field)
+                MultiFactorCard {
+                    val clipboardManager = LocalClipboardManager.current
+                    PasswordCard(field.model.name, field.password,
+                        onCopyClicked = { logic.copyPasswordClicked(clipboardManager,
+                            field.password ?: "") }) {
+                        logic.passwordListLogic.showHidePressed(field)
+                    }
                 }
             }
         }
@@ -46,7 +50,9 @@ internal fun PasswordScreen(logic: PasswordLogic) {
 }
 
 @Composable
-internal fun PasswordCard(name: String, password: String?, onToggleVisibleClick: () -> Unit = {}) {
+internal fun PasswordCard(name: String, password: String?,
+                          onCopyClicked: () -> Unit,
+                          onToggleVisibleClick: () -> Unit = {}) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column {
             Text(name)
@@ -55,6 +61,7 @@ internal fun PasswordCard(name: String, password: String?, onToggleVisibleClick:
             else Text(password)
         }
         Spacer(modifier = Modifier.weight(1f))
+        CopyButton(isEnabled = password != null, onClick = onCopyClicked)
         IconButton(onClick = onToggleVisibleClick) {
             Icon(
                 if(password == null) Icons.Default.EnhancedEncryption else Icons.Default.LockOpen,
