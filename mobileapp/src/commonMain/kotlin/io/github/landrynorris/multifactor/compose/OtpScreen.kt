@@ -17,31 +17,23 @@ import io.github.landrynorris.multifactor.components.CreateOtpState
 internal fun OtpScreen(logic: OtpLogic) {
     val state by logic.state.collectAsState(logic.state.value)
     val createOtpLogic = logic.createOtpLogic
-    val createState by createOtpLogic.state.collectAsState(createOtpLogic.state.value)
     Scaffold(
         floatingActionButton = {
             AddButton(state.isAdding, logic::addOtpPressed)
         }) {
+        if(state.isAdding) {
+            CreateOtpDialog(createOtpLogic, onDismiss = logic::dismissAddOtp)
+        }
         OtpList(state.otpList,
-            createOtpState = if(state.isAdding) createState else null,
             onIncrementClicked = logic::incrementClicked,
-            onNameChanged = createOtpLogic::nameChanged,
-            onSecretChanged = createOtpLogic::secretChanged,
-            onTypeChanged = createOtpLogic::methodChanged,
-            onCopyClicked = logic::copyClicked,
-            onConfirmClicked = createOtpLogic::confirm)
+            onCopyClicked = logic::copyClicked)
     }
 }
 
 @Composable
 internal fun OtpList(otpStates: List<OtpState>,
-                     createOtpState: CreateOtpState? = null,
                      onIncrementClicked: (Int) -> Unit = {},
-                     onNameChanged: (String) -> Unit = {},
-                     onSecretChanged: (String) -> Unit = {},
-                     onTypeChanged: (OtpMethod) -> Unit = {},
-                     onCopyClicked: (ClipboardManager, OtpState) -> Unit,
-                     onConfirmClicked: () -> Unit = {}) {
+                     onCopyClicked: (ClipboardManager, OtpState) -> Unit,) {
     LazyColumn {
         itemsIndexed(otpStates) { index, otp ->
             MultiFactorCard {
@@ -52,16 +44,6 @@ internal fun OtpList(otpStates: List<OtpState>,
                 else
                     TotpItem(otp.pin, otp.name, otp.value,
                         onCopyClicked = { onCopyClicked(clipboardManager, otp) })
-            }
-        }
-
-        item {
-            if(createOtpState != null) {
-                MultiFactorCard {
-                    CreateOtpItem(createOtpState, onNameChanged,
-                        onSecretChanged, onTypeChanged,
-                        onConfirmClicked)
-                }
             }
         }
     }

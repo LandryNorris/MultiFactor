@@ -49,6 +49,19 @@ class OtpComponentTest {
     }
 
     @Test
+    fun testHideAddOtp() {
+        val component = createComponent()
+
+        assertFalse(component.state.value.isAdding)
+        component.addOtpPressed()
+        assertTrue(component.state.value.isAdding)
+        component.dismissAddOtp()
+        assertFalse(component.state.value.isAdding)
+        component.dismissAddOtp()
+        assertFalse(component.state.value.isAdding)
+    }
+
+    @Test
     fun testHotpCounter() = runBlocking {
         val component = createComponent()
 
