@@ -42,6 +42,7 @@ kotlin {
                 implementation(project(":encryption"))
                 implementation(project(":password-generator"))
                 implementation(project(":database"))
+                implementation(project(":sync"))
                 implementation("org.jetbrains.kotlinx:atomicfu:0.17.3")
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")

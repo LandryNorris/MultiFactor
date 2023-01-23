@@ -6,8 +6,6 @@ import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import io.github.landrynorris.encryption.Crypto
-import io.github.landrynorris.encryption.SecureCrypto
-import io.github.landrynorris.multifactor.compose.Settings
 import io.github.landrynorris.multifactor.repository.OtpRepository
 import io.github.landrynorris.multifactor.repository.PasswordRepository
 import io.github.landrynorris.multifactor.repository.SettingsRepository
@@ -20,11 +18,13 @@ interface Root {
     fun navigateToOtp()
     fun navigateToPasswordManager()
     fun navigateToSettings()
+    fun navigateToSync()
 
     sealed class Child {
         class Otp(val component: OtpLogic): Child()
         class PasswordManager(val component: PasswordLogic): Child()
         class Settings(val component: SettingsLogic): Child()
+        class Sync(val component: SyncComponent): Child()
     }
 }
 
@@ -44,6 +44,7 @@ class RootComponent(context: ComponentContext,
             is Config.OtpConfig -> Root.Child.Otp(otpComponent(context))
             is Config.PasswordConfig -> Root.Child.PasswordManager(passwordManager(context))
             is Config.Settings -> Root.Child.Settings(settings(context))
+            is Config.Sync -> Root.Child.Sync(sync(context))
         }
     }
 
@@ -52,10 +53,12 @@ class RootComponent(context: ComponentContext,
         PasswordComponent(context, crypto, passwordRepository, settingsRepository)
     private fun settings(context: ComponentContext) = SettingsComponent(context,
         settingsRepository)
+    private fun sync(context: ComponentContext) = SyncComponent(context)
 
     override fun navigateToOtp() = navigation.bringToFront(Config.OtpConfig)
     override fun navigateToPasswordManager() = navigation.bringToFront(Config.PasswordConfig)
     override fun navigateToSettings() = navigation.bringToFront(Config.Settings)
+    override fun navigateToSync() = navigation.bringToFront(Config.Sync)
 
     sealed class Config: Parcelable {
         @Parcelize
@@ -66,5 +69,8 @@ class RootComponent(context: ComponentContext,
 
         @Parcelize
         object Settings: Config()
+
+        @Parcelize
+        object Sync: Config()
     }
 }
