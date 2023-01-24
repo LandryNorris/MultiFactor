@@ -1,5 +1,5 @@
 
-CREATE TABLE OtpEntry (
+CREATE TABLE IF NOT EXISTS OtpEntry (
     id INTEGER NOT NULL PRIMARY KEY,
     secret TEXT NOT NULL,
     name TEXT NOT NULL,
@@ -7,7 +7,7 @@ CREATE TABLE OtpEntry (
     type INTEGER NOT NULL
 );
 
-CREATE TABLE PasswordEntry (
+CREATE TABLE IF NOT EXISTS PasswordEntry (
     id INTEGER NOT NULL PRIMARY KEY,
     name TEXT NOT NULL,
     salt BLOB,

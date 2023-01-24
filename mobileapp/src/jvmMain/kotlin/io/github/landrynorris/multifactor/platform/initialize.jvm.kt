@@ -9,6 +9,8 @@ import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.multifactor.repository.SettingsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.dsl.module
+import java.io.File
+import java.sql.DriverManager
 import java.util.prefs.Preferences
 
 @OptIn(
@@ -18,7 +20,11 @@ import java.util.prefs.Preferences
 )
 actual val platformModule = module {
     single {
-        val driver = JdbcSqliteDriver("otpdatabase")
+        val home = System.getProperty("user.home")
+        val dbFile = File(home, ".multifactor/db/multifactor.db")
+        dbFile.parentFile.mkdirs()
+        val url = "jdbc:sqlite:${dbFile.absolutePath}"
+        val driver = JdbcSqliteDriver(url)
         AppDatabase.Schema.create(driver)
         AppDatabase(driver)
     }
