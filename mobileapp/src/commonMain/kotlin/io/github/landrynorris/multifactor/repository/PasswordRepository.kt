@@ -10,13 +10,12 @@ import kotlinx.coroutines.flow.map
 
 class PasswordRepository(private val database: AppDatabase) {
 
-    fun getPasswordsFlow(): Flow<List<PasswordModel>> {
-        return database.passwordQueries.selectAll().asFlow().mapToList().map { entries ->
+    fun getPasswordsFlow(): Flow<List<PasswordModel>> =
+        database.passwordQueries.selectAll().asFlow().mapToList().map { entries ->
             entries.map { entry ->
                 entry.toModel()
             }
         }
-    }
 
     fun insertPassword(model: PasswordModel) {
         database.passwordQueries.insertPassword(null, model.name, model.salt,

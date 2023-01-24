@@ -1,7 +1,7 @@
 package io.github.landrynorris.multifactor.sync.server.routes
 
+import io.github.landrynorris.multifactor.sync.shared.Check
 import io.ktor.http.*
-import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
@@ -22,6 +22,3 @@ fun Routing.check(expectedCode: String) {
         }
     }
 }
-
-@Resource("/check")
-data class Check(val code: String)

@@ -21,6 +21,7 @@ kotlin {
                 implementation("io.ktor:ktor-server-cors:$ktorVersion")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-cio:$ktorVersion")
+                implementation("io.ktor:ktor-client-resources:$ktorVersion")
                 implementation("io.ktor:ktor-server-resources:$ktorVersion")
                 implementation("io.ktor:ktor-server-content-negotiation:$ktorVersion")
             }

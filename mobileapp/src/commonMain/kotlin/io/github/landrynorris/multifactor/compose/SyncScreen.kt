@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import io.github.landrynorris.multifactor.components.SyncLogic
 
 @Composable
-fun SyncScreen(logic: SyncLogic) {
+internal fun SyncScreen(logic: SyncLogic) {
     val state by logic.state.collectAsState()
     Column(modifier = Modifier.fillMaxSize()) {
         Button(onClick = logic::startServer) { Text("Start Server") }

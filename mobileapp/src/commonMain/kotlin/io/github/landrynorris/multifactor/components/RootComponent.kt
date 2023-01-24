@@ -53,7 +53,7 @@ class RootComponent(context: ComponentContext,
         PasswordComponent(context, crypto, passwordRepository, settingsRepository)
     private fun settings(context: ComponentContext) = SettingsComponent(context,
         settingsRepository)
-    private fun sync(context: ComponentContext) = SyncComponent(context)
+    private fun sync(context: ComponentContext) = SyncComponent(context, crypto, passwordRepository)
 
     override fun navigateToOtp() = navigation.bringToFront(Config.OtpConfig)
     override fun navigateToPasswordManager() = navigation.bringToFront(Config.PasswordConfig)
