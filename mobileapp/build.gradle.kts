@@ -28,6 +28,7 @@ plugins {
 
 kotlin {
     android()
+    jvm()
 
     listOf(
         iosX64("uikitX64"),
@@ -79,6 +80,12 @@ kotlin {
             }
         }
         val androidTest by getting {
+            dependencies {
+                implementation("com.squareup.sqldelight:sqlite-driver:$sqlVersion")
+            }
+        }
+
+        val jvmMain by getting {
             dependencies {
                 implementation("com.squareup.sqldelight:sqlite-driver:$sqlVersion")
             }
