@@ -1,5 +1,6 @@
 package io.github.landrynorris.encryption
 
+import java.io.File
 import java.security.KeyStore
 import java.security.KeyStore.SecretKeyEntry
 import javax.crypto.Cipher
@@ -14,23 +15,33 @@ actual object SecureCrypto: Crypto {
     private const val TAG_LENGTH = 128
 
     private val keystore: KeyStore by lazy {
+        keyFile.parentFile.mkdirs()
         val result = KeyStore.getInstance(KeyStore.getDefaultType())
-        result.load(null)
+        if(keyFile.exists()) {
+            result.load(keyFileStream, KEY_FILE_PASSWORD.toCharArray())
+        } else {
+            result.load(null)
+        }
         result
     }
 
     actual override fun generateKey(alias: String) {
-        val generator = KeyGenerator.getInstance(
-            "AES"
-        )
+        println("Generating key since it doesn't exist")
+        val generator = KeyGenerator.getInstance("AES")
 
         generator.init(KEY_SIZE)
-        generator.generateKey()
+        val key = generator.generateKey()
+
+        val protection = KeyStore.PasswordProtection("A password".toCharArray())
+        keystore.setEntry(ALIAS, SecretKeyEntry(key), protection)
+
+        keystore.store(keyFile.outputStream(), KEY_FILE_PASSWORD.toCharArray())
     }
 
     private fun getKey(): SecretKey {
         if(!keystore.isKeyEntry(ALIAS)) generateKey(ALIAS)
-        val entry = keystore.getEntry(ALIAS, null) as SecretKeyEntry
+        val protection = KeyStore.PasswordProtection("A password".toCharArray())
+        val entry = keystore.getEntry(ALIAS, protection) as SecretKeyEntry
         return entry.secretKey
     }
 
@@ -50,4 +61,14 @@ actual object SecureCrypto: Crypto {
 
         return cipher.doFinal(data)
     }
+
+    private val keyFile: File get() {
+        val home = System.getProperty("user.home")
+
+        return File(home, ".multifactor/keystore/keystore.pkcs12")
+    }
+
+    private val keyFileStream get() = keyFile.inputStream()
 }
+
+private const val KEY_FILE_PASSWORD = "changeit"

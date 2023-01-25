@@ -5,7 +5,7 @@ import androidx.compose.ui.window.Popup
 
 @Composable
 internal actual fun Dialog(onDismissRequest: () -> Unit, content: @Composable () -> Unit) {
-    Popup {
+    androidx.compose.ui.window.Dialog(onCloseRequest = onDismissRequest) {
         content()
     }
 }
