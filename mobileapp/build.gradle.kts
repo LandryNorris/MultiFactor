@@ -80,7 +80,7 @@ kotlin {
                 implementation("androidx.datastore:datastore-preferences:1.0.0")
             }
         }
-        val androidTest by getting {
+        val androidUnitTest by getting {
             dependencies {
                 implementation("com.squareup.sqldelight:sqlite-driver:$sqlVersion")
             }

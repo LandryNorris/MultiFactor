@@ -3,7 +3,4 @@
     package="io.github.landrynorris.autofill">
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <application>
-        <activity android:name=".AutoFillActivity"/>
-    </application>
 </manifest>
