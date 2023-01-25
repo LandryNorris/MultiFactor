@@ -1,6 +1,7 @@
 package io.github.landrynorris.otp.test
 
 import io.github.landrynorris.otp.Base32
+import kotlin.random.Random
 import kotlin.test.Test
 import kotlin.test.assertContentEquals
 
@@ -17,5 +18,14 @@ class Base32Test {
         assertContentEquals(Base32.decode(encoded), Base32.decode(encodedReplaceIWith1))
         assertContentEquals(Base32.decode(encoded), Base32.decode(encodedReplaceOWith0))
         assertContentEquals(Base32.decode(encoded), Base32.decode(encodedWithDashes))
+    }
+
+    @Test
+    fun testEncodeAndDecode() {
+        val data = Random.Default.nextBytes(1000)
+        val encoded = Base32.encode(data)
+        val decoded = Base32.decode(encoded)
+
+        assertContentEquals(data, decoded)
     }
 }

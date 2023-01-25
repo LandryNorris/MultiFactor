@@ -6,10 +6,10 @@ import kotlin.experimental.and
 private val powersOfTen = listOf(0, 10, 100, 1_000, 10_000, 100_000, 1_000_000,
     10_000_000, 100_000_000, 1_000_000_000, 10_000_000_000, 100_000_000_000)
 
-sealed class Otp(open val secret: String, open val name: String, open val codeLength: Int = 6) {
+sealed class Otp(open val secret: ByteArray, open val name: String, open val codeLength: Int = 6) {
 
     private fun hash(value: ByteArray): ByteArray {
-        val hash = HMAC.hmacSHA1(Base32.decode(secret), value)
+        val hash = HMAC.hmacSHA1(secret, value)
         return hash.bytes
     }
 
@@ -48,6 +48,8 @@ sealed class Otp(open val secret: String, open val name: String, open val codeLe
     }
 
     abstract fun getValue(): ByteArray
+
+    val secretBase32 get() = Base32.encode(secret)
 }
 
 sealed class OtpMethod {
