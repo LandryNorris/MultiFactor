@@ -1,3 +1,4 @@
+import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeCompilation
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
@@ -28,6 +29,7 @@ plugins {
 
 kotlin {
     android()
+    jvm()
 
     listOf(
         iosX64("uikitX64"),
@@ -80,6 +82,13 @@ kotlin {
         }
         val androidTest by getting {
             dependencies {
+                implementation("com.squareup.sqldelight:sqlite-driver:$sqlVersion")
+            }
+        }
+
+        val jvmMain by getting {
+            dependencies {
+                implementation(compose.desktop.currentOs)
                 implementation("com.squareup.sqldelight:sqlite-driver:$sqlVersion")
             }
         }
@@ -188,6 +197,23 @@ kotlin {
         binaries.all {
             // TODO: the current compose binary surprises LLVM, so disable checks for now.
             freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
+        }
+    }
+}
+
+compose.desktop {
+    application {
+        mainClass = "MainKt"
+
+        nativeDistributions {
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            packageName = "ComposeCodeViewer"
+            packageVersion = "1.0.0"
+
+            macOS {
+                // Use -Pcompose.desktop.mac.sign=true to sign and notarize.
+                bundleID = "landrynorris.MultiFactor"
+            }
         }
     }
 }

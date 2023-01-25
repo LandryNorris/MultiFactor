@@ -8,6 +8,7 @@ val sqlVersion: String by project
 
 kotlin {
     android()
+    jvm()
 
     listOf(iosX64(), iosArm64(), iosSimulatorArm64())
 

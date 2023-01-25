@@ -1,7 +1,5 @@
 package io.github.landrynorris.multifactor
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.material.Text
 import androidx.compose.ui.window.Application
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
