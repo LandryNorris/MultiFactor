@@ -1,10 +1,8 @@
 package io.github.landrynorris.multifactor.mobileapp.test
 
-import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.multifactor.components.*
-import io.github.landrynorris.multifactor.compose.HotpItem
 import io.github.landrynorris.multifactor.models.OtpModel
-import io.github.landrynorris.multifactor.repository.OtpRepository
+import io.github.landrynorris.otp.Base32
 import io.github.landrynorris.otp.Hotp
 import io.github.landrynorris.otp.OtpMethod
 import io.github.landrynorris.otp.Totp
@@ -125,7 +123,7 @@ class OtpComponentTest {
     private fun CreateOtpLogic.enter(model: OtpModel) {
         methodChanged(if(model.otp is Totp) OtpMethod.TOTP else OtpMethod.HOTP)
         nameChanged(model.otp.name)
-        secretChanged(model.otp.secret)
+        secretChanged(model.otp.secretBase32)
         confirm()
     }
 }

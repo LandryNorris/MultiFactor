@@ -35,4 +35,55 @@ object Base32 {
 
         return result
     }
+
+    fun encode(data: ByteArray): String {
+        var result = ""
+        var currentByte: Int
+        var digit: Int
+        var i = 0
+
+        while(i < data.size) {
+            currentByte = data[i++].toInt() and 255
+            result += table[currentByte shr 3]
+            digit = (currentByte and 7) shl 2
+
+            if(i >= data.size) {
+                result += table[digit]
+                break
+            }
+
+            currentByte = data[i++].toInt() and 255
+            result += table[digit or (currentByte shr 6)]
+            result += table[(currentByte shr 1) and 31]
+            digit = (currentByte and 1) shl 4
+
+            if(i >= data.size) {
+                result += table[digit]
+                break
+            }
+
+            currentByte = data[i++].toInt() and 255
+            result += table[digit or (currentByte shr 4)]
+            digit = (currentByte and 15) shl 1
+            if(i >= data.size) {
+                result += table[digit]
+                break
+            }
+
+            currentByte = data[i++].toInt() and 255
+            result += table[digit or (currentByte shr 7)]
+            result += table[(currentByte shr 2) and 31]
+            digit = (currentByte and 3) shl 3
+            if(i >= data.size) {
+                result += table[digit]
+                break
+            }
+
+            currentByte = data[i++].toInt() and 255
+            result += table[digit or (currentByte shr 5)]
+            result += table[currentByte and 31]
+        }
+
+        return result
+    }
 }
