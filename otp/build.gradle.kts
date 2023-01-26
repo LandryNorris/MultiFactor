@@ -8,6 +8,7 @@ plugins {
 
 kotlin {
     android()
+    jvm()
 
     listOf(
         iosX64(),
@@ -32,7 +33,6 @@ kotlin {
             }
         }
         val androidMain by getting
-        val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting

@@ -21,6 +21,7 @@ interface OtpLogic {
     fun incrementClicked(index: Int)
     fun copyClicked(clipboardManager: ClipboardManager?, otp: OtpState)
     fun addOtpPressed()
+    fun dismissAddOtp()
 }
 
 class OtpComponent(private val context: ComponentContext,
@@ -70,6 +71,10 @@ class OtpComponent(private val context: ComponentContext,
 
     override fun addOtpPressed() {
         state.update { it.copy(isAdding = !it.isAdding) }
+    }
+
+    override fun dismissAddOtp() {
+        state.update { it.copy(isAdding = false) }
     }
 
     private fun addOtp(model: OtpModel) {

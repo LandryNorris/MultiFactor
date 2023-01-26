@@ -14,7 +14,7 @@ class MockCrypto: Crypto {
 
     override fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
         if(key.isEmpty()) generateKey("")
-        return Encryption.encrypt(data, iv, key)
+        return Encryption.decrypt(data, iv, key)
     }
 
     override fun encrypt(data: ByteArray): EncryptResult {

@@ -21,15 +21,20 @@ class SettingsComponent(val context: ComponentContext,
     ComponentContext by context, SettingsLogic {
     private val includeDigitsSetting = Setting("Include Digits",
         "Whether to include digits 0-9 in auto-generated password",
-        true, ::setIncludeDigits)
+        settingsRepository.currentPasswordSettings.includeDigits,
+        ::setIncludeDigits)
     private val includeSpecialSetting = Setting("Include Special",
-        "Whether to include special characters", true,
+        "Whether to include special characters",
+        settingsRepository.currentPasswordSettings.includeSpecial,
         ::setIncludeSpecialChars)
     private val excludeSimilarSetting = Setting("Exclude Similar",
         "Whether to exclude characters that look alike, such as G6, Il1, etc.",
-        true, ::setExcludeSimilar)
+        settingsRepository.currentPasswordSettings.excludeSimilar,
+        ::setExcludeSimilar)
     private val passwordLengthSetting = Setting("Length",
-        "Length of the password to generate", -1, ::setPasswordLength)
+        "Length of the password to generate",
+        settingsRepository.currentPasswordSettings.passwordLength,
+        ::setPasswordLength)
 
     override val passwordSettings = settingsRepository.passwordSettingsFlow.map {
         listOf(includeDigitsSetting.copy(value = it.includeDigits),
@@ -37,8 +42,6 @@ class SettingsComponent(val context: ComponentContext,
             excludeSimilarSetting.copy(value = it.excludeSimilar),
             passwordLengthSetting.copy(value = it.passwordLength))
     }
-
-
 
     override fun setIncludeDigits(enable: Boolean) = runBlocking {
         settingsRepository.setIncludeDigits(enable)

@@ -36,7 +36,6 @@ kotlin {
                 implementation(compose.material)
             }
         }
-        val androidTest by getting
     }
 }
 

@@ -8,8 +8,8 @@ import io.github.landrynorris.otp.Totp
 data class OtpModel(val id: Long, val otp: Otp)
 
 fun OtpModel.toEntry() = when(otp) {
-    is Hotp -> OtpEntry(id, otp.secret, otp.name, otp.counter, 0L)
-    is Totp -> OtpEntry(id, otp.secret, otp.name, null, 1L)
+    is Hotp -> OtpEntry(id, otp.secretBase32, otp.name, otp.counter, 0L)
+    is Totp -> OtpEntry(id, otp.secretBase32, otp.name, null, 1L)
 }
 
 fun OtpEntry.toModel() = OtpModel(
