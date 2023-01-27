@@ -30,4 +30,8 @@ class PasswordRepository(private val database: AppDatabase) {
             }
         }
     }
+
+    fun deletePassword(model: PasswordModel) {
+        database.passwordQueries.deleteById(model.id)
+    }
 }
