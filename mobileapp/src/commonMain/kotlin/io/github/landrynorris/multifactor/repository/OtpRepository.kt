@@ -26,4 +26,8 @@ class OtpRepository(private val database: AppDatabase) {
     fun setHotpCount(id: Long, count: Long) {
         database.otpQueries.setCountById(count = count, id = id)
     }
+
+    fun delete(item: OtpModel) {
+        database.otpQueries.deleteById(item.id)
+    }
 }
