@@ -5,13 +5,12 @@ import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import io.github.landrynorris.multifactor.components.OtpLogic
-import io.github.landrynorris.multifactor.components.OtpState
-import io.github.landrynorris.otp.OtpMethod
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
-import io.github.landrynorris.multifactor.components.CreateOtpState
+import io.github.landrynorris.multifactor.components.OtpLogic
+import io.github.landrynorris.multifactor.components.OtpState
+import io.github.landrynorris.otp.OtpMethod
 
 @Composable
 internal fun OtpScreen(logic: OtpLogic) {
@@ -26,6 +25,7 @@ internal fun OtpScreen(logic: OtpLogic) {
         }
         OtpList(state.otpList,
             onIncrementClicked = logic::incrementClicked,
+            onDelete = logic::deleteItem,
             onCopyClicked = logic::copyClicked)
     }
 }
@@ -33,17 +33,20 @@ internal fun OtpScreen(logic: OtpLogic) {
 @Composable
 internal fun OtpList(otpStates: List<OtpState>,
                      onIncrementClicked: (Int) -> Unit = {},
-                     onCopyClicked: (ClipboardManager, OtpState) -> Unit,) {
+                     onDelete: (Int) -> Unit,
+                     onCopyClicked: (ClipboardManager, OtpState) -> Unit) {
     LazyColumn {
-        itemsIndexed(otpStates) { index, otp ->
-            MultiFactorCard {
-                val clipboardManager = LocalClipboardManager.current
-                if(otp.type is OtpMethod.HOTP)
-                    HotpItem(index, otp.pin, otp.name, onIncrementClicked = onIncrementClicked,
-                        onCopyClicked = { onCopyClicked(clipboardManager, otp) })
-                else
-                    TotpItem(otp.pin, otp.name, otp.value,
-                        onCopyClicked = { onCopyClicked(clipboardManager, otp) })
+        itemsIndexed(otpStates, key = { _, item -> item.model.id }) { index, otp ->
+            SwipeToDelete(onDelete = { onDelete(index) }) {
+                MultiFactorCard {
+                    val clipboardManager = LocalClipboardManager.current
+                    if(otp.type is OtpMethod.HOTP)
+                        HotpItem(index, otp.pin, otp.name, onIncrementClicked = onIncrementClicked,
+                            onCopyClicked = { onCopyClicked(clipboardManager, otp) })
+                    else
+                        TotpItem(otp.pin, otp.name, otp.value,
+                            onCopyClicked = { onCopyClicked(clipboardManager, otp) })
+                }
             }
         }
     }

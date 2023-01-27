@@ -5,6 +5,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import io.github.landrynorris.encryption.Crypto
+import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.repository.PasswordRepository
 import io.github.landrynorris.multifactor.repository.SettingsRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -19,12 +20,13 @@ interface PasswordLogic {
     fun toggleAddPassword()
     fun hideAddPassword()
     fun copyPasswordClicked(clipboardManager: ClipboardManager?, password: String)
+    fun deletePassword(model: PasswordModel)
 }
 
 class PasswordComponent(
     private val context: ComponentContext,
     crypto: Crypto,
-    passwordRepository: PasswordRepository,
+    private val passwordRepository: PasswordRepository,
     settingsRepository: SettingsRepository
     ): PasswordLogic, ComponentContext by context {
     override val state = MutableStateFlow(PasswordState())
@@ -45,6 +47,10 @@ class PasswordComponent(
     override fun copyPasswordClicked(clipboardManager: ClipboardManager?, password: String) {
         val annotatedString = buildAnnotatedString { append(password) }
         clipboardManager?.setText(annotatedString)
+    }
+
+    override fun deletePassword(model: PasswordModel) {
+        passwordRepository.deletePassword(model)
     }
 }
 

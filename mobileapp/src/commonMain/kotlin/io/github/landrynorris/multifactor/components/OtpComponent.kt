@@ -19,6 +19,7 @@ interface OtpLogic {
     val createOtpLogic: CreateOtpLogic
 
     fun incrementClicked(index: Int)
+    fun deleteItem(index: Int)
     fun copyClicked(clipboardManager: ClipboardManager?, otp: OtpState)
     fun addOtpPressed()
     fun dismissAddOtp()
@@ -30,7 +31,6 @@ class OtpComponent(private val context: ComponentContext,
     private val totpUpdateJob: Job
     override val state = MutableStateFlow(OtpScreenState())
     override val createOtpLogic = CreateOtpComponent(childContext("create")) {
-        println("Entry is $it")
         addOtp(it)
     }
 
@@ -67,6 +67,11 @@ class OtpComponent(private val context: ComponentContext,
         if(item.model.otp !is Hotp) return
         val hotp = item.model.otp
         repository.setHotpCount(item.model.id, hotp.counter + 1)
+    }
+
+    override fun deleteItem(index: Int) {
+        val item = state.value.otpList[index]
+        repository.delete(item.model)
     }
 
     override fun addOtpPressed() {
