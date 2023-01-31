@@ -1,13 +1,14 @@
 package io.github.landrynorris.multifactor.components
 
 import com.arkivanov.decompose.ComponentContext
-import com.arkivanov.decompose.router.stack.*
+import com.arkivanov.decompose.router.stack.ChildStack
+import com.arkivanov.decompose.router.stack.StackNavigation
+import com.arkivanov.decompose.router.stack.bringToFront
+import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
 import com.arkivanov.essenty.parcelable.Parcelable
 import com.arkivanov.essenty.parcelable.Parcelize
 import io.github.landrynorris.encryption.Crypto
-import io.github.landrynorris.encryption.SecureCrypto
-import io.github.landrynorris.multifactor.compose.Settings
 import io.github.landrynorris.multifactor.repository.OtpRepository
 import io.github.landrynorris.multifactor.repository.PasswordRepository
 import io.github.landrynorris.multifactor.repository.SettingsRepository
@@ -22,9 +23,10 @@ interface Root {
     fun navigateToSettings()
 
     sealed class Child {
-        class Otp(val component: OtpLogic): Child()
-        class PasswordManager(val component: PasswordLogic): Child()
-        class Settings(val component: SettingsLogic): Child()
+        abstract val component: Any
+        class Otp(override val component: OtpLogic): Child()
+        class PasswordManager(override val component: PasswordLogic): Child()
+        class Settings(override val component: SettingsLogic): Child()
     }
 }
 
