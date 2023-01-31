@@ -15,6 +15,7 @@ class NavigationTest {
     @Test
     fun testNavigation() {
         withApplication(composeRule) {
+            composeRule.mainClock.autoAdvance = false
             awaitIdle()
             otpButton.assertExists("No Otp button")
             passwordButton.assertExists("No password button")
