@@ -24,9 +24,12 @@ sealed class Otp(open val secret: ByteArray, open val name: String, open val cod
         val offset = hash.last().and(0x0F).toInt()
 
         val truncatedHash = hashToInt(hash, offset).and(0x7FFFFFFF)
-        val pin = truncatedHash.mod(powersOfTen[codeLength])
+        val fullPin = truncatedHash.mod(powersOfTen[codeLength])
 
-        return pad(pin, codeLength)
+        val pin = pad(fullPin, codeLength)
+
+        cachedPin = PinCache(pin, challenge)
+        return pin
     }
 
     private fun pad(pin: Long, length: Int): String {
