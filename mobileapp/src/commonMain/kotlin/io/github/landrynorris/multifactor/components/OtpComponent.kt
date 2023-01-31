@@ -18,6 +18,7 @@ interface OtpLogic {
     val state: StateFlow<OtpScreenState>
     val createOtpLogic: CreateOtpLogic
 
+    fun updateTotps()
     fun incrementClicked(index: Int)
     fun deleteItem(index: Int)
     fun copyClicked(clipboardManager: ClipboardManager?, otp: OtpState)
@@ -26,9 +27,7 @@ interface OtpLogic {
 }
 
 class OtpComponent(private val context: ComponentContext,
-                   private val repository: OtpRepository): ComponentContext by context,
-    OtpLogic {
-    private val totpUpdateJob: Job
+                   private val repository: OtpRepository): ComponentContext by context, OtpLogic {
     override val state = MutableStateFlow(OtpScreenState())
     override val createOtpLogic = CreateOtpComponent(childContext("create")) {
         addOtp(it)
@@ -44,21 +43,18 @@ class OtpComponent(private val context: ComponentContext,
                 }
             }
         }
+    }
 
-        totpUpdateJob = CoroutineScope(Dispatchers.Default).launch {
-            while(isActive) {
-                state.update {
-                    it.copy(otpList = it.otpList.map { state ->
-                        if(state.model.otp is Totp) {
-                            val totp = state.model.otp
-                            state.copy(pin = totp.generatePin(), value = totp.progress)
-                        } else { //Leave not-time based codes alone.
-                            state
-                        }
-                    })
+    override fun updateTotps() {
+        state.update {
+            it.copy(otpList = it.otpList.map { state ->
+                if(state.model.otp is Totp) {
+                    val totp = state.model.otp
+                    state.copy(pin = totp.generatePin(), value = totp.progress)
+                } else { //Leave not-time based codes alone.
+                    state
                 }
-                delay(50)
-            }
+            })
         }
     }
 
