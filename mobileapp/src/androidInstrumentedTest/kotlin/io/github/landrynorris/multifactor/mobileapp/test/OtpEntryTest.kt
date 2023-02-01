@@ -25,10 +25,12 @@ class OtpEntryTest {
 
             addOtp.assertExists("No button to add otp")
             addOtp.performClick()
+            composeRule.mainClock.advanceTimeBy(100)
 
             it.withOtpLogic { assertTrue(state.value.isAdding) }
 
-            addOtp.performClick()
+            closeOtp.performClick()
+            composeRule.mainClock.advanceTimeBy(100)
 
             it.withOtpLogic { assertFalse(state.value.isAdding) }
         }
@@ -134,6 +136,7 @@ class OtpEntryTest {
 
     private val ComposeTestRule.otpButton get() = onNodeWithContentDescription("otp")
     private val ComposeTestRule.addOtp get() = onNodeWithContentDescription("Add")
+    private val ComposeTestRule.closeOtp get() = onNodeWithContentDescription("Close")
     private val ComposeTestRule.nameField get() = onNodeWithContentDescription("NameField")
     private val ComposeTestRule.secretField get() = onNodeWithContentDescription("SecretField")
     private val ComposeTestRule.confirm get() = onNodeWithContentDescription("Confirm")

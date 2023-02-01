@@ -57,7 +57,7 @@ internal fun PasswordCard(name: String, password: String?,
                           onToggleVisibleClick: () -> Unit = {}) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column {
-            Text(name)
+            Text(modifier = Modifier.contentDescription(name), text = name)
 
             if(password == null) HiddenPasswordText()
             else Text(password)
