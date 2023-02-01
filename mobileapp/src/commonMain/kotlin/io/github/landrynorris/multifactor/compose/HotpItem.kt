@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.sp
 internal fun HotpItem(index: Int, pin: String, name: String,
                       onIncrementClicked: (Int) -> Unit = {},
                       onCopyClicked: () -> Unit = {}) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth().contentDescription(name)) {
         Text(name, fontSize = 18.sp)
         Row(modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically) {
