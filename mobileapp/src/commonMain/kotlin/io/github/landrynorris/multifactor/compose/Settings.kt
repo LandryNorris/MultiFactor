@@ -40,13 +40,14 @@ internal fun Settings(logic: SettingsLogic) {
 @Composable
 internal fun BooleanSettingsSwitch(setting: Setting<Boolean>,
                           value: Boolean, onValueChanged: (Boolean) -> Unit) {
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().contentDescription(setting.name),
+        verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
             Text(setting.name, fontSize = 24.sp)
             Text(setting.description, maxLines = 2)
         }
 
-        Switch(value, onValueChanged)
+        Switch(value, onValueChanged, modifier = Modifier.contentDescription("switch"))
     }
 }
 
@@ -55,7 +56,8 @@ internal fun BooleanSettingsSwitch(setting: Setting<Boolean>,
 @Composable
 internal fun IntSettingsBox(setting: Setting<Int>,
                    value: Int, onValueChanged: (Int) -> Unit) {
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().contentDescription(setting.name),
+        verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
             Text(setting.name, fontSize = 24.sp)
             Text(setting.description, maxLines = 2)
@@ -63,6 +65,7 @@ internal fun IntSettingsBox(setting: Setting<Int>,
 
         val text = if(value == -1) "" else value.toString()
         TextField(value = text, onValueChange = { onValueChanged(it.toIntOrNull() ?: -1) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.contentDescription("IntSetting"))
     }
 }
