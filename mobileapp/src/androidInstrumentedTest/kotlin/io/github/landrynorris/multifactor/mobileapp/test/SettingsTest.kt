@@ -157,7 +157,6 @@ class SettingsTest {
     }
 
     private val ComposeTestRule.settingsButton get() = onNodeWithContentDescription("settings")
-    private val ComposeTestRule.includeDigits get() = onNodeWithContentDescription("includeDigits")
 
     private fun SettingsLogic.currentSettings() = runBlocking { passwordSettings.first() }
 }

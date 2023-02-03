@@ -13,10 +13,10 @@ class SettingsRepository(private val settings: FlowSettings) {
         const val PASSWORD_LENGTH = "passwordLength"
     }
 
-    private val includeDigitsFlow = settings.getBooleanFlow(Keys.INCLUDE_DIGITS)
-    private val includeSpecialFlow = settings.getBooleanFlow(Keys.INCLUDE_SPECIAL)
-    private val excludeSimilarFlow = settings.getBooleanFlow(Keys.EXCLUDE_SIMILAR)
-    private val passwordLengthFlow = settings.getIntFlow(Keys.PASSWORD_LENGTH)
+    private val includeDigitsFlow = settings.getBooleanFlow(Keys.INCLUDE_DIGITS, true)
+    private val includeSpecialFlow = settings.getBooleanFlow(Keys.INCLUDE_SPECIAL, false)
+    private val excludeSimilarFlow = settings.getBooleanFlow(Keys.EXCLUDE_SIMILAR, true)
+    private val passwordLengthFlow = settings.getIntFlow(Keys.PASSWORD_LENGTH, 10)
 
     var currentPasswordSettings = runBlocking {
         PasswordSettings(
