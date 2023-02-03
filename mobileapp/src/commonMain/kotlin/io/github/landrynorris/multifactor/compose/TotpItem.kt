@@ -14,7 +14,7 @@ import androidx.compose.ui.unit.sp
 
 @Composable
 internal fun TotpItem(pin: String, name: String, progress: Float, onCopyClicked: () -> Unit = {}) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    Column(modifier = Modifier.fillMaxWidth().contentDescription(name)) {
         Text(name, fontSize = 18.sp)
         Row(modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically) {

@@ -4,8 +4,12 @@ import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.performClick
+import io.github.landrynorris.multifactor.components.OtpLogic
+import io.github.landrynorris.multifactor.components.PasswordLogic
+import io.github.landrynorris.multifactor.components.SettingsLogic
 import org.junit.Rule
 import kotlin.test.Test
+import kotlin.test.assertIs
 
 class NavigationTest {
 
@@ -23,10 +27,15 @@ class NavigationTest {
 
             awaitIdle()
             passwordButton.performClick()
+            it.withCurrentLogic { assertIs<PasswordLogic>(this) }
+
             awaitIdle()
             settingsButton.performClick()
+            it.withCurrentLogic { assertIs<SettingsLogic>(this) }
+
             awaitIdle()
             otpButton.performClick()
+            it.withCurrentLogic { assertIs<OtpLogic>(this) }
         }
     }
 
