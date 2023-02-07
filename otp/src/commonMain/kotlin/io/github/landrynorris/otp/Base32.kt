@@ -4,8 +4,27 @@ private const val table = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567"
 private val shift = table.length.countTrailingZeroBits()
 private const val mask = table.length-1
 
+/**
+ * Base32 is a human-readable and case-insensitive encoding.
+ * The valid characters are 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'.
+ * This implementation converts some characters to valid characters
+ * that look similar during the [decode] process.
+ */
 object Base32 {
 
+    /**
+     * Decode a [String] to [ByteArray]. For the purposes of decoding,
+     * several characters are converted to valid Base32 characters or ignored.
+     *
+     * | input     | result    |
+     * |-----------|-----------|
+     * | ' '       | ignored   |
+     * | '1'       | 'I'       |
+     * | '0'       | 'O'       |
+     * | '-'       | ignored   |
+     * | lowercase | uppercase |
+     *
+     */
     fun decode(encoded: String): ByteArray {
         val trimmed = encoded.trim()
             .replace(" ", "")
@@ -36,6 +55,9 @@ object Base32 {
         return result
     }
 
+    /**
+     * Encode a [ByteArray] as a Base32 [String]
+     */
     fun encode(data: ByteArray): String {
         var result = ""
         var currentByte: Int

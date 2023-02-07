@@ -1,0 +1,7 @@
+$dokka.format:html-v1
+$dokka.linkExtension:html
+
+module:otp
+io.github.landrynorris.otp
+module:password-generator
+io.github.landrynorris.password.generator

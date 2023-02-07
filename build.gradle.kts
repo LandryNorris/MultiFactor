@@ -1,3 +1,8 @@
+plugins {
+    id("org.jetbrains.kotlinx.kover") version "0.6.1"
+    id("org.jetbrains.dokka") version "1.7.20"
+}
+
 buildscript {
     val composeVersion: String by project
     val sqlVersion: String by project
@@ -27,10 +32,6 @@ tasks.register("clean", Delete::class) {
     delete(rootProject.buildDir)
 }
 
-plugins {
-    id("org.jetbrains.kotlinx.kover") version "0.6.1"
-}
-
 koverMerged {
     enable()
 
@@ -47,5 +48,11 @@ koverMerged {
     htmlReport {
         onCheck.set(true)
         reportDir.set(File(buildDir, "test/report/html"))
+    }
+}
+
+tasks {
+    dokkaHtmlMultiModule {
+        outputDirectory.set(File(projectDir, "docs/html"))
     }
 }
