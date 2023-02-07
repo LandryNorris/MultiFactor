@@ -1,6 +1,7 @@
 package io.github.landrynorris.multifactor.mobileapp.test
 
-import com.russhwolf.settings.MockSettings
+import com.russhwolf.settings.MapSettings
+import com.russhwolf.settings.coroutines.toFlowSettings
 import com.russhwolf.settings.coroutines.toSuspendSettings
 import com.squareup.sqldelight.db.SqlDriver
 import io.github.landrynorris.database.AppDatabase
@@ -27,6 +28,6 @@ fun createPasswordRepository(): PasswordRepository {
 }
 
 fun createSettingsRepository(): SettingsRepository {
-    val settings = MockSettings().toSuspendSettings()
+    val settings = MapSettings().toSuspendSettings()
     return SettingsRepository(settings)
 }
