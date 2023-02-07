@@ -26,9 +26,11 @@ internal fun CreateOtpItem(createOtpState: CreateOtpState,
     Column(modifier = Modifier.fillMaxWidth()
         .background(colors.background),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        TextField(label = { Text("Name") },
+        TextField(modifier = Modifier.contentDescription("NameField"),
+            label = { Text("Name") },
             value = createOtpState.name, onValueChange = onNameChanged)
-        TextField(label = { Text("Secret") },
+        TextField(modifier = Modifier.contentDescription("SecretField"),
+            label = { Text("Secret") },
             value = createOtpState.secret, onValueChange = onSecretChanged)
         Spacer(modifier = Modifier.height(8.dp))
         MultiToggleSwitch(createOtpState.type.index(), names, onToggleChanged = { index ->
@@ -36,7 +38,8 @@ internal fun CreateOtpItem(createOtpState: CreateOtpState,
         })
 
         TextButton(onClick = onConfirmClicked) {
-            Text("Confirm", color = colors.onBackground)
+            Text(modifier = Modifier.contentDescription("Confirm"),
+                text = "Confirm", color = colors.onBackground)
         }
     }
 }

@@ -22,19 +22,23 @@ internal fun CreatePasswordPopup(logic: CreatePasswordLogic) {
     val clipboard = LocalClipboardManager.current
     Column(modifier = Modifier.fillMaxWidth().background(colors.background),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        TextField(modifier = Modifier.fillMaxWidth(), value = state.name,
+        TextField(modifier = Modifier.fillMaxWidth().contentDescription("NameField"),
+            value = state.name,
             onValueChange = logic::nameChanged, label = { Text("Name") })
-        TextField(modifier = Modifier.fillMaxWidth(), value = state.domain,
+        TextField(modifier = Modifier.fillMaxWidth().contentDescription("DomainField"),
+            value = state.domain,
             onValueChange = logic::domainChanged, label = { Text("Domain") })
 
         Row {
-            TextField(state.password, onValueChange = logic::passwordChanged,
+            TextField(modifier = Modifier.contentDescription("PasswordField"),
+                value = state.password, onValueChange = logic::passwordChanged,
                 label = { Text("Password") })
             IconButton(onClick = { logic.generateNewPassword(clipboard) }) {
                 Icon(Icons.Default.Add, "generate new password")
             }
         }
-        TextButton(onClick = logic::confirm,
+        TextButton(modifier = Modifier.contentDescription("Confirm"),
+            onClick = logic::confirm,
             enabled = state.isConfirmEnabled) { Text("Confirm", color = colors.onBackground) }
     }
 }

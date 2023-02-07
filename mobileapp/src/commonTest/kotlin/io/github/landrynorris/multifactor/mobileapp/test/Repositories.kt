@@ -1,8 +1,7 @@
 package io.github.landrynorris.multifactor.mobileapp.test
 
-import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.MockSettings
-import com.russhwolf.settings.coroutines.toFlowSettings
+import com.russhwolf.settings.coroutines.toSuspendSettings
 import com.squareup.sqldelight.db.SqlDriver
 import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.multifactor.repository.OtpRepository
@@ -27,8 +26,7 @@ fun createPasswordRepository(): PasswordRepository {
     return PasswordRepository(database)
 }
 
-@OptIn(ExperimentalSettingsApi::class)
 fun createSettingsRepository(): SettingsRepository {
-    val settings = MockSettings().toFlowSettings()
+    val settings = MockSettings().toSuspendSettings()
     return SettingsRepository(settings)
 }

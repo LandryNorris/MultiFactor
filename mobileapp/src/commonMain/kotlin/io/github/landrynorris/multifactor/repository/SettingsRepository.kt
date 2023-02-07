@@ -1,11 +1,11 @@
 package io.github.landrynorris.multifactor.repository
 
-import com.russhwolf.settings.coroutines.FlowSettings
-import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.first
+import com.russhwolf.settings.coroutines.SuspendSettings
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.runBlocking
 
-class SettingsRepository(private val settings: FlowSettings) {
+class SettingsRepository(private val settings: SuspendSettings) {
     object Keys {
         const val INCLUDE_DIGITS = "includeDigits"
         const val INCLUDE_SPECIAL = "includeSpecial"
@@ -13,42 +13,43 @@ class SettingsRepository(private val settings: FlowSettings) {
         const val PASSWORD_LENGTH = "passwordLength"
     }
 
-    private val includeDigitsFlow = settings.getBooleanFlow(Keys.INCLUDE_DIGITS)
-    private val includeSpecialFlow = settings.getBooleanFlow(Keys.INCLUDE_SPECIAL)
-    private val excludeSimilarFlow = settings.getBooleanFlow(Keys.EXCLUDE_SIMILAR)
-    private val passwordLengthFlow = settings.getIntFlow(Keys.PASSWORD_LENGTH)
+    val currentPasswordSettings get() = passwordSettingsFlow.value
 
-    var currentPasswordSettings = runBlocking {
-        PasswordSettings(
-            includeDigits = includeDigitsFlow.first(),
-            includeSpecial = includeSpecialFlow.first(),
-            excludeSimilar = excludeSimilarFlow.first(),
-            passwordLength = passwordLengthFlow.first()
-        )
-    }
-
-    val passwordSettingsFlow = combine(includeDigitsFlow, includeSpecialFlow,
-        excludeSimilarFlow, passwordLengthFlow) {
-            includeDigits, includeSpecial, excludeSimilar, length ->
-        val s = PasswordSettings(includeDigits, includeSpecial, excludeSimilar, length)
-        currentPasswordSettings = s
-        s
+    val passwordSettingsFlow = runBlocking {
+        MutableStateFlow(PasswordSettings(
+            includeDigits = settings.getBoolean(Keys.INCLUDE_DIGITS, true),
+            includeSpecial = settings.getBoolean(Keys.INCLUDE_SPECIAL, false),
+            excludeSimilar = settings.getBoolean(Keys.EXCLUDE_SIMILAR, true),
+            passwordLength = settings.getInt(Keys.PASSWORD_LENGTH, 10)
+        ))
     }
 
     suspend fun setIncludeDigits(enable: Boolean) {
         settings.putBoolean(Keys.INCLUDE_DIGITS, enable)
+        passwordSettingsFlow.update {
+            it.copy(includeDigits = enable)
+        }
     }
 
     suspend fun setIncludeSpecialChars(enable: Boolean) {
         settings.putBoolean(Keys.INCLUDE_SPECIAL, enable)
+        passwordSettingsFlow.update {
+            it.copy(includeSpecial = enable)
+        }
     }
 
     suspend fun setExcludeSimilar(exclude: Boolean) {
         settings.putBoolean(Keys.EXCLUDE_SIMILAR, exclude)
+        passwordSettingsFlow.update {
+            it.copy(excludeSimilar = exclude)
+        }
     }
 
     suspend fun setPasswordLength(length: Int) {
         settings.putInt(Keys.PASSWORD_LENGTH, length)
+        passwordSettingsFlow.update {
+            it.copy(passwordLength = length)
+        }
     }
 }
 

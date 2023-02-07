@@ -9,10 +9,12 @@ import io.github.landrynorris.multifactor.components.RootComponent
 import io.github.landrynorris.multifactor.compose.RootScreen
 
 class MainActivity: ComponentActivity() {
+    lateinit var logic: RootComponent
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val logic = RootComponent(defaultComponentContext(), SecureCrypto)
+        logic = RootComponent(defaultComponentContext(), SecureCrypto)
         setContent {
             RootScreen(logic)
         }

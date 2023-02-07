@@ -37,7 +37,7 @@ internal fun PasswordScreen(logic: PasswordLogic) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(passwordListState.passwords, key = { it.model.id }) { field ->
                 SwipeToDelete(onDelete = { logic.deletePassword(field.model) }) {
-                    MultiFactorCard {
+                    MultiFactorCard(field.model.name) {
                         val clipboardManager = LocalClipboardManager.current
                         PasswordCard(field.model.name, field.password,
                             onCopyClicked = { logic.copyPasswordClicked(clipboardManager,
@@ -57,7 +57,7 @@ internal fun PasswordCard(name: String, password: String?,
                           onToggleVisibleClick: () -> Unit = {}) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column {
-            Text(name)
+            Text(modifier = Modifier.contentDescription(name), text = name)
 
             if(password == null) HiddenPasswordText()
             else Text(password)

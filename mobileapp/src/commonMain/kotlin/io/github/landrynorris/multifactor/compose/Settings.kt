@@ -11,9 +11,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
@@ -40,13 +38,14 @@ internal fun Settings(logic: SettingsLogic) {
 @Composable
 internal fun BooleanSettingsSwitch(setting: Setting<Boolean>,
                           value: Boolean, onValueChanged: (Boolean) -> Unit) {
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().contentDescription(setting.name),
+        verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
             Text(setting.name, fontSize = 24.sp)
             Text(setting.description, maxLines = 2)
         }
 
-        Switch(value, onValueChanged)
+        Switch(value, onValueChanged, modifier = Modifier.contentDescription("switch"))
     }
 }
 
@@ -55,7 +54,8 @@ internal fun BooleanSettingsSwitch(setting: Setting<Boolean>,
 @Composable
 internal fun IntSettingsBox(setting: Setting<Int>,
                    value: Int, onValueChanged: (Int) -> Unit) {
-    Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+    Row(Modifier.fillMaxWidth().contentDescription(setting.name),
+        verticalAlignment = Alignment.CenterVertically) {
         Column(Modifier.weight(1f)) {
             Text(setting.name, fontSize = 24.sp)
             Text(setting.description, maxLines = 2)
@@ -63,6 +63,7 @@ internal fun IntSettingsBox(setting: Setting<Int>,
 
         val text = if(value == -1) "" else value.toString()
         TextField(value = text, onValueChange = { onValueChanged(it.toIntOrNull() ?: -1) },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            modifier = Modifier.contentDescription("IntSetting"))
     }
 }

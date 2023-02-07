@@ -50,7 +50,8 @@ internal fun MultiToggleSwitch(currentIndex: Int, names: List<String>, onToggleC
                             }
                         })
             ) {
-                Text(toggleState.toUpperCase(Locale.current), color = textColor, modifier = Modifier.padding(4.dp))
+                Text(toggleState.toUpperCase(Locale.current), color = textColor,
+                    modifier = Modifier.padding(4.dp).contentDescription(toggleState))
             }
 
         }
