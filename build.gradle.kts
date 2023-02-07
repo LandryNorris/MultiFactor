@@ -50,3 +50,9 @@ koverMerged {
         reportDir.set(File(buildDir, "test/report/html"))
     }
 }
+
+tasks {
+    dokkaHtmlMultiModule {
+        outputDirectory.set(File(projectDir, "docs/html"))
+    }
+}
