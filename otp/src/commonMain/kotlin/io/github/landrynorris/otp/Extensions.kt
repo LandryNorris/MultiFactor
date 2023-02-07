@@ -1,5 +1,8 @@
 package io.github.landrynorris.otp
 
+/**
+ * Convert a [Long] into a [ByteArray] of size 8. The MSB is first, and the LSB is last.
+ */
 fun Long.toBytes(): ByteArray {
     return byteArrayOf(
         this.and(0xFF.toLong().shl(56)).shr(56).toByte(),

@@ -82,8 +82,11 @@ sealed class Otp(open val secret: ByteArray, open val name: String, open val cod
     val secretBase32 get() = Base32.encode(secret)
 }
 
-class PinCache(val pin: String, val challenge: ByteArray)
+private class PinCache(val pin: String, val challenge: ByteArray)
 
+/**
+ * Sealed class that identifies a method of OTP calculation.
+ */
 sealed class OtpMethod {
     object HOTP: OtpMethod()
     object TOTP: OtpMethod()

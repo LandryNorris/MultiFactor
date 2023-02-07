@@ -8,6 +8,9 @@ data class Hotp(override val secret: ByteArray, override val name: String,
                 val counter: Long, override val codeLength: Int = 6):
     Otp(secret, name, codeLength) {
 
+    /**
+     * Same as primary constructor, but takes [secret] as a Base32 encoded String.
+     */
     constructor(secret: String, name: String, counter: Long, codeLength: Int = 6):
             this(Base32.decode(secret), name, counter, codeLength)
 

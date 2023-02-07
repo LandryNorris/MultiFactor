@@ -14,6 +14,9 @@ data class Totp(override val secret: ByteArray, override val name: String,
     private var overwrittenTime: Long? = null
     private val clock = Clock.System
 
+    /**
+     * Same as primary constructor, but takes [secret] as a Base32 encoded String.
+     */
     constructor(secret: String, name: String, timeStep: Int = 30, codeLength: Int = 6):
             this(Base32.decode(secret), name, timeStep, codeLength)
 
