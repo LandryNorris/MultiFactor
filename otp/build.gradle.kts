@@ -1,3 +1,5 @@
+import java.util.Properties
+
 val kryptoVersion: String by project
 
 plugins {
@@ -10,7 +12,7 @@ plugins {
 }
 
 group = "io.github.landrynorris"
-version = "0.0.1"
+version = "0.1.0"
 
 kotlin {
     android()
@@ -59,6 +61,24 @@ kotlin {
     }
 }
 
+android {
+    compileSdk = 32
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    defaultConfig {
+        minSdk = 21
+        targetSdk = 32
+    }
+
+    publishing {
+        multipleVariants {
+            allVariants()
+            withJavadocJar()
+        }
+    }
+
+    namespace = "io.github.landrynorris.otp"
+}
+
 val properties by lazy {
     Properties().also { it.load(project.rootProject.file("local.properties").inputStream()) }
 }
@@ -72,19 +92,19 @@ publishing {
         withType<MavenPublication> {
             artifact(javadocJar.get())
             pom {
-                name.set("jni-utils")
-                description.set("Kotlin/Native bindings for JNI on android ndk")
-                url.set("https://github.com/LandryNorris/JniUtils")
+                name.set("otp")
+                description.set("OTP implementation for Kotlin Multiplatform")
+                url.set("https://github.com/LandryNorris/MultiFactor")
                 licenses {
                     license {
-                        name.set("The MIT License")
-                        url.set("https://opensource.org/licenses/MIT")
+                        name.set("Apache 2.0")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0")
                     }
                 }
                 scm {
-                    connection.set("https://github.com/LandryNorris/JniUtils.git")
-                    developerConnection.set("https://github.com/LandryNorris/JniUtils")
-                    url.set("https://github.com/LandryNorris/JniUtils")
+                    connection.set("https://github.com/LandryNorris/MultiFactor.git")
+                    developerConnection.set("https://github.com/LandryNorris/MultiFactor")
+                    url.set("https://github.com/LandryNorris/MultiFactor")
                 }
                 developers {
                     developer {
