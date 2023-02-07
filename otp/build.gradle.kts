@@ -15,7 +15,9 @@ group = "io.github.landrynorris"
 version = "0.1.0"
 
 kotlin {
-    android()
+    android {
+        publishLibraryVariants("debug", "release")
+    }
     jvm()
 
     listOf(
