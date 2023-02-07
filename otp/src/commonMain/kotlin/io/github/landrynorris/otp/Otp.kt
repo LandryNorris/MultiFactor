@@ -6,6 +6,12 @@ import kotlin.experimental.and
 private val powersOfTen = listOf(0, 10, 100, 1_000, 10_000, 100_000, 1_000_000,
     10_000_000, 100_000_000, 1_000_000_000, 10_000_000_000, 100_000_000_000)
 
+/**
+ * Base class for One-Time Passwords.
+ * The [secret] is a [ByteArray] holding the secret data.
+ * The [name] is a name identifying this OTP. It is mainly meant for models, and can be empty
+ * The [codeLength] sets the length of generated codes.
+ */
 sealed class Otp(open val secret: ByteArray, open val name: String, open val codeLength: Int = 6) {
 
     private fun hash(value: ByteArray): ByteArray {
@@ -13,14 +19,21 @@ sealed class Otp(open val secret: ByteArray, open val name: String, open val cod
         return hash.bytes
     }
 
+    /**
+     * Cache the previous pin until the challenge changes.
+     * This optimization prevents needless recalculations.
+     */
     private var cachedPin: PinCache? = null
 
+    /**
+     * Generate a pin using the [secret] and the result of [getValue].
+     * This code will have a length of [codeLength] and is padded at the start with zeroes.
+     */
     fun generatePin(): String {
         val challenge = getValue()
 
         if(challenge.contentEquals(cachedPin?.challenge)) return cachedPin!!.pin
 
-        println("Doing hard work")
         val hash = hash(challenge)
         val offset = hash.last().and(0x0F).toInt()
 
@@ -33,6 +46,9 @@ sealed class Otp(open val secret: ByteArray, open val name: String, open val cod
         return pin
     }
 
+    /**
+     * Pad the input with zeroes at the start.
+     */
     private fun pad(pin: Long, length: Int): String {
         return buildString {
             val result = pin.toString()
@@ -55,8 +71,14 @@ sealed class Otp(open val secret: ByteArray, open val name: String, open val cod
             .or(data[3])
     }
 
+    /**
+     * Get the current challenge for use in [generatePin]
+     */
     abstract fun getValue(): ByteArray
 
+    /**
+     * Value of [secret], but encoded as a Base32 String
+     */
     val secretBase32 get() = Base32.encode(secret)
 }
 

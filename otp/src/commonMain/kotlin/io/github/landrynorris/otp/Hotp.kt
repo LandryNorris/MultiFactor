@@ -1,5 +1,9 @@
 package io.github.landrynorris.otp
 
+/**
+ * Implementation of RFC 4226 HMAC-Based One-Time Password.
+ * Uses a [counter] value as the challenge.
+ */
 data class Hotp(override val secret: ByteArray, override val name: String,
                 val counter: Long, override val codeLength: Int = 6):
     Otp(secret, name, codeLength) {
@@ -7,10 +11,16 @@ data class Hotp(override val secret: ByteArray, override val name: String,
     constructor(secret: String, name: String, counter: Long, codeLength: Int = 6):
             this(Base32.decode(secret), name, counter, codeLength)
 
+    /**
+     * Converts the value of [counter] to a challenge.
+     */
     override fun getValue(): ByteArray {
         return counter.toBytes()
     }
 
+    /**
+     * Return a new value with incremented [counter]
+     */
     fun incrementCounter(): Hotp {
         return copy(counter = counter + 1)
     }
