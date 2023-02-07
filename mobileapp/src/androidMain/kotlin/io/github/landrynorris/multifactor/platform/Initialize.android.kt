@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
-import com.russhwolf.settings.coroutines.FlowSettings
+import com.russhwolf.settings.coroutines.SuspendSettings
 import com.russhwolf.settings.datastore.DataStoreSettings
 import com.squareup.sqldelight.android.AndroidSqliteDriver
 import io.github.landrynorris.database.AppDatabase
@@ -19,7 +19,7 @@ actual val platformModule = module {
         AppDatabase(driver)
     }
 
-    single<FlowSettings> {
+    single<SuspendSettings> {
         val context = androidContext()
         val datastore = context.datastore
         DataStoreSettings(datastore)

@@ -1,11 +1,11 @@
 package io.github.landrynorris.multifactor.repository
 
-import com.russhwolf.settings.Settings
+import com.russhwolf.settings.coroutines.SuspendSettings
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.runBlocking
 
-class SettingsRepository(private val settings: Settings) {
+class SettingsRepository(private val settings: SuspendSettings) {
     object Keys {
         const val INCLUDE_DIGITS = "includeDigits"
         const val INCLUDE_SPECIAL = "includeSpecial"
@@ -24,28 +24,28 @@ class SettingsRepository(private val settings: Settings) {
         ))
     }
 
-    fun setIncludeDigits(enable: Boolean) {
+    suspend fun setIncludeDigits(enable: Boolean) {
         settings.putBoolean(Keys.INCLUDE_DIGITS, enable)
         passwordSettingsFlow.update {
             it.copy(includeDigits = enable)
         }
     }
 
-    fun setIncludeSpecialChars(enable: Boolean) {
+    suspend fun setIncludeSpecialChars(enable: Boolean) {
         settings.putBoolean(Keys.INCLUDE_SPECIAL, enable)
         passwordSettingsFlow.update {
             it.copy(includeSpecial = enable)
         }
     }
 
-    fun setExcludeSimilar(exclude: Boolean) {
+    suspend fun setExcludeSimilar(exclude: Boolean) {
         settings.putBoolean(Keys.EXCLUDE_SIMILAR, exclude)
         passwordSettingsFlow.update {
             it.copy(excludeSimilar = exclude)
         }
     }
 
-    fun setPasswordLength(length: Int) {
+    suspend fun setPasswordLength(length: Int) {
         settings.putInt(Keys.PASSWORD_LENGTH, length)
         passwordSettingsFlow.update {
             it.copy(passwordLength = length)
