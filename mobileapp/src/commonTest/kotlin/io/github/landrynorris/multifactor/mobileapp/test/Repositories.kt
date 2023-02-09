@@ -24,7 +24,7 @@ fun createPasswordRepository(): PasswordRepository {
     latestDriver = driver
     val database = AppDatabase(driver)
     database.passwordQueries.clear()
-    return PasswordRepository(database)
+    return PasswordRepository(database, MockCrypto())
 }
 
 fun createSettingsRepository(): SettingsRepository {

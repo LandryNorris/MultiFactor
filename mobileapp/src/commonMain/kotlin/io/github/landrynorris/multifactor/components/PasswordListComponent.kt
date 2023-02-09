@@ -2,6 +2,7 @@ package io.github.landrynorris.multifactor.components
 
 import com.arkivanov.decompose.ComponentContext
 import io.github.landrynorris.encryption.Crypto
+import io.github.landrynorris.multifactor.PasswordKeystoreAlias
 import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.repository.PasswordRepository
 import kotlinx.coroutines.CoroutineScope
@@ -64,7 +65,7 @@ class PasswordListComponent(context: ComponentContext,
     }
 
     private fun decryptPassword(model: PasswordModel): String {
-        val decrypted = crypto.decrypt(model.encryptedValue, model.salt)
+        val decrypted = crypto.decrypt(model.encryptedValue, model.salt, PasswordKeystoreAlias)
         return decrypted.decodeToString()
     }
 

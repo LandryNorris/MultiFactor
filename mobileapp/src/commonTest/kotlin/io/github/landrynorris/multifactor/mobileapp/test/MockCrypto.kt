@@ -12,13 +12,13 @@ class MockCrypto: Crypto {
         key = createKey()
     }
 
-    override fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
-        if(key.isEmpty()) generateKey("")
+    override fun decrypt(data: ByteArray, iv: ByteArray, alias: String): ByteArray {
+        if(key.isEmpty()) generateKey(alias)
         return Encryption.decrypt(data, iv, key)
     }
 
-    override fun encrypt(data: ByteArray): EncryptResult {
-        if(key.isEmpty()) generateKey("")
+    override fun encrypt(data: ByteArray, alias: String): EncryptResult {
+        if(key.isEmpty()) generateKey(alias)
         val iv = createSalt()
         val encryptedData = Encryption.encrypt(data, iv, key)
 

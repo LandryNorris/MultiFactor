@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS OtpEntry (
 
 CREATE TABLE IF NOT EXISTS PasswordEntry (
     id INTEGER NOT NULL PRIMARY KEY,
-    name TEXT NOT NULL,
-    salt BLOB,
+    name BLOB NOT NULL,
+    nameSalt BLOB NOT NULL,
+    passwordSalt BLOB NOT NULL,
     encryptedValue BLOB
 );

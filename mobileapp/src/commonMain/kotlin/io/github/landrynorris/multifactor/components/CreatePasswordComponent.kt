@@ -5,6 +5,7 @@ import androidx.compose.ui.text.buildAnnotatedString
 import com.arkivanov.decompose.ComponentContext
 import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.multifactor.PasswordGeneratorDefaults
+import io.github.landrynorris.multifactor.PasswordKeystoreAlias
 import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.repository.PasswordRepository
 import io.github.landrynorris.multifactor.repository.SettingsRepository
@@ -60,7 +61,7 @@ class CreatePasswordComponent(context: ComponentContext,
 
     override fun confirm() {
         val current = state.value
-        val encrypted = crypto.encrypt(current.password.encodeToByteArray())
+        val encrypted = crypto.encrypt(current.password.encodeToByteArray(), PasswordKeystoreAlias)
 
         savePasswordModel(PasswordModel(-1L, current.name, salt = encrypted.iv,
             encryptedValue = encrypted.data, domain = current.domain.takeIf { it.isNotBlank() },
