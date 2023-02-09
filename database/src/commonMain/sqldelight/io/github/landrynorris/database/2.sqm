@@ -1,1 +1,1 @@
-ALTER TABLE PasswordEntry ADD COLUMN domain TEXT;
+ALTER TABLE PasswordEntry ADD COLUMN domain BLOB;
