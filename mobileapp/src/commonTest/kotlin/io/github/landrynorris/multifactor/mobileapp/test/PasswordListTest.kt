@@ -71,7 +71,7 @@ class PasswordListTest {
     }
 
     private fun createPassword(crypto: Crypto, name: String, password: String): PasswordModel {
-        val encrypted = crypto.encrypt(password.encodeToByteArray())
+        val encrypted = crypto.encrypt(password.encodeToByteArray(), "Alias")
         return PasswordModel(-1L, name, encrypted.iv, encrypted.data, null, null)
     }
 }

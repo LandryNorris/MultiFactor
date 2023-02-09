@@ -9,7 +9,6 @@ import platform.Security.*
 import platform.darwin.OSStatus
 
 actual object SecureCrypto: Crypto {
-    private const val ALIAS = "MultiFactorKeyStore"
     private val iv = ByteArray(16) { 0 }
     private val algorithm = kSecKeyAlgorithmECIESEncryptionCofactorVariableIVX963SHA256AESGCM
 
@@ -21,7 +20,7 @@ actual object SecureCrypto: Crypto {
         val error = alloc<CFErrorRefVar>()
 
         println("Generating key")
-        val props = Attributes.keyAttributes(access, ALIAS)
+        val props = Attributes.keyAttributes(access, alias)
         SecKeyCreateRandomKey(props, error.ptr)
 
         if(error.value != null) {
@@ -59,8 +58,8 @@ actual object SecureCrypto: Crypto {
         return nsMessage as? String
     }
 
-    actual override fun encrypt(data: ByteArray): EncryptResult {
-        val key = getKey(ALIAS)
+    actual override fun encrypt(data: ByteArray, alias: String): EncryptResult {
+        val key = getKey(alias)
         val publicKey = SecKeyCopyPublicKey(key) ?: error("No public key found")
         if(!checkCanEncrypt(publicKey)) error("Algorithm is not supported")
 
@@ -82,8 +81,8 @@ actual object SecureCrypto: Crypto {
         return EncryptResult(iv, encrypted)
     }
 
-    actual override fun decrypt(data: ByteArray, iv: ByteArray): ByteArray {
-        val key = getKey(ALIAS)
+    actual override fun decrypt(data: ByteArray, iv: ByteArray, alias: String): ByteArray {
+        val key = getKey(alias)
         if(!checkCanDecrypt(key)) error("Algorithm is not supported")
 
         return memScoped {

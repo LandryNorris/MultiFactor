@@ -1,5 +1,7 @@
 package io.github.landrynorris.multifactor
 
+import io.github.landrynorris.encryption.Crypto
+import io.github.landrynorris.encryption.SecureCrypto
 import io.github.landrynorris.multifactor.platform.platformModule
 import io.github.landrynorris.multifactor.repository.OtpRepository
 import io.github.landrynorris.multifactor.repository.PasswordRepository
@@ -15,6 +17,7 @@ fun initKoin(appDeclaration: KoinAppDeclaration = {}) {
 }
 
 val commonModule = module {
+    single<Crypto> { SecureCrypto }
     single { OtpRepository(get()) }
-    single { PasswordRepository(get()) }
+    single { PasswordRepository(get(), get()) }
 }

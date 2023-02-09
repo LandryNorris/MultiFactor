@@ -1,6 +1,8 @@
 package io.github.landrynorris.multifactor.models
 
 import io.github.landrynorris.database.PasswordEntry
+import io.github.landrynorris.encryption.Crypto
+import io.github.landrynorris.multifactor.NameKeystoreAlias
 
 data class PasswordModel(val id: Long, val name: String, val salt: ByteArray,
                          val encryptedValue: ByteArray, val domain: String?, val appId: String?) {
@@ -30,5 +32,7 @@ data class PasswordModel(val id: Long, val name: String, val salt: ByteArray,
     }
 }
 
-fun PasswordEntry.toModel() = PasswordModel(id, name, salt ?: byteArrayOf(),
+fun PasswordEntry.toModel(crypto: Crypto) = PasswordModel(id,
+    name = crypto.decrypt(name, nameSalt, NameKeystoreAlias).decodeToString(),
+    salt = passwordSalt,
     encryptedValue ?: byteArrayOf(), domain = domain, appId = appId)
