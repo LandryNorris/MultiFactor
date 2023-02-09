@@ -2,8 +2,10 @@ package io.github.landrynorris.multifactor.platform
 
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.ExperimentalSettingsImplementation
-import com.russhwolf.settings.JvmPreferencesSettings
+import com.russhwolf.settings.PreferencesSettings
+import com.russhwolf.settings.coroutines.SuspendSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
+import com.russhwolf.settings.coroutines.toSuspendSettings
 import com.squareup.sqldelight.db.SqlDriver
 import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
 import io.github.landrynorris.database.AppDatabase
@@ -15,8 +17,6 @@ import java.util.prefs.Preferences
 
 @OptIn(
     ExperimentalSettingsApi::class,
-    ExperimentalSettingsImplementation::class,
-    ExperimentalCoroutinesApi::class
 )
 actual val platformModule = module {
     single {
@@ -25,7 +25,7 @@ actual val platformModule = module {
     }
 
     single {
-        JvmPreferencesSettings(Preferences.userRoot()).toFlowSettings()
+        PreferencesSettings(Preferences.userRoot()).toSuspendSettings()
     }
 
     single {
