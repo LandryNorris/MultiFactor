@@ -35,4 +35,4 @@ data class PasswordModel(val id: Long, val name: String, val salt: ByteArray,
 fun PasswordEntry.toModel(crypto: Crypto) = PasswordModel(id,
     name = crypto.decrypt(name, nameSalt, NameKeystoreAlias).decodeToString(),
     salt = passwordSalt,
-    encryptedValue ?: byteArrayOf(), domain = domain, appId = appId)
+    encryptedValue ?: byteArrayOf(), domain = domain?.decodeToString(), appId = appId)

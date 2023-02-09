@@ -23,7 +23,7 @@ class PasswordRepository(private val database: AppDatabase, private val crypto: 
     fun insertPassword(model: PasswordModel) {
         val name = crypto.encrypt(model.name.encodeToByteArray(), NameKeystoreAlias)
         database.passwordQueries.insertPassword(null, name.data, name.iv, model.salt,
-            model.encryptedValue, model.domain, model.appId)
+            model.encryptedValue, model.domain?.encodeToByteArray(), model.appId)
     }
 
     fun insertPasswords(vararg models: PasswordModel) {
