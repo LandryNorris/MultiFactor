@@ -3,6 +3,7 @@ val kryptoVersion: String by project
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
+    id("io.github.ttypic.swiftklib") version "0.1.0"
 }
 
 kotlin {
@@ -14,8 +15,12 @@ kotlin {
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
+        it.compilations {
+            val main by getting {
+                cinterops {
+                    create("Attributes")
+                }
+            }
         }
     }
 
@@ -61,4 +66,11 @@ android {
         targetSdk = 32
     }
     namespace = "io.github.landrynorris.encryption"
+}
+
+swiftklib {
+    create("Attributes") {
+        path = file("src/swift")
+        packageName("io.github.landrynorris.encryption.swift")
+    }
 }

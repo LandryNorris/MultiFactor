@@ -7,7 +7,7 @@ import io.github.landrynorris.multifactor.components.CreateOtpLogic
 import io.github.landrynorris.multifactor.platform.Dialog
 
 @Composable
-fun CreateOtpDialog(logic: CreateOtpLogic, onDismiss: () -> Unit) {
+internal fun CreateOtpDialog(logic: CreateOtpLogic, onDismiss: () -> Unit) {
     val state by logic.state.collectAsState()
     Dialog(onDismissRequest = onDismiss) {
         CreateOtpItem(state, onNameChanged = logic::nameChanged,

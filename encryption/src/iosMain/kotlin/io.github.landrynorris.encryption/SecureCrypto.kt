@@ -1,8 +1,10 @@
 package io.github.landrynorris.encryption
 
+import io.github.landrynorris.encryption.swift.Attributes
 import kotlinx.cinterop.*
 import platform.CoreFoundation.*
-import platform.Foundation.*
+import platform.Foundation.CFBridgingRelease
+import platform.Foundation.NSString
 import platform.Security.*
 import platform.darwin.OSStatus
 
@@ -16,38 +18,11 @@ actual object SecureCrypto: Crypto {
             kSecAttrAccessibleWhenUnlockedThisDeviceOnly?.reinterpret(),
             kSecAccessControlPrivateKeyUsage, null)
 
-        val aliasData = (alias as NSString).dataUsingEncoding(NSUTF8StringEncoding)
-
-        val privateKeyProperties = cfDictionaryOf(
-            mapOf(
-                kSecAttrIsPermanent to kCFBooleanTrue,
-                kSecAttrApplicationTag to CFBridgingRetain(aliasData),
-                kSecAttrAccessControl to access
-            )
-        )
-
-        val publicKeyProperties = cfDictionaryOf(
-            mapOf(
-                kSecAttrIsPermanent to kCFBooleanTrue,
-                kSecAttrApplicationTag to CFBridgingRetain(aliasData),
-                kSecAttrAccessControl to access
-            )
-        )
-
-        val properties = cfDictionaryOf(
-            mapOf(
-                kSecAttrKeyType to kSecAttrKeyTypeEC,
-                kSecAttrKeySizeInBits to CFBridgingRetain(NSNumber(256)),
-                //kSecAttrTokenID to kSecAttrTokenIDSecureEnclave,
-                kSecPrivateKeyAttrs to privateKeyProperties,
-                kSecPublicKeyAttrs to publicKeyProperties
-            )
-        )
-
         val error = alloc<CFErrorRefVar>()
 
         println("Generating key")
-        SecKeyCreateRandomKey(properties, error.ptr)
+        val props = Attributes.keyAttributes(access, ALIAS)
+        SecKeyCreateRandomKey(props, error.ptr)
 
         if(error.value != null) {
             val errorText = error.value?.errorString()
@@ -67,17 +42,7 @@ actual object SecureCrypto: Crypto {
 
     private fun loadKey(alias: String): SecKeyRef? = memScoped {
         println("Loading key")
-        val aliasData = (alias as NSString).dataUsingEncoding(NSUTF8StringEncoding)
-
-        val query = cfDictionaryOf(
-            mapOf(
-                kSecClass to kSecClassKey,
-                kSecAttrApplicationTag to CFBridgingRetain(aliasData),
-                kSecAttrKeyType to kSecAttrKeyTypeEC,
-                kSecMatchLimit to kSecMatchLimitOne,
-                kSecReturnRef to kCFBooleanTrue
-            )
-        )
+        val query = Attributes.keyQuery(alias)
 
         val item = alloc<CFArrayRefVar>()
         val result = SecItemCopyMatching(query, item.ptr.reinterpret())
@@ -145,14 +110,4 @@ actual object SecureCrypto: Crypto {
         val nsErrorText = CFBridgingRelease(CFErrorCopyDescription(this)) as NSString
         return nsErrorText as String
     }
-}
-
-internal inline fun MemScope.cfDictionaryOf(map: Map<CFStringRef?, CFTypeRef?>): CFDictionaryRef? {
-    val size = map.size
-    val keys = allocArrayOf(*map.keys.toTypedArray())
-    val values = allocArrayOf(*map.values.toTypedArray())
-    return CFDictionaryCreate(kCFAllocatorDefault,
-        keys.reinterpret(), values.reinterpret(),
-        size.convert(), kCFTypeDictionaryKeyCallBacks.ptr,
-        kCFTypeDictionaryValueCallBacks.ptr)
 }
