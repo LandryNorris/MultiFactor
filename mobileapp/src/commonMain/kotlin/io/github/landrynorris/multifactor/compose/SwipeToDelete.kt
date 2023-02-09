@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
 @Composable
-fun LazyItemScope.SwipeToDelete(onDelete: () -> Unit, content: @Composable () -> Unit) {
+internal fun LazyItemScope.SwipeToDelete(onDelete: () -> Unit, content: @Composable () -> Unit) {
     val state = rememberDismissState(confirmStateChange = {
         if(it == DismissValue.DismissedToStart) {
             onDelete()
@@ -38,7 +38,7 @@ fun LazyItemScope.SwipeToDelete(onDelete: () -> Unit, content: @Composable () ->
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun SwipeBackground(state: DismissState) {
+internal fun SwipeBackground(state: DismissState) {
     val direction = state.dismissDirection ?: return
     val color by animateColorAsState(
         when (state.targetValue) {

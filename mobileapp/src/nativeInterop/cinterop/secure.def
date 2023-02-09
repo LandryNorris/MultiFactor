@@ -5,7 +5,3 @@ package=secure
 
 #import <Foundation/Foundation.h>
 
-@interface Extensions: NSObject {}
-+ (CFDataRef) toCFData:(NSData*) data;
-@end
-
