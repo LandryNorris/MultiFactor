@@ -1,12 +1,10 @@
 package io.github.landrynorris.multifactor.components
 
 import com.arkivanov.decompose.ComponentContext
-import io.github.landrynorris.multifactor.repository.PasswordSettings
 import io.github.landrynorris.multifactor.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.runBlocking
-import kotlin.reflect.KClass
 
 interface SettingsLogic {
     val passwordSettings: Flow<List<Setting<*>>>
@@ -14,10 +12,12 @@ interface SettingsLogic {
     fun setIncludeSpecialChars(enable: Boolean)
     fun setExcludeSimilar(exclude: Boolean)
     fun setPasswordLength(length: Int)
+    fun navigateToAbout()
 }
 
 class SettingsComponent(val context: ComponentContext,
-                        private val settingsRepository: SettingsRepository):
+                        private val settingsRepository: SettingsRepository,
+                        private val openAbout: () -> Unit):
     ComponentContext by context, SettingsLogic {
     private val includeDigitsSetting = Setting("Include Digits",
         "Whether to include digits 0-9 in auto-generated password",
@@ -58,6 +58,8 @@ class SettingsComponent(val context: ComponentContext,
     override fun setPasswordLength(length: Int) = runBlocking {
         settingsRepository.setPasswordLength(length)
     }
+
+    override fun navigateToAbout() = openAbout()
 }
 
 data class Setting<T>(val name: String, val description: String,

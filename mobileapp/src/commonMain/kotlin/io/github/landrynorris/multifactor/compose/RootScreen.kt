@@ -27,6 +27,7 @@ internal fun RootScreen(logic: Root) {
                         is Root.Child.Otp -> OtpScreen(child.component)
                         is Root.Child.PasswordManager -> PasswordScreen(child.component)
                         is Root.Child.Settings -> Settings(child.component)
+                        is Root.Child.About -> About(child.component)
                     }
                 }
                 BottomNav(logic::navigateToOtp, logic::navigateToPasswordManager,
@@ -40,6 +41,7 @@ fun getName(child: Root.Child) = when(child) {
     is Root.Child.Otp -> "Otp"
     is Root.Child.PasswordManager -> "Password Manager"
     is Root.Child.Settings -> "Settings"
+    is Root.Child.About -> "About"
 }
 
 @Composable

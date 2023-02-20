@@ -21,12 +21,14 @@ interface Root {
     fun navigateToOtp()
     fun navigateToPasswordManager()
     fun navigateToSettings()
+    fun navigateToAbout()
 
     sealed class Child {
         abstract val component: Any
         class Otp(override val component: OtpLogic): Child()
         class PasswordManager(override val component: PasswordLogic): Child()
         class Settings(override val component: SettingsLogic): Child()
+        class About(override val component: AboutComponent): Child()
     }
 }
 
@@ -46,6 +48,7 @@ class RootComponent(context: ComponentContext,
             is Config.OtpConfig -> Root.Child.Otp(otpComponent(context))
             is Config.PasswordConfig -> Root.Child.PasswordManager(passwordManager(context))
             is Config.Settings -> Root.Child.Settings(settings(context))
+            is Config.About -> Root.Child.About(about(context))
         }
     }
 
@@ -53,11 +56,14 @@ class RootComponent(context: ComponentContext,
     private fun passwordManager(context: ComponentContext) =
         PasswordComponent(context, crypto, passwordRepository, settingsRepository)
     private fun settings(context: ComponentContext) = SettingsComponent(context,
-        settingsRepository)
+        settingsRepository, openAbout = ::navigateToAbout)
+    private fun about(context: ComponentContext) =
+        AboutComponent(context)
 
     override fun navigateToOtp() = navigation.bringToFront(Config.OtpConfig)
     override fun navigateToPasswordManager() = navigation.bringToFront(Config.PasswordConfig)
     override fun navigateToSettings() = navigation.bringToFront(Config.Settings)
+    override fun navigateToAbout() = navigation.bringToFront(Config.About)
 
     sealed class Config: Parcelable {
         @Parcelize
@@ -68,5 +74,8 @@ class RootComponent(context: ComponentContext,
 
         @Parcelize
         object Settings: Config()
+
+        @Parcelize
+        object About: Config()
     }
 }
