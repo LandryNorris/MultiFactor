@@ -12,4 +12,4 @@ class AboutComponent(context: ComponentContext):
     override fun openLegalPage(handler: UriHandler) = handler.openUri(privacyPolicyUrl)
 }
 
-const val privacyPolicyUrl = "https://github.com/LandryNorris/MultiFactor/Privacy.md"
+const val privacyPolicyUrl = "https://github.com/LandryNorris/MultiFactor/blob/main/Privacy.md"
