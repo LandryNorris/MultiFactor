@@ -22,7 +22,6 @@ interface Root {
     fun navigateToPasswordManager()
     fun navigateToSettings()
     fun navigateToAbout()
-    fun navigateToLegal()
 
     sealed class Child {
         abstract val component: Any
@@ -59,15 +58,12 @@ class RootComponent(context: ComponentContext,
     private fun settings(context: ComponentContext) = SettingsComponent(context,
         settingsRepository, openAbout = ::navigateToAbout)
     private fun about(context: ComponentContext) =
-        AboutComponent(context, openLegal = ::navigateToLegal)
+        AboutComponent(context)
 
     override fun navigateToOtp() = navigation.bringToFront(Config.OtpConfig)
     override fun navigateToPasswordManager() = navigation.bringToFront(Config.PasswordConfig)
     override fun navigateToSettings() = navigation.bringToFront(Config.Settings)
     override fun navigateToAbout() = navigation.bringToFront(Config.About)
-    override fun navigateToLegal() {
-        println("Opening privacy policy")
-    }
 
     sealed class Config: Parcelable {
         @Parcelize
