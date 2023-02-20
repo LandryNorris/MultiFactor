@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalUriHandler
 import io.github.landrynorris.multifactor.components.AboutLogic
 
@@ -12,9 +13,8 @@ fun About(logic: AboutLogic) {
     LazyColumn {
         item {
             val uriHandler = LocalUriHandler.current
-            TextButton(onClick = { logic.openLegalPage(uriHandler) }) {
-                Text("Privacy Policy")
-            }
+            MultiFactorTextButton("Privacy Policy",
+                onClick = { logic.openLegalPage(uriHandler) })
         }
     }
 }

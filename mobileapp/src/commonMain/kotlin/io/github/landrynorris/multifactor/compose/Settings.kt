@@ -34,9 +34,7 @@ internal fun Settings(logic: SettingsLogic) {
             }
         }
         item {
-            TextButton(onClick = logic::navigateToAbout) {
-                Text("About")
-            }
+            MultiFactorTextButton("About", onClick = logic::navigateToAbout)
         }
     }
 }
