@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Switch
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -30,6 +31,11 @@ internal fun Settings(logic: SettingsLogic) {
                 is Boolean ->
                     BooleanSettingsSwitch(item as Setting<Boolean>, item.value, item.onValueChanged)
                 is Int -> IntSettingsBox(item as Setting<Int>, item.value, item.onValueChanged)
+            }
+        }
+        item {
+            TextButton(onClick = logic::navigateToAbout) {
+                Text("About")
             }
         }
     }

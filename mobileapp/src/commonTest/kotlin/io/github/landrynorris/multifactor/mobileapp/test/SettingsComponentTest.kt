@@ -75,7 +75,8 @@ class SettingsComponentTest {
             .first { it.name == "Include Special" }.value)
     }
 
-    private fun createComponent(settingsRepository: SettingsRepository): SettingsLogic {
-        return SettingsComponent(createContext(), settingsRepository)
+    private fun createComponent(settingsRepository: SettingsRepository,
+                                openAbout: () -> Unit = {}): SettingsLogic {
+        return SettingsComponent(createContext(), settingsRepository, openAbout)
     }
 }
