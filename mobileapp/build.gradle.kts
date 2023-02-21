@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
@@ -15,6 +16,7 @@ val decomposeVersion: String by project
 val koinVersion: String by project
 val sqlVersion: String by project
 val settingsVersion: String by project
+val appVersion: String by project
 
 plugins {
     kotlin("multiplatform")
@@ -24,7 +26,10 @@ plugins {
     id("kotlin-parcelize")
     id("com.squareup.sqldelight")
     id("org.jetbrains.kotlinx.kover")
+    id("com.codingfeline.buildkonfig")
 }
+
+version = appVersion
 
 kotlin {
     android()
@@ -224,5 +229,16 @@ compose.desktop {
                 bundleID = "landrynorris.MultiFactor"
             }
         }
+    }
+}
+
+val buildId: String by project
+
+buildkonfig {
+    packageName = "io.github.landrynorris.mobileapp.config"
+
+    defaultConfigs {
+        buildConfigField(FieldSpec.Type.STRING, "version", version.toString())
+        buildConfigField(FieldSpec.Type.STRING, "buildId", buildId)
     }
 }
