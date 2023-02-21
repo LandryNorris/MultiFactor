@@ -90,7 +90,7 @@ class OtpComponentTest {
         val testOtp = Totp("A secret", "A value")
         component.createOtpLogic.enter(OtpModel(-1L, testOtp))
 
-        delay(50)
+        delay(100)
         component.incrementClicked(0)
     }
 
