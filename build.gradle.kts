@@ -38,7 +38,9 @@ koverMerged {
 
     filters {
         classes {
-            excludes += listOf("*.BuildConfig", "*.MainActivity*", "*.compose.*", "*.theme.*", "*.platform.*")
+            excludes += listOf("*.BuildConfig", "*.MainActivity*", "*.compose.*",
+                "*.theme.*", "*.platform.*", "*.InitializeKt*", "*.Startup*", "*.*Defaults",
+                "*.test.*", "MainKt*")
         }
 
         projects {

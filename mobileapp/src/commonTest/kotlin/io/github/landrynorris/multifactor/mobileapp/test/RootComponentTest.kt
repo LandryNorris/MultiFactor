@@ -23,6 +23,9 @@ class RootComponentTest: KoinTest {
         component.navigateToOtp()
         assertIs<Root.Child.Otp>(component.navigationState)
 
+        component.navigateToAbout()
+        assertIs<Root.Child.About>(component.navigationState)
+
         stopKoin()
     }
 
