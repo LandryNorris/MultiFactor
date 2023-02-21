@@ -16,5 +16,15 @@ fun About(logic: AboutLogic) {
             MultiFactorTextButton("Privacy Policy",
                 onClick = { logic.openLegalPage(uriHandler) })
         }
+
+        item {
+            val version = logic.state.appVersion
+            Text("App Version: $version")
+        }
+
+        item {
+            val buildId = logic.state.buildId
+            Text("Build Id: $buildId")
+        }
     }
 }
