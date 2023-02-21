@@ -9,10 +9,8 @@ import io.github.landrynorris.otp.Totp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
+import kotlinx.datetime.Clock
+import kotlin.test.*
 
 class OtpComponentTest {
 
@@ -81,6 +79,39 @@ class OtpComponentTest {
 
             component.incrementClicked(0)
         }
+    }
+
+    @Test
+    fun delete() = runBlocking {
+        val component = createComponent()
+
+        val testOtp = Totp("A secret", "A value")
+        component.createOtpLogic.enter(OtpModel(-1L, testOtp))
+        component.awaitNonEmptyOtpList()
+
+        component.deleteItem(0)
+
+        delay(100)
+
+        assertEquals(0, component.state.value.otpList.size)
+    }
+
+    @Test
+    fun testUpdateTotpCodes() = runBlocking {
+        val component = createComponent()
+
+        val testOtp = Totp("A secret", "A value")
+        val testOtp2 = Totp("Another secret", "Another value")
+        val testHotp = Hotp("Secret", "Hotp code", 0)
+
+        component.createOtpLogic.enter(OtpModel(-1L, testOtp))
+        component.createOtpLogic.enter(OtpModel(-1L, testOtp2))
+        component.createOtpLogic.enter(OtpModel(-1L, testHotp))
+        component.awaitNonEmptyOtpList()
+
+        //We currently don't provide an easy way to set the timeStep, so don't test
+        //that the values change, since we don't want the test to run for 30 seconds
+        component.updateTotps()
     }
 
     @Test

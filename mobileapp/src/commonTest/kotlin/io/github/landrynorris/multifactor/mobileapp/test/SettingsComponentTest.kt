@@ -8,6 +8,8 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 class SettingsComponentTest {
 
@@ -73,6 +75,19 @@ class SettingsComponentTest {
         delay(50)
         assertEquals(true, component.passwordSettings.first()
             .first { it.name == "Include Special" }.value)
+    }
+
+    @Test
+    fun testOpenAbout() {
+        var aboutOpen = false
+        val component = createComponent(createSettingsRepository()) {
+            aboutOpen = true
+        }
+
+        assertFalse(aboutOpen)
+
+        component.navigateToAbout()
+        assertTrue(aboutOpen)
     }
 
     private fun createComponent(settingsRepository: SettingsRepository,
