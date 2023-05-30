@@ -25,8 +25,8 @@ kotlin {
         val androidMain by getting {
             dependencies {
                 implementation("com.squareup.sqldelight:android-driver:$sqlVersion")
-                implementation("androidx.activity:activity-compose:1.6.1")
-                implementation("com.google.android.material:material:1.8.0")
+                implementation("androidx.activity:activity-compose:1.7.2")
+                implementation("com.google.android.material:material:1.9.0")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
                 implementation("androidx.autofill:autofill:1.1.0")
 

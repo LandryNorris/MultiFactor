@@ -75,8 +75,8 @@ kotlin {
             dependencies {
                 dependsOn(commonMain)
                 implementation(project(":autofill"))
-                implementation("androidx.activity:activity-compose:1.6.1")
-                implementation("com.google.android.material:material:1.8.0")
+                implementation("androidx.activity:activity-compose:1.7.2")
+                implementation("com.google.android.material:material:1.9.0")
                 implementation("androidx.startup:startup-runtime:1.1.1")
                 implementation("com.squareup.sqldelight:android-driver:$sqlVersion")
                 implementation("io.insert-koin:koin-android:$koinVersion")

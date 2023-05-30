@@ -1,7 +1,7 @@
 package io.github.landrynorris.encryption
 
-import com.soywiz.krypto.AES
-import com.soywiz.krypto.Padding
+import korlibs.crypto.AES
+import korlibs.crypto.Padding
 
 object Encryption {
     fun encrypt(data: ByteArray, salt: ByteArray, key: ByteArray) =
