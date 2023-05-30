@@ -1,6 +1,6 @@
 package io.github.landrynorris.otp
 
-import com.soywiz.krypto.HMAC
+import korlibs.crypto.HMAC
 import kotlin.experimental.and
 
 private val powersOfTen = listOf(0, 10, 100, 1_000, 10_000, 100_000, 1_000_000,

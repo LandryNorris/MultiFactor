@@ -1,6 +1,6 @@
 package io.github.landrynorris.encryption
 
-import com.soywiz.krypto.SecureRandom
+import korlibs.crypto.SecureRandom
 
 object SaltGenerator {
     private val random = SecureRandom
