@@ -1,6 +1,7 @@
 package io.github.landrynorris.multifactor
 
 import androidx.compose.ui.window.Application
+import androidx.compose.ui.window.ComposeUIViewController
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import io.github.landrynorris.encryption.SecureCrypto
@@ -15,7 +16,7 @@ object EntryPoint {
     fun createEntryPoint(): UIViewController {
         val logic = RootComponent(DefaultComponentContext(LifecycleRegistry()), SecureCrypto)
         println("Starting application")
-        return Application("MultiFactor") {
+        return ComposeUIViewController {
             RootScreen(logic)
         }
     }
