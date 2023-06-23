@@ -50,6 +50,10 @@ android {
         minSdk = 23
         targetSdk = 33
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
     namespace = "io.github.landrynorris.database"
 }
 

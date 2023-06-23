@@ -17,7 +17,7 @@ buildscript {
         classpath("org.jetbrains.compose:compose-gradle-plugin:$composeVersion")
         classpath("com.squareup.sqldelight:gradle-plugin:$sqlVersion")
         classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.13.3")
-        classpath("com.android.tools.build:gradle:7.4.2")
+        classpath("com.android.tools.build:gradle:8.0.2")
     }
 }
 

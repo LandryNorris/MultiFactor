@@ -45,5 +45,9 @@ android {
         minSdk = 26
         targetSdk = 33
     }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
     namespace = "io.github.landrynorris.autofill"
 }
