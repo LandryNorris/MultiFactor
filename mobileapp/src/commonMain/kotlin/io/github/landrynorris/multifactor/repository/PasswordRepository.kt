@@ -1,19 +1,21 @@
 package io.github.landrynorris.multifactor.repository
 
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.multifactor.NameKeystoreAlias
 import io.github.landrynorris.multifactor.models.PasswordModel
 import io.github.landrynorris.multifactor.models.toModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class PasswordRepository(private val database: AppDatabase, private val crypto: Crypto) {
 
     fun getPasswordsFlow(): Flow<List<PasswordModel>> {
-        return database.passwordQueries.selectAll().asFlow().mapToList().map { entries ->
+        return database.passwordQueries.selectAll().asFlow().mapToList(Dispatchers.IO).map { entries ->
             entries.map { entry ->
                 entry.toModel(crypto)
             }

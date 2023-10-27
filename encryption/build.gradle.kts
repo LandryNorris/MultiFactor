@@ -3,7 +3,7 @@ val kryptoVersion: String by project
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("io.github.ttypic.swiftklib") version "0.1.0"
+    id("io.github.ttypic.swiftklib") version "0.4.0"
 }
 
 kotlin {
@@ -60,10 +60,8 @@ kotlin {
 
 android {
     compileSdk = 32
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 23
-        targetSdk = 32
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

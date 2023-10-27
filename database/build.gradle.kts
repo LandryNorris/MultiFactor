@@ -1,13 +1,13 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("com.squareup.sqldelight")
+    id("app.cash.sqldelight")
 }
 
 val sqlVersion: String by project
 
 kotlin {
-    android()
+    androidTarget()
     jvm()
 
     listOf(iosX64(), iosArm64(), iosSimulatorArm64())
@@ -16,7 +16,7 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-                implementation("com.squareup.sqldelight:coroutines-extensions:$sqlVersion")
+                implementation("app.cash.sqldelight:coroutines-extensions:$sqlVersion")
             }
         }
         val commonTest by getting {
@@ -45,10 +45,9 @@ kotlin {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         minSdk = 23
-        targetSdk = 33
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -58,9 +57,11 @@ android {
 }
 
 sqldelight {
-    database("AppDatabase") {
-        packageName = "io.github.landrynorris.database"
-        deriveSchemaFromMigrations = true
-        verifyMigrations = true
+    databases {
+        create("AppDatabase") {
+            packageName.set("io.github.landrynorris.database")
+            deriveSchemaFromMigrations.set(true)
+            verifyMigrations.set(true)
+        }
     }
 }

@@ -15,7 +15,7 @@ group = "io.github.landrynorris"
 version = "0.1.0"
 
 kotlin {
-    android {
+    androidTarget {
         publishLibraryVariants("debug", "release")
     }
     jvm()
@@ -65,10 +65,8 @@ kotlin {
 
 android {
     compileSdk = 32
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 21
-        targetSdk = 32
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

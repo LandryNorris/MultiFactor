@@ -11,6 +11,7 @@ import platform.Foundation.NSStringFromClass
 import platform.UIKit.*
 
 @Suppress("unused") //called from Swift
+@OptIn(ExperimentalForeignApi::class)
 object EntryPoint {
     fun createEntryPoint(): UIViewController {
         val logic = RootComponent(DefaultComponentContext(LifecycleRegistry()), SecureCrypto)

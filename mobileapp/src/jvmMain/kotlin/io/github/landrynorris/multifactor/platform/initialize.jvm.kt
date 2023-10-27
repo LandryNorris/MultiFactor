@@ -6,8 +6,8 @@ import com.russhwolf.settings.PreferencesSettings
 import com.russhwolf.settings.coroutines.SuspendSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
 import com.russhwolf.settings.coroutines.toSuspendSettings
-import com.squareup.sqldelight.db.SqlDriver
-import com.squareup.sqldelight.sqlite.driver.JdbcSqliteDriver
+import app.cash.sqldelight.db.SqlDriver
+import app.cash.sqldelight.sqlite.driver.JdbcSqliteDriver
 import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.multifactor.repository.SettingsRepository
 import kotlinx.coroutines.ExperimentalCoroutinesApi

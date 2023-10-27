@@ -7,7 +7,7 @@ plugins {
 }
 
 kotlin {
-    android()
+    androidTarget()
     jvm()
 
     listOf(iosX64(), iosArm64(), iosSimulatorArm64())
@@ -42,10 +42,8 @@ kotlin {
 
 android {
     compileSdk = 32
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = 23
-        targetSdk = 32
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17

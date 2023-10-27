@@ -2,7 +2,7 @@ package io.github.landrynorris.autofill
 
 import android.os.CancellationSignal
 import android.service.autofill.*
-import com.squareup.sqldelight.android.AndroidSqliteDriver
+import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import io.github.landrynorris.autofill.parser.AssistStructureParser
 import io.github.landrynorris.autofill.parser.inlineSpec
 import io.github.landrynorris.autofill.response.AutoFillResponse

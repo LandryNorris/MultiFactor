@@ -24,7 +24,7 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.compose")
     id("kotlin-parcelize")
-    id("com.squareup.sqldelight")
+    id("app.cash.sqldelight")
     id("org.jetbrains.kotlinx.kover")
     id("com.codingfeline.buildkonfig")
 }
@@ -32,7 +32,7 @@ plugins {
 version = appVersion
 
 kotlin {
-    android()
+    androidTarget()
     jvm()
 
     listOf(
@@ -53,7 +53,7 @@ kotlin {
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("com.squareup.sqldelight:coroutines-extensions:$sqlVersion")
+                implementation("app.cash.sqldelight:coroutines-extensions:$sqlVersion")
                 implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
                 implementation("com.russhwolf:multiplatform-settings:$settingsVersion")
                 implementation("com.russhwolf:multiplatform-settings-coroutines:$settingsVersion")
@@ -78,7 +78,7 @@ kotlin {
                 implementation("androidx.activity:activity-compose:1.7.2")
                 implementation("com.google.android.material:material:1.9.0")
                 implementation("androidx.startup:startup-runtime:1.1.1")
-                implementation("com.squareup.sqldelight:android-driver:$sqlVersion")
+                implementation("app.cash.sqldelight:android-driver:$sqlVersion")
                 implementation("io.insert-koin:koin-android:$koinVersion")
                 implementation("com.russhwolf:multiplatform-settings-datastore:$settingsVersion")
                 implementation("androidx.datastore:datastore-preferences:1.0.0")
@@ -86,7 +86,7 @@ kotlin {
         }
         val androidUnitTest by getting {
             dependencies {
-                implementation("com.squareup.sqldelight:sqlite-driver:$sqlVersion")
+                implementation("app.cash.sqldelight:sqlite-driver:$sqlVersion")
             }
         }
 
@@ -94,15 +94,14 @@ kotlin {
             dependencies {
                 implementation(kotlin("test"))
                 implementation("androidx.test:core:1.5.0")
-                @OptIn(ExperimentalComposeLibrary::class)
-                implementation(compose.uiTestJUnit4)
+                implementation(compose.desktop.uiTestJUnit4)
             }
         }
 
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
-                implementation("com.squareup.sqldelight:sqlite-driver:$sqlVersion")
+                implementation("app.cash.sqldelight:sqlite-driver:$sqlVersion")
             }
         }
 
@@ -116,7 +115,7 @@ kotlin {
             uikitSimulatorArm64Main.dependsOn(this)
 
             dependencies {
-                implementation("com.squareup.sqldelight:native-driver:$sqlVersion")
+                implementation("app.cash.sqldelight:native-driver:$sqlVersion")
             }
         }
 
@@ -163,11 +162,10 @@ kotlin {
 }
 
 android {
-    compileSdk = 33
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    compileSdk = 34
     defaultConfig {
         minSdk = 26
-        targetSdk = 33
+        targetSdk = 34
 
         applicationId = "io.github.landrynorris.multifactor"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -178,10 +176,6 @@ android {
     }
 
     flavorDimensions += "track"
-
-    buildFeatures {
-        compose = true
-    }
 
     productFlavors {
         val production by creating {
@@ -208,15 +202,6 @@ android {
 
 dependencies {
     implementation(project(mapOf("path" to ":database")))
-}
-
-kotlin {
-    targets.withType<KotlinNativeTarget> {
-        binaries.all {
-            // TODO: the current compose binary surprises LLVM, so disable checks for now.
-            freeCompilerArgs += "-Xdisable-phases=VerifyBitcode"
-        }
-    }
 }
 
 compose.desktop {

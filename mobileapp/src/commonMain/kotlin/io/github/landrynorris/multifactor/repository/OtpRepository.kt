@@ -1,11 +1,13 @@
 package io.github.landrynorris.multifactor.repository
 
-import com.squareup.sqldelight.runtime.coroutines.asFlow
-import com.squareup.sqldelight.runtime.coroutines.mapToList
+import app.cash.sqldelight.coroutines.asFlow
+import app.cash.sqldelight.coroutines.mapToList
 import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.multifactor.models.OtpModel
 import io.github.landrynorris.multifactor.models.toEntry
 import io.github.landrynorris.multifactor.models.toModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -18,7 +20,7 @@ class OtpRepository(private val database: AppDatabase) {
     }
 
     fun getOtpModelFlow(): Flow<List<OtpModel>> {
-        return database.otpQueries.selectAll().asFlow().mapToList().map { entries ->
+        return database.otpQueries.selectAll().asFlow().mapToList(Dispatchers.IO).map { entries ->
             entries.map { entry -> entry.toModel() }
         }
     }
