@@ -8,6 +8,7 @@ import platform.Foundation.NSString
 import platform.Security.*
 import platform.darwin.OSStatus
 
+@OptIn(ExperimentalForeignApi::class)
 actual object SecureCrypto: Crypto {
     private val iv = ByteArray(16) { 0 }
     private val algorithm = kSecKeyAlgorithmECIESEncryptionCofactorVariableIVX963SHA256AESGCM

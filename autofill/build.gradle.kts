@@ -8,7 +8,7 @@ val sqlVersion: String by project
 val decomposeVersion: String by project
 
 kotlin {
-    android()
+    androidTarget()
 
     sourceSets {
         val commonMain by getting {
@@ -24,7 +24,7 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.squareup.sqldelight:android-driver:$sqlVersion")
+                implementation("app.cash.sqldelight:android-driver:$sqlVersion")
                 implementation("androidx.activity:activity-compose:1.7.2")
                 implementation("com.google.android.material:material:1.9.0")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
@@ -40,10 +40,13 @@ kotlin {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = 34
     defaultConfig {
         minSdk = 26
-        targetSdk = 33
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     namespace = "io.github.landrynorris.autofill"
 }

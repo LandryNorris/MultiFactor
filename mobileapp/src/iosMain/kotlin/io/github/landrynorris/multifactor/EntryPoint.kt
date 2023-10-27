@@ -1,6 +1,5 @@
 package io.github.landrynorris.multifactor
 
-import androidx.compose.ui.window.Application
 import androidx.compose.ui.window.ComposeUIViewController
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
@@ -12,6 +11,7 @@ import platform.Foundation.NSStringFromClass
 import platform.UIKit.*
 
 @Suppress("unused") //called from Swift
+@OptIn(ExperimentalForeignApi::class)
 object EntryPoint {
     fun createEntryPoint(): UIViewController {
         val logic = RootComponent(DefaultComponentContext(LifecycleRegistry()), SecureCrypto)

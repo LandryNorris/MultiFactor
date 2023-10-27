@@ -9,7 +9,7 @@ EXTERNAL SOURCES:
     :path: "../mobileapp"
 
 SPEC CHECKSUMS:
-  mobileapp: e6c9202b8013e4b6aab223ad1fc4ce55d72137ae
+  mobileapp: c9f6f1b6ae4b36f3018ec312193435a94d2b773d
 
 PODFILE CHECKSUM: ed4c51f040c51f8b2b5fdd0ef3e71c6875f72a9c
 

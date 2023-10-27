@@ -3,7 +3,7 @@ package io.github.landrynorris.multifactor.mobileapp.test
 import com.russhwolf.settings.MapSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
 import com.russhwolf.settings.coroutines.toSuspendSettings
-import com.squareup.sqldelight.db.SqlDriver
+import app.cash.sqldelight.db.SqlDriver
 import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.multifactor.repository.OtpRepository
 import io.github.landrynorris.multifactor.repository.PasswordRepository

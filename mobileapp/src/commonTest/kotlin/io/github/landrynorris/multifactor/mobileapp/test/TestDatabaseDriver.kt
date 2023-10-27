@@ -1,5 +1,5 @@
 package io.github.landrynorris.multifactor.mobileapp.test
 
-import com.squareup.sqldelight.db.SqlDriver
+import app.cash.sqldelight.db.SqlDriver
 
 expect fun createInMemoryTestDriver(): SqlDriver
