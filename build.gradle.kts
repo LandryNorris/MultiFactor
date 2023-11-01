@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlinx.kover") version "0.6.1"
+    id("org.jetbrains.kotlinx.kover") version "0.7.4"
     id("org.jetbrains.dokka") version "1.9.0"
 }
 
@@ -29,30 +29,23 @@ allprojects {
     }
 }
 
-tasks.register("clean", Delete::class) {
-    delete(rootProject.buildDir)
-}
-
-koverMerged {
-    enable()
-
+koverReport {
     filters {
-        classes {
-            excludes += listOf(
-                "*.BuildConfig", "*.MainActivity*", "*.compose.*",
+        excludes {
+            classes("*.BuildConfig", "*.MainActivity*", "*.compose.*",
                 "*.theme.*", "*.platform.*", "*.InitializeKt*", "*.Startup*", "*.*Defaults",
-                "*.test.*", "MainKt*"
-            )
-        }
+                "*.test.*", "MainKt*")
 
-        projects {
-            excludes += listOf("database", "autofill", "encryption")
+            packages("io.github.landrynorris.database", "io.github.landrynorris.autofill")
         }
     }
 
-    htmlReport {
-        onCheck.set(true)
-        reportDir.set(File(buildDir, "test/report/html"))
+    defaults {
+        html {
+            onCheck = true
+
+            setReportDir(layout.buildDirectory.dir("test/report/html"))
+        }
     }
 }
 
