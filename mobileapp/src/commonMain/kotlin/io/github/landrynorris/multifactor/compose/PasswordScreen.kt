@@ -14,9 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.platform.LocalClipboardManager
 import io.github.landrynorris.multifactor.components.PasswordLogic
-import io.github.landrynorris.multifactor.platform.Dialog
 
 @Composable
 internal fun PasswordScreen(logic: PasswordLogic) {
