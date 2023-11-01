@@ -29,6 +29,12 @@ allprojects {
     }
 }
 
+dependencies {
+    kover(project(":otp"))
+    kover(project(":mobileapp"))
+    kover(project(":password-generator"))
+}
+
 koverReport {
     filters {
         excludes {
