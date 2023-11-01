@@ -1,16 +1,12 @@
 package io.github.landrynorris.multifactor.platform
 
-import com.russhwolf.settings.ExperimentalSettingsApi
-import com.russhwolf.settings.ExperimentalSettingsImplementation
-import com.russhwolf.settings.PreferencesSettings
-import com.russhwolf.settings.coroutines.SuspendSettings
-import com.russhwolf.settings.coroutines.toFlowSettings
-import com.russhwolf.settings.coroutines.toSuspendSettings
 import app.cash.sqldelight.db.SqlDriver
-import app.cash.sqldelight.sqlite.driver.JdbcSqliteDriver
+import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver
+import com.russhwolf.settings.ExperimentalSettingsApi
+import com.russhwolf.settings.PreferencesSettings
+import com.russhwolf.settings.coroutines.toSuspendSettings
 import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.multifactor.repository.SettingsRepository
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.koin.dsl.module
 import java.io.File
 import java.util.prefs.Preferences
@@ -45,15 +41,14 @@ private fun initializeDatabaseDriver(): SqlDriver {
 }
 
 fun migrateIfNeeded(driver: SqlDriver) {
-    val oldVersion = driver.executeQuery(null,
-        "PRAGMA $versionPragma", 0).use {
-        if(it.next()) it.getLong(0)?.toInt() else null
-    } ?: 0
+    val result = driver.execute(null,
+        "PRAGMA $versionPragma", 0)
+    val oldVersion = result.value
     val newVersion = AppDatabase.Schema.version
 
     println("handling $oldVersion -> $newVersion")
 
-    if(oldVersion == 0) {
+    if(oldVersion == 0L) {
         AppDatabase.Schema.create(driver)
         driver.execute(null, "PRAGMA $versionPragma=$newVersion", 0)
     } else if(oldVersion < newVersion) {
