@@ -1,11 +1,13 @@
 package io.github.landrynorris.multifactor.repository
 
 import com.russhwolf.settings.coroutines.SuspendSettings
+import io.github.landrynorris.multifactor.annotations.IgnoreCoverage
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.runBlocking
 
 class SettingsRepository(private val settings: SuspendSettings) {
+    @IgnoreCoverage
     object Keys {
         const val INCLUDE_DIGITS = "includeDigits"
         const val INCLUDE_SPECIAL = "includeSpecial"
