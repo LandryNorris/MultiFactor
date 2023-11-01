@@ -43,6 +43,11 @@ koverReport {
                 "*.test.*", "MainKt*")
 
             packages("io.github.landrynorris.database", "io.github.landrynorris.autofill")
+
+            annotatedBy(
+                "io.github.landrynorris.multifactor.annotations.IgnoreCoverage",
+                "io.github.landrynorris.otp.IgnoreCoverage"
+            )
         }
     }
 

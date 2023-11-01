@@ -28,6 +28,7 @@ data class Hotp(override val secret: ByteArray, override val name: String,
         return copy(counter = counter + 1)
     }
 
+    @IgnoreCoverage
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
@@ -42,6 +43,7 @@ data class Hotp(override val secret: ByteArray, override val name: String,
         return true
     }
 
+    @IgnoreCoverage
     override fun hashCode(): Int {
         var result = secret.contentHashCode()
         result = 31 * result + name.hashCode()
