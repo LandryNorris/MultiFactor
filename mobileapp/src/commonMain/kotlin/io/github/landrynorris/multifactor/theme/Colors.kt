@@ -1,8 +1,8 @@
 package io.github.landrynorris.multifactor.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.darkColors
-import androidx.compose.material.lightColors
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
@@ -22,15 +22,15 @@ val SecondaryGray = ColorPair(
     light = Color(red = 0xE3, green = 0xDD, blue = 0xDA),
     dark = Color(red = 0x40, green = 0x3C, blue = 0x3A))
 
-val lightColors = lightColors(primary = IronGray.light, secondary = SecondaryGray.light,
-    onPrimary = Color.Black, onSecondary = Color.Black, background = Background.light,
-    surface = Surface.light)
-
-val darkColors = darkColors(primary = IronGray.dark, secondary = SecondaryGray.dark,
+val darkColorScheme = darkColorScheme(primary = IronGray.dark, secondary = SecondaryGray.dark,
     onPrimary = Color.White, onSecondary = Color.White, background = Background.dark,
     surface = Surface.dark)
 
-internal val colors
-    @Composable get() = if(isSystemInDarkTheme()) darkColors else lightColors
+val lightColorScheme = lightColorScheme(primary = IronGray.light, secondary = SecondaryGray.light,
+    onPrimary = Color.Black, onSecondary = Color.Black, background = Background.light,
+    surface = Surface.light)
+
+internal val colorScheme
+    @Composable get() = if(isSystemInDarkTheme()) darkColorScheme else lightColorScheme
 
 data class ColorPair(val light: Color, val dark: Color)

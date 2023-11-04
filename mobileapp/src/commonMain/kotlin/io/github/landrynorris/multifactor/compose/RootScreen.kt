@@ -2,11 +2,17 @@ package io.github.landrynorris.multifactor.compose
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Password
 import androidx.compose.material.icons.filled.Pin
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.NavigationBar
+import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -44,24 +50,25 @@ fun getName(child: Root.Child) = when(child) {
     is Root.Child.About -> "About"
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TopBar(title: String) {
-    TopAppBar {
+    TopAppBar(title = {
         Text(title)
-    }
+    })
 }
 
 @Composable
 internal fun BottomNav(navigateToOtp: () -> Unit, navigateToPasswordManager: () -> Unit,
               navigateToSettings: () -> Unit) {
-    BottomNavigation(modifier = Modifier.fillMaxWidth()) {
-        BottomNavigationItem(false, onClick = navigateToOtp,
+    NavigationBar(modifier = Modifier.fillMaxWidth()) {
+        NavigationBarItem(false, onClick = navigateToOtp,
             icon = { Icon(Icons.Default.Pin, "otp") },
             label = { Text("otp") })
-        BottomNavigationItem(false, onClick = navigateToPasswordManager,
+        NavigationBarItem(false, onClick = navigateToPasswordManager,
             icon = { Icon(Icons.Default.Password, "password") },
             label = { Text("passwords") })
-        BottomNavigationItem(false, onClick = navigateToSettings,
+        NavigationBarItem(false, onClick = navigateToSettings,
             icon = { Icon(Icons.Default.Settings, "settings") },
             label = { Text("settings") })
     }

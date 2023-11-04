@@ -5,9 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
-import androidx.compose.material.Divider
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.Divider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 internal fun MultiToggleSwitch(currentIndex: Int, names: List<String>, onToggleChanged: (Int) -> Unit) {
-    val selectedTint = MaterialTheme.colors.primary
+    val selectedTint = MaterialTheme.colorScheme.primary
     val unselectedTint = Color.Unspecified
 
     Row(modifier = Modifier

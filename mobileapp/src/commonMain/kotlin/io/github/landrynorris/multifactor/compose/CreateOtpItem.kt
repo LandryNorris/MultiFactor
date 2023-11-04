@@ -2,16 +2,15 @@ package io.github.landrynorris.multifactor.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.TextField
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import io.github.landrynorris.multifactor.components.CreateOtpState
-import io.github.landrynorris.multifactor.theme.colors
+import io.github.landrynorris.multifactor.theme.colorScheme
 import io.github.landrynorris.otp.OtpMethod
 
 val names = listOf("Hotp", "Totp")
@@ -24,7 +23,7 @@ internal fun CreateOtpItem(createOtpState: CreateOtpState,
                   onTypeChanged: (OtpMethod) -> Unit = {},
                   onConfirmClicked: () -> Unit = {}) {
     Column(modifier = Modifier.fillMaxWidth()
-        .background(colors.background),
+        .background(colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally) {
         TextField(modifier = Modifier.contentDescription("NameField"),
             label = { Text("Name") },
@@ -39,7 +38,7 @@ internal fun CreateOtpItem(createOtpState: CreateOtpState,
 
         TextButton(onClick = onConfirmClicked) {
             Text(modifier = Modifier.contentDescription("Confirm"),
-                text = "Confirm", color = colors.onBackground)
+                text = "Confirm", color = colorScheme.onBackground)
         }
     }
 }
