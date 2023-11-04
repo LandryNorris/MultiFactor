@@ -1,9 +1,8 @@
 package io.github.landrynorris.multifactor.compose
 
-import androidx.compose.animation.core.withInfiniteAnimationFrameMillis
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.material.Scaffold
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
@@ -11,7 +10,6 @@ import io.github.landrynorris.multifactor.components.OtpLogic
 import io.github.landrynorris.multifactor.components.OtpState
 import io.github.landrynorris.otp.OtpMethod
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
 @Composable

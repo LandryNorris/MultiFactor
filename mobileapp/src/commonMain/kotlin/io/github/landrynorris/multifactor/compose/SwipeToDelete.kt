@@ -5,13 +5,18 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyItemScope
-import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material3.DismissDirection
+import androidx.compose.material3.DismissState
+import androidx.compose.material3.DismissValue
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.SwipeToDismiss
+import androidx.compose.material3.rememberDismissState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -20,10 +25,10 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun LazyItemScope.SwipeToDelete(onDelete: () -> Unit, content: @Composable () -> Unit) {
-    val state = rememberDismissState(confirmStateChange = {
+    val state = rememberDismissState(confirmValueChange = {
         if(it == DismissValue.DismissedToStart) {
             onDelete()
             true
@@ -36,7 +41,7 @@ internal fun LazyItemScope.SwipeToDelete(onDelete: () -> Unit, content: @Composa
     directions = setOf(DismissDirection.EndToStart))
 }
 
-@OptIn(ExperimentalMaterialApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun SwipeBackground(state: DismissState) {
     val direction = state.dismissDirection ?: return
