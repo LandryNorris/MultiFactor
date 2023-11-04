@@ -1,34 +1,18 @@
 package io.github.landrynorris.multifactor.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import com.materialkolor.PaletteStyle
+import com.materialkolor.dynamicColorScheme
 
 val IronGray = ColorPair(
     light = Color(red = 0xDA, green = 0xE0, blue = 0xE3),
     dark = Color(red = 0x3A, green = 0x3C, blue = 0x40))
 
-val Background = ColorPair(
-    light = Color(red = 0xCF, green = 0xCF, blue = 0xCF),
-    dark = Color(red = 0x84, green = 0x84, blue = 0x82))
+val darkColorScheme = dynamicColorScheme(IronGray.dark, true, style = PaletteStyle.Neutral)
 
-val Surface = ColorPair(
-    light = Color(red = 0xCF, green = 0xCF, blue = 0xCF),
-    dark = Color(red = 0x84, green = 0x84, blue = 0x82))
-
-val SecondaryGray = ColorPair(
-    light = Color(red = 0xE3, green = 0xDD, blue = 0xDA),
-    dark = Color(red = 0x40, green = 0x3C, blue = 0x3A))
-
-val darkColorScheme = darkColorScheme(primary = IronGray.dark, secondary = SecondaryGray.dark,
-    onPrimary = Color.White, onSecondary = Color.White, background = Background.dark,
-    surface = Surface.dark)
-
-val lightColorScheme = lightColorScheme(primary = IronGray.light, secondary = SecondaryGray.light,
-    onPrimary = Color.Black, onSecondary = Color.Black, background = Background.light,
-    surface = Surface.light)
+val lightColorScheme = dynamicColorScheme(IronGray.light, false, style = PaletteStyle.Neutral)
 
 internal val colorScheme
     @Composable get() = if(isSystemInDarkTheme()) darkColorScheme else lightColorScheme

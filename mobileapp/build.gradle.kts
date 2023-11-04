@@ -57,6 +57,7 @@ kotlin {
                 implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
                 implementation("com.russhwolf:multiplatform-settings:$settingsVersion")
                 implementation("com.russhwolf:multiplatform-settings-coroutines:$settingsVersion")
+                implementation("com.materialkolor:material-kolor:1.2.8")
                 implementation(compose.runtime)
                 implementation(compose.foundation)
                 implementation(compose.ui)
