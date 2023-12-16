@@ -13,7 +13,7 @@ buildscript {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.20")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.21")
         classpath("org.jetbrains.compose:compose-gradle-plugin:$composeVersion")
         classpath("app.cash.sqldelight:gradle-plugin:$sqlVersion")
         classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.13.3")

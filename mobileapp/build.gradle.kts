@@ -21,9 +21,9 @@ val appVersion: String by project
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
+    kotlin("plugin.serialization") version "1.9.21"
     id("com.android.application")
     id("org.jetbrains.compose")
-    id("kotlin-parcelize")
     id("app.cash.sqldelight")
     id("org.jetbrains.kotlinx.kover")
     id("com.codingfeline.buildkonfig")
@@ -54,7 +54,7 @@ kotlin {
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
                 implementation("app.cash.sqldelight:coroutines-extensions:$sqlVersion")
-                implementation("com.arkivanov.decompose:extensions-compose-jetbrains:$decomposeVersion")
+                implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
                 implementation("com.russhwolf:multiplatform-settings:$settingsVersion")
                 implementation("com.russhwolf:multiplatform-settings-coroutines:$settingsVersion")
                 implementation("com.materialkolor:material-kolor:1.2.8")
