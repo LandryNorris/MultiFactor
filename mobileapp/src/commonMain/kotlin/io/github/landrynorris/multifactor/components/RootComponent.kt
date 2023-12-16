@@ -6,12 +6,11 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
-import com.arkivanov.essenty.parcelable.Parcelable
-import com.arkivanov.essenty.parcelable.Parcelize
 import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.multifactor.repository.OtpRepository
 import io.github.landrynorris.multifactor.repository.PasswordRepository
 import io.github.landrynorris.multifactor.repository.SettingsRepository
+import kotlinx.serialization.Serializable
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
@@ -40,7 +39,8 @@ class RootComponent(context: ComponentContext,
     private val settingsRepository by inject<SettingsRepository>()
 
     override val routerState: Value<ChildStack<*, Root.Child>> =
-        childStack(source = navigation, initialStack = { listOf(Config.OtpConfig) },
+        childStack(source = navigation, serializer = Config.serializer(),
+            initialStack = { listOf(Config.OtpConfig) },
             childFactory = ::createChild)
 
     private fun createChild(configuration: Config, context: ComponentContext): Root.Child {
@@ -65,17 +65,18 @@ class RootComponent(context: ComponentContext,
     override fun navigateToSettings() = navigation.bringToFront(Config.Settings)
     override fun navigateToAbout() = navigation.bringToFront(Config.About)
 
-    sealed class Config: Parcelable {
-        @Parcelize
+    @Serializable
+    sealed class Config {
+        @Serializable
         object OtpConfig: Config()
 
-        @Parcelize
+        @Serializable
         object PasswordConfig: Config()
 
-        @Parcelize
+        @Serializable
         object Settings: Config()
 
-        @Parcelize
+        @Serializable
         object About: Config()
     }
 }
