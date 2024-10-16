@@ -1,9 +1,11 @@
+import org.jetbrains.kotlin.konan.target.HostManager
+
 val kryptoVersion: String by project
 
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("io.github.ttypic.swiftklib") version "0.4.0"
+    id("io.github.ttypic.swiftklib") version "0.6.4"
 }
 
 kotlin {
@@ -16,9 +18,11 @@ kotlin {
         iosSimulatorArm64()
     ).forEach {
         it.compilations {
-            val main by getting {
-                cinterops {
-                    create("Attributes")
+            if(HostManager.hostIsMac) {
+                val main by getting {
+                    cinterops {
+                        create("Attributes")
+                    }
                 }
             }
         }
