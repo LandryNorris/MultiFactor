@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.kover
+
 plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
     id("org.jetbrains.kotlinx.kover") version "0.9.3"
@@ -36,33 +38,34 @@ dependencies {
     kover(project(":password-generator"))
 }
 
-koverReport {
-    filters {
-        excludes {
-            classes("*.BuildConfig", "*.MainActivity*", "*.compose.*",
-                "*.theme.*", "*.platform.*", "*.InitializeKt*", "*.Startup*", "*.*Defaults",
-                "*.test.*", "MainKt*")
+kover {
+    reports {
+        filters {
+            excludes {
+                classes("*.BuildConfig", "*.MainActivity*", "*.compose.*",
+                    "*.theme.*", "*.platform.*", "*.InitializeKt*", "*.Startup*", "*.*Defaults",
+                    "*.test.*", "MainKt*")
 
-            packages("io.github.landrynorris.database", "io.github.landrynorris.autofill")
+                packages("io.github.landrynorris.database", "io.github.landrynorris.autofill")
 
-            annotatedBy(
-                "io.github.landrynorris.multifactor.annotations.IgnoreCoverage",
-                "io.github.landrynorris.otp.IgnoreCoverage"
-            )
+                annotatedBy(
+                    "io.github.landrynorris.multifactor.annotations.IgnoreCoverage",
+                    "io.github.landrynorris.otp.IgnoreCoverage"
+                )
+            }
         }
-    }
 
-    defaults {
-        html {
-            onCheck = true
-
-            setReportDir(layout.buildDirectory.dir("test/report/html"))
+        total {
+            html {
+                onCheck = true
+                htmlDir = layout.buildDirectory.dir("test/report/html")
+            }
         }
     }
 }
 
-tasks {
-    dokkaHtmlMultiModule {
-        outputDirectory.set(File(projectDir, "docs/html"))
+dokka {
+    dokkaPublications.html {
+        this.outputDirectory = project.projectDir.resolve("docs/html")
     }
 }
