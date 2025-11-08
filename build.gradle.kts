@@ -1,7 +1,7 @@
 plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
     id("org.jetbrains.kotlinx.kover") version "0.9.3"
-    id("org.jetbrains.dokka") version "2.2.21"
+    id("org.jetbrains.dokka") version "2.1.0"
 }
 
 buildscript {
