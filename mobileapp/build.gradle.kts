@@ -48,7 +48,6 @@ kotlin {
                 implementation(project(":password-generator"))
                 implementation(project(":database"))
                 implementation("org.jetbrains.kotlinx:atomicfu:0.21.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
                 implementation("io.insert-koin:koin-core:$koinVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")

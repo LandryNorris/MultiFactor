@@ -1,6 +1,7 @@
 package io.github.landrynorris.otp
 
-import kotlinx.datetime.Clock
+import kotlin.time.Clock
+import kotlin.time.ExperimentalTime
 
 /**
  * Implementation of RFC 6238 Time-Based One-Time Password.
@@ -8,6 +9,7 @@ import kotlinx.datetime.Clock
  * The time step is calculated as the Unix timestamp divided by [timeStep].
  * The timestamp can be overridden using [setTime].
  */
+@OptIn(ExperimentalTime::class)
 data class Totp(override val secret: ByteArray, override val name: String,
                 private val timeStep: Int = 30, override val codeLength: Int = 6):
     Otp(secret, name, codeLength) {

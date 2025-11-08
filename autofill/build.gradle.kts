@@ -15,7 +15,6 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation(project(":database"))
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
             }
         }
         val commonTest by getting {
