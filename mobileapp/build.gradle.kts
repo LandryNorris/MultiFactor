@@ -1,7 +1,5 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
-import org.jetbrains.compose.ExperimentalComposeLibrary
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.plugin.mpp.BitcodeEmbeddingMode
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 import org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable
 import java.util.*
@@ -24,6 +22,7 @@ plugins {
     kotlin("plugin.serialization") version "1.9.21"
     id("com.android.application")
     id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.compose")
     id("app.cash.sqldelight")
     id("org.jetbrains.kotlinx.kover")
     id("com.codingfeline.buildkonfig")
@@ -141,15 +140,6 @@ kotlin {
 
         framework {
             baseName = "MobileApp"
-
-            isStatic = false
-            embedBitcode(BitcodeEmbeddingMode.DISABLE)
-
-            freeCompilerArgs += listOf(
-                "-linker-option", "-framework", "-linker-option", "Metal",
-                "-linker-option", "-framework", "-linker-option", "CoreText",
-                "-linker-option", "-framework", "-linker-option", "CoreGraphics"
-            )
         }
     }
 }
@@ -163,10 +153,10 @@ kotlin {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 36
     defaultConfig {
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 36
 
         applicationId = "io.github.landrynorris.multifactor"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

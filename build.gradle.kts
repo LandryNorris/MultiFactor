@@ -1,6 +1,7 @@
 plugins {
-    id("org.jetbrains.kotlinx.kover") version "0.7.4"
-    id("org.jetbrains.dokka") version "1.9.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
+    id("org.jetbrains.kotlinx.kover") version "0.9.3"
+    id("org.jetbrains.dokka") version "2.2.21"
 }
 
 buildscript {
@@ -13,11 +14,11 @@ buildscript {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.21")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21")
         classpath("org.jetbrains.compose:compose-gradle-plugin:$composeVersion")
         classpath("app.cash.sqldelight:gradle-plugin:$sqlVersion")
         classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.13.3")
-        classpath("com.android.tools.build:gradle:8.1.2")
+        classpath("com.android.tools.build:gradle:8.11.0")
     }
 }
 
