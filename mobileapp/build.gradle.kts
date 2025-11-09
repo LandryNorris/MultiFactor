@@ -101,6 +101,7 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
                 implementation("app.cash.sqldelight:sqlite-driver:$sqlVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing")
             }
         }
 
