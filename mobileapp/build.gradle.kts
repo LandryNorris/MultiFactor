@@ -74,13 +74,13 @@ kotlin {
             dependencies {
                 dependsOn(commonMain)
                 implementation(project(":autofill"))
-                implementation("androidx.activity:activity-compose:1.8.0")
-                implementation("com.google.android.material:material:1.10.0")
-                implementation("androidx.startup:startup-runtime:1.1.1")
+                implementation("androidx.activity:activity-compose:1.11.0")
+                implementation("com.google.android.material:material:1.13.0")
+                implementation("androidx.startup:startup-runtime:1.2.0")
                 implementation("app.cash.sqldelight:android-driver:$sqlVersion")
                 implementation("io.insert-koin:koin-android:$koinVersion")
                 implementation("com.russhwolf:multiplatform-settings-datastore:$settingsVersion")
-                implementation("androidx.datastore:datastore-preferences:1.0.0")
+                implementation("androidx.datastore:datastore-preferences:1.1.7")
             }
         }
         val androidUnitTest by getting {
@@ -92,7 +92,7 @@ kotlin {
         val androidInstrumentedTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation("androidx.test:core:1.5.0")
+                implementation("androidx.test:core:1.7.0")
                 implementation(compose.desktop.uiTestJUnit4)
             }
         }
