@@ -10,13 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.DismissDirection
-import androidx.compose.material3.DismissState
-import androidx.compose.material3.DismissValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.SwipeToDismiss
-import androidx.compose.material3.rememberDismissState
+import androidx.compose.material3.SwipeToDismissBox
+import androidx.compose.material3.SwipeToDismissBoxState
+import androidx.compose.material3.SwipeToDismissBoxValue
+import androidx.compose.material3.rememberSwipeToDismissBoxState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -28,36 +27,39 @@ import androidx.compose.ui.unit.dp
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 internal fun LazyItemScope.SwipeToDelete(onDelete: () -> Unit, content: @Composable () -> Unit) {
-    val state = rememberDismissState(confirmValueChange = {
-        if(it == DismissValue.DismissedToStart) {
-            onDelete()
-            true
-        } else false
-    })
-    SwipeToDismiss(modifier = Modifier.animateItemPlacement(),
+    val state = rememberSwipeToDismissBoxState()
+    SwipeToDismissBox(modifier = Modifier.animateItem(),
         state = state,
-        background = { SwipeBackground(state) },
-        dismissContent = { content() },
-    directions = setOf(DismissDirection.EndToStart))
+        backgroundContent = { SwipeBackground(state) },
+        content = { content() },
+        enableDismissFromEndToStart = true,
+        enableDismissFromStartToEnd = false,
+        onDismiss = {
+            if(it == SwipeToDismissBoxValue.EndToStart) {
+                onDelete()
+            }
+        }
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun SwipeBackground(state: DismissState) {
-    val direction = state.dismissDirection ?: return
+internal fun SwipeBackground(state: SwipeToDismissBoxState) {
+    val direction = state.dismissDirection
     val color by animateColorAsState(
         when (state.targetValue) {
-            DismissValue.DismissedToStart -> Color.Red
+            SwipeToDismissBoxValue.EndToStart -> Color.Red
             else -> Color.Transparent
         }
     )
     val alignment = when (direction) {
-        DismissDirection.StartToEnd -> Alignment.CenterStart
-        DismissDirection.EndToStart -> Alignment.CenterEnd
+        SwipeToDismissBoxValue.StartToEnd -> Alignment.CenterStart
+        SwipeToDismissBoxValue.EndToStart -> Alignment.CenterEnd
+        else -> Alignment.CenterEnd
     }
     val icon = Icons.Default.Delete
     val scale by animateFloatAsState(
-        if (state.targetValue == DismissValue.Default) 0.75f else 1f
+        if (state.targetValue == SwipeToDismissBoxValue.Settled) 0.75f else 1f
     )
 
     Box(
@@ -67,7 +69,7 @@ internal fun SwipeBackground(state: DismissState) {
             .padding(horizontal = 20.dp),
         contentAlignment = alignment
     ) {
-        if(direction == DismissDirection.EndToStart) {
+        if(direction == SwipeToDismissBoxValue.EndToStart) {
             Icon(
                 icon,
                 contentDescription = "Delete",

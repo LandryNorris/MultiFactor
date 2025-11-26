@@ -17,3 +17,5 @@ key.properties
 iosAppXcode/iosAppXcode.xcodeproj/project.xcworkspace/xcuserdata
 iosAppXcode/DerivedData/
 iosAppXcode/Pods
+
+.kotlin

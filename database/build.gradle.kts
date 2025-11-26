@@ -15,7 +15,6 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
                 implementation("app.cash.sqldelight:coroutines-extensions:$sqlVersion")
             }
         }
@@ -45,7 +44,7 @@ kotlin {
 }
 
 android {
-    compileSdk = 34
+    compileSdk = 36
     defaultConfig {
         minSdk = 23
     }

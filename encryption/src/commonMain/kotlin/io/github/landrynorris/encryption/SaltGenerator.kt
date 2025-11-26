@@ -1,9 +1,9 @@
 package io.github.landrynorris.encryption
 
-import korlibs.crypto.SecureRandom
+import dev.whyoleg.cryptography.random.CryptographyRandom
 
 object SaltGenerator {
-    private val random = SecureRandom
+    private val random = CryptographyRandom
 
     fun generateSalt(length: Int): ByteArray {
         return random.nextBytes(length)

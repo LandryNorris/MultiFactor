@@ -9,7 +9,6 @@ import io.github.landrynorris.otp.Totp
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
-import kotlinx.datetime.Clock
 import kotlin.test.*
 
 class OtpComponentTest {

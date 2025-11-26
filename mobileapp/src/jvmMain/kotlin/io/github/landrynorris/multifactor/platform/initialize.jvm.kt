@@ -35,26 +35,5 @@ private fun initializeDatabaseDriver(): SqlDriver {
     dbFile.parentFile.mkdirs()
     val url = "jdbc:sqlite:${dbFile.absolutePath}"
 
-    return JdbcSqliteDriver(url).also {
-        migrateIfNeeded(it)
-    }
+    return JdbcSqliteDriver(url)
 }
-
-fun migrateIfNeeded(driver: SqlDriver) {
-    val result = driver.execute(null,
-        "PRAGMA $versionPragma", 0)
-    val oldVersion = result.value
-    val newVersion = AppDatabase.Schema.version
-
-    println("handling $oldVersion -> $newVersion")
-
-    if(oldVersion == 0L) {
-        AppDatabase.Schema.create(driver)
-        driver.execute(null, "PRAGMA $versionPragma=$newVersion", 0)
-    } else if(oldVersion < newVersion) {
-        AppDatabase.Schema.migrate(driver, oldVersion, newVersion)
-        driver.execute(null, "PRAGMA $versionPragma=$newVersion", 0)
-    }
-}
-
-private const val versionPragma = "user_version"

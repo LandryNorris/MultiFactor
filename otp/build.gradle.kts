@@ -1,7 +1,5 @@
 import java.util.Properties
 
-val kryptoVersion: String by project
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -31,40 +29,18 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation("com.soywiz.korlibs.krypto:krypto:$kryptoVersion")
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.0")
-            }
+        commonMain.dependencies {
+            implementation("dev.whyoleg.cryptography:cryptography-provider-optimal:0.5.0")
+            implementation("dev.whyoleg.cryptography:cryptography-core:0.5.0")
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-        val androidMain by getting
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-
-        val iosMain by creating {
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
 }
 
 android {
-    compileSdk = 32
+    compileSdk = 36
     defaultConfig {
         minSdk = 21
     }

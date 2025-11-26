@@ -1,6 +1,9 @@
 package io.github.landrynorris.otp
 
-import korlibs.crypto.HMAC
+import dev.whyoleg.cryptography.CryptographyProvider
+import dev.whyoleg.cryptography.DelicateCryptographyApi
+import dev.whyoleg.cryptography.algorithms.HMAC
+import dev.whyoleg.cryptography.algorithms.SHA1
 import kotlin.experimental.and
 
 private val powersOfTen = listOf(0, 10, 100, 1_000, 10_000, 100_000, 1_000_000,
@@ -13,10 +16,19 @@ private val powersOfTen = listOf(0, 10, 100, 1_000, 10_000, 100_000, 1_000_000,
  * The [codeLength] sets the length of generated codes.
  */
 sealed class Otp(open val secret: ByteArray, open val name: String, open val codeLength: Int = 6) {
+    val hmac = CryptographyProvider.Default.get(HMAC)
+
+    // The TOTP spec uses SHA1. They justify why this is secure in the spec
+    @OptIn(DelicateCryptographyApi::class)
+    val sha1KeyDecoder = hmac.keyDecoder(SHA1)
+    val sha1 by lazy {
+        // Must be lazy, since I guess the secret field is null when initializing?
+        sha1KeyDecoder.decodeFromByteArrayBlocking(HMAC.Key.Format.RAW, secret)
+    }
 
     private fun hash(value: ByteArray): ByteArray {
-        val hash = HMAC.hmacSHA1(secret, value)
-        return hash.bytes
+        val hash = sha1.signatureGenerator().generateSignatureBlocking(value)
+        return hash
     }
 
     /**

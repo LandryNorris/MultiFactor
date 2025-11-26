@@ -1,6 +1,9 @@
+import org.gradle.kotlin.dsl.kover
+
 plugins {
-    id("org.jetbrains.kotlinx.kover") version "0.7.4"
-    id("org.jetbrains.dokka") version "1.9.0"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
+    id("org.jetbrains.kotlinx.kover") version "0.9.3"
+    id("org.jetbrains.dokka") version "2.1.0"
 }
 
 buildscript {
@@ -13,11 +16,11 @@ buildscript {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.21")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21")
         classpath("org.jetbrains.compose:compose-gradle-plugin:$composeVersion")
         classpath("app.cash.sqldelight:gradle-plugin:$sqlVersion")
         classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.13.3")
-        classpath("com.android.tools.build:gradle:8.1.2")
+        classpath("com.android.tools.build:gradle:8.11.0")
     }
 }
 
@@ -35,33 +38,34 @@ dependencies {
     kover(project(":password-generator"))
 }
 
-koverReport {
-    filters {
-        excludes {
-            classes("*.BuildConfig", "*.MainActivity*", "*.compose.*",
-                "*.theme.*", "*.platform.*", "*.InitializeKt*", "*.Startup*", "*.*Defaults",
-                "*.test.*", "MainKt*")
+kover {
+    reports {
+        filters {
+            excludes {
+                classes("*.BuildConfig", "*.MainActivity*", "*.compose.*",
+                    "*.theme.*", "*.platform.*", "*.InitializeKt*", "*.Startup*", "*.*Defaults",
+                    "*.test.*", "MainKt*")
 
-            packages("io.github.landrynorris.database", "io.github.landrynorris.autofill")
+                packages("io.github.landrynorris.database", "io.github.landrynorris.autofill")
 
-            annotatedBy(
-                "io.github.landrynorris.multifactor.annotations.IgnoreCoverage",
-                "io.github.landrynorris.otp.IgnoreCoverage"
-            )
+                annotatedBy(
+                    "io.github.landrynorris.multifactor.annotations.IgnoreCoverage",
+                    "io.github.landrynorris.otp.IgnoreCoverage"
+                )
+            }
         }
-    }
 
-    defaults {
-        html {
-            onCheck = true
-
-            setReportDir(layout.buildDirectory.dir("test/report/html"))
+        total {
+            html {
+                onCheck = true
+                htmlDir = layout.buildDirectory.dir("test/report/html")
+            }
         }
     }
 }
 
-tasks {
-    dokkaHtmlMultiModule {
-        outputDirectory.set(File(projectDir, "docs/html"))
+dokka {
+    dokkaPublications.html {
+        this.outputDirectory = project.projectDir.resolve("docs/html")
     }
 }
