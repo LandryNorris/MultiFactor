@@ -1,12 +1,25 @@
 package io.github.landrynorris.encryption
 
-import korlibs.crypto.AES
-import korlibs.crypto.Padding
+import dev.whyoleg.cryptography.CryptographyProvider
+import dev.whyoleg.cryptography.DelicateCryptographyApi
+import dev.whyoleg.cryptography.algorithms.AES
 
 object Encryption {
-    fun encrypt(data: ByteArray, salt: ByteArray, key: ByteArray) =
-        AES.encryptAesCbc(data = data, iv = salt, key = key, padding = Padding.ZeroPadding)
+    val crypto = CryptographyProvider.Default.get(AES.CBC)
+    val keyGenerator = crypto.keyDecoder()
+    @OptIn(DelicateCryptographyApi::class)
+    fun encrypt(data: ByteArray, salt: ByteArray, key: ByteArray): ByteArray {
+        val decodedKey = keyGenerator.decodeFromByteArrayBlocking(AES.Key.Format.RAW, key)
+        val cipher = decodedKey.cipher(true)
 
-    fun decrypt(data: ByteArray, salt: ByteArray, key: ByteArray) =
-        AES.decryptAesCbc(data = data, iv = salt, key = key, padding = Padding.ZeroPadding)
+        return cipher.encryptWithIvBlocking(salt, data)
+    }
+
+    @OptIn(DelicateCryptographyApi::class)
+    fun decrypt(data: ByteArray, salt: ByteArray, key: ByteArray): ByteArray {
+        val decodedKey = keyGenerator.decodeFromByteArrayBlocking(AES.Key.Format.RAW, key)
+        val cipher = decodedKey.cipher(true)
+
+        return cipher.decryptWithIvBlocking(salt, data)
+    }
 }

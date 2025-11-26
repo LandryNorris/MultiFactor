@@ -1,7 +1,5 @@
 import org.jetbrains.kotlin.konan.target.HostManager
 
-val kryptoVersion: String by project
-
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -31,7 +29,8 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.soywiz.korlibs.krypto:krypto:$kryptoVersion")
+                implementation("dev.whyoleg.cryptography:cryptography-provider-optimal:0.5.0")
+                implementation("dev.whyoleg.cryptography:cryptography-core:0.5.0")
             }
         }
         val commonTest by getting {

@@ -27,5 +27,5 @@ class MockCrypto: Crypto {
 
     private fun createSalt(): ByteArray = Random.nextBytes(256)
 
-    private fun createKey(): ByteArray = Random.nextBytes(128)
+    private fun createKey(): ByteArray = Random.nextBytes(128/8)
 }
