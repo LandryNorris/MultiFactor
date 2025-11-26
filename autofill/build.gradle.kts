@@ -12,29 +12,23 @@ kotlin {
     androidTarget()
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                implementation(project(":database"))
-            }
+        commonMain.dependencies {
+            implementation(project(":database"))
         }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
-        val androidMain by getting {
-            dependencies {
-                implementation("app.cash.sqldelight:android-driver:$sqlVersion")
-                implementation("androidx.activity:activity-compose:1.7.2")
-                implementation("com.google.android.material:material:1.9.0")
-                implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-                implementation("androidx.autofill:autofill:1.1.0")
+        androidMain.dependencies {
+            implementation("app.cash.sqldelight:android-driver:$sqlVersion")
+            implementation("androidx.activity:activity-compose:1.7.2")
+            implementation("com.google.android.material:material:1.9.0")
+            implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
+            implementation("androidx.autofill:autofill:1.1.0")
 
-                implementation(compose.runtime)
-                implementation(compose.foundation)
-                implementation(compose.ui)
-                implementation(compose.material)
-            }
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.ui)
+            implementation(compose.material)
         }
     }
 }
