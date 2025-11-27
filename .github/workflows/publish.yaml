@@ -40,7 +40,7 @@ jobs:
       - name: Build APK
         run: bash ./gradlew assembleProduction --stacktrace
       - name: Upload APK
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v4
         with:
           name: apk
           path: mobileapp/build/outputs/apk/production/release/mobileapp-production-release.apk
