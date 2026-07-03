@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.konan.target.HostManager
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.android.library)
-    id("io.github.ttypic.swiftklib") version "0.6.4"
+    alias(libs.plugins.swift)
 }
 
 kotlin {

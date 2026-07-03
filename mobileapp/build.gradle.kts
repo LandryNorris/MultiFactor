@@ -63,8 +63,8 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
-            implementation("com.russhwolf:multiplatform-settings-test:$settingsVersion")
-            implementation("io.insert-koin:koin-test:$koinVersion")
+            implementation(libs.settings.test)
+            implementation(libs.koin.test)
         }
         androidMain.dependencies {
             implementation(project(":autofill"))
@@ -92,7 +92,7 @@ kotlin {
         }
 
         iosMain.dependencies {
-            implementation("app.cash.sqldelight:native-driver:${sqlVersion}")
+            implementation(libs.sql.native)
         }
     }
 }

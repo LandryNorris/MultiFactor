@@ -19,6 +19,7 @@ sql = "2.1.0"
 settings = "1.1.1"
 sqlVersion = "2.1.0"
 startupRuntime = "1.2.0"
+swift = "0.6.4"
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -32,14 +33,18 @@ decompose-compose = { module = "com.arkivanov.decompose:extensions-compose", ver
 koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 color = { module = "com.materialkolor:material-kolor", version.ref = "color" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 sql = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sql" }
 sql-sqlite = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sql" }
+sql-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sql" }
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
 settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "settings" }
 settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "settings" }
+settings-test = { module = "com.russhwolf:multiplatform-settings-test", version.ref = "settings" }
+
 startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "startupRuntime" }
 
 [plugins]
@@ -53,3 +58,4 @@ android-app = { id = "com.android.application", version.ref = "android" }
 android-library = { id = "com.android.library", version.ref = "android" }
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfigGradlePlugin" }
 sql-delight = { id = "app.cash.sqldelight", version.ref = "sql" }
+swift = { id = "io.github.ttypic.swiftklib", version.ref = "swift" }
