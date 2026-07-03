@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.android.library)
     id("io.github.ttypic.swiftklib") version "0.6.4"
 }
 
@@ -28,8 +28,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation("dev.whyoleg.cryptography:cryptography-provider-optimal:0.5.0")
-            implementation("dev.whyoleg.cryptography:cryptography-core:0.5.0")
+            implementation(libs.cryptography.provider.optimal)
+            implementation(libs.cryptography.core)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))

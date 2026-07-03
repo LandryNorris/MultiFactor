@@ -1,10 +1,8 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("app.cash.sqldelight")
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.sql.delight)
 }
-
-val sqlVersion: String by project
 
 kotlin {
     androidTarget()
@@ -15,7 +13,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("app.cash.sqldelight:coroutines-extensions:$sqlVersion")
+                implementation(libs.sql)
             }
         }
         val commonTest by getting {

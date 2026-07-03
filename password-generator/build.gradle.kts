@@ -1,9 +1,9 @@
 
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.android.library)
     id("org.jetbrains.kotlinx.kover")
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.dokka)
 }
 
 kotlin {

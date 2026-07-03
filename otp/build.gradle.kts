@@ -1,10 +1,10 @@
 import java.util.Properties
 
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.kotlinx.kover")
-    id("org.jetbrains.dokka")
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.dokka)
     id("maven-publish")
     id("signing")
 }
@@ -30,8 +30,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation("dev.whyoleg.cryptography:cryptography-provider-optimal:0.5.0")
-            implementation("dev.whyoleg.cryptography:cryptography-core:0.5.0")
+            implementation(libs.cryptography.provider.optimal)
+            implementation(libs.cryptography.core)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
