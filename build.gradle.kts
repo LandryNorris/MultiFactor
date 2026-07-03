@@ -1,13 +1,16 @@
 import org.gradle.kotlin.dsl.kover
 
 plugins {
-    id("org.jetbrains.kotlin.plugin.compose") version "2.2.21"
-    id("org.jetbrains.kotlinx.kover") version "0.9.3"
-    id("org.jetbrains.dokka") version "2.1.0"
+    alias(libs.plugins.android.app) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.compose) apply false
+    alias(libs.plugins.composeCompiler) apply false
+    alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.kover)
+    alias(libs.plugins.dokka)
 }
 
 buildscript {
-    val composeVersion: String by project
     val sqlVersion: String by project
     repositories {
         gradlePluginPortal()
@@ -16,11 +19,6 @@ buildscript {
         maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     }
     dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21")
-        classpath("org.jetbrains.compose:compose-gradle-plugin:$composeVersion")
-        classpath("app.cash.sqldelight:gradle-plugin:$sqlVersion")
-        classpath("com.codingfeline.buildkonfig:buildkonfig-gradle-plugin:0.13.3")
-        classpath("com.android.tools.build:gradle:8.11.0")
     }
 }
 

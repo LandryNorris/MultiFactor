@@ -1,7 +1,6 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
+import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable
 import java.util.*
 
 val keystoreProperties =
@@ -10,22 +9,18 @@ val keystoreProperties =
         if (file.exists()) load(file.reader())
     }
 
-val decomposeVersion: String by project
-val koinVersion: String by project
-val sqlVersion: String by project
-val settingsVersion: String by project
 val appVersion: String by project
 
 plugins {
-    kotlin("multiplatform")
+    alias(libs.plugins.kotlin)
     kotlin("native.cocoapods")
-    kotlin("plugin.serialization") version "1.9.21"
-    id("com.android.application")
-    id("org.jetbrains.compose")
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("app.cash.sqldelight")
-    id("org.jetbrains.kotlinx.kover")
-    id("com.codingfeline.buildkonfig")
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.android.app)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.sql.delight)
+    alias(libs.plugins.kover)
+    alias(libs.plugins.buildkonfig)
 }
 
 version = appVersion
@@ -46,15 +41,14 @@ kotlin {
             implementation(project(":encryption"))
             implementation(project(":password-generator"))
             implementation(project(":database"))
-            implementation("org.jetbrains.kotlinx:atomicfu:0.21.0")
-            implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-            implementation("io.insert-koin:koin-core:$koinVersion")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3")
-            implementation("app.cash.sqldelight:coroutines-extensions:$sqlVersion")
-            implementation("com.arkivanov.decompose:extensions-compose:$decomposeVersion")
-            implementation("com.russhwolf:multiplatform-settings:$settingsVersion")
-            implementation("com.russhwolf:multiplatform-settings-coroutines:$settingsVersion")
-            implementation("com.materialkolor:material-kolor:1.2.8")
+            implementation(libs.decompose)
+            implementation(libs.koin)
+            implementation(libs.kotlin.coroutines)
+            implementation(libs.sql)
+            implementation(libs.decompose.compose)
+            implementation(libs.settings)
+            implementation(libs.settings.coroutines)
+            implementation(libs.color)
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.ui)
@@ -63,36 +57,36 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
-            implementation("com.russhwolf:multiplatform-settings-test:$settingsVersion")
-            implementation("io.insert-koin:koin-test:$koinVersion")
+            implementation(libs.settings.test)
+            implementation(libs.koin.test)
         }
         androidMain.dependencies {
             implementation(project(":autofill"))
-            implementation("androidx.activity:activity-compose:1.11.0")
-            implementation("com.google.android.material:material:1.13.0")
-            implementation("androidx.startup:startup-runtime:1.2.0")
-            implementation("app.cash.sqldelight:android-driver:$sqlVersion")
-            implementation("io.insert-koin:koin-android:$koinVersion")
-            implementation("com.russhwolf:multiplatform-settings-datastore:$settingsVersion")
-            implementation("androidx.datastore:datastore-preferences:1.1.7")
+            implementation(libs.activity.compose)
+            implementation(libs.material)
+            implementation(libs.startup.runtime)
+            implementation(libs.android.driver)
+            implementation(libs.koin.android)
+            implementation(libs.settings.datastore)
+            implementation(libs.datastore.preferences)
         }
         androidUnitTest.dependencies {
-            implementation("app.cash.sqldelight:sqlite-driver:$sqlVersion")
+            implementation(libs.sql.sqlite)
         }
         androidInstrumentedTest.dependencies {
             implementation(kotlin("test"))
-            implementation("androidx.test:core:1.7.0")
+            implementation(libs.core)
             implementation(compose.desktop.uiTestJUnit4)
         }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation("app.cash.sqldelight:sqlite-driver:$sqlVersion")
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing")
+            implementation(libs.sql.sqlite)
+            implementation(libs.kotlinx.coroutines.swing)
         }
 
         iosMain.dependencies {
-            implementation("app.cash.sqldelight:native-driver:${sqlVersion}")
+            implementation(libs.sql.native)
         }
     }
 }

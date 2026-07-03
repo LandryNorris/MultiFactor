@@ -1,12 +1,9 @@
 plugins {
-    kotlin("multiplatform")
-    id("com.android.library")
-    id("org.jetbrains.compose")
-    id("org.jetbrains.kotlin.plugin.compose")
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.android.library)
+    alias(libs.plugins.compose)
+    alias(libs.plugins.composeCompiler)
 }
-
-val sqlVersion: String by project
-val decomposeVersion: String by project
 
 kotlin {
     androidTarget()
@@ -19,11 +16,11 @@ kotlin {
             implementation(kotlin("test"))
         }
         androidMain.dependencies {
-            implementation("app.cash.sqldelight:android-driver:$sqlVersion")
-            implementation("androidx.activity:activity-compose:1.7.2")
-            implementation("com.google.android.material:material:1.9.0")
-            implementation("com.arkivanov.decompose:decompose:$decomposeVersion")
-            implementation("androidx.autofill:autofill:1.1.0")
+            implementation(libs.sql.android)
+            implementation(libs.activity.compose)
+            implementation(libs.material)
+            implementation(libs.decompose)
+            implementation(libs.autofill)
 
             implementation(compose.runtime)
             implementation(compose.foundation)

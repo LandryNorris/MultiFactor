@@ -1,0 +1,64 @@
+[versions]
+android = "8.11.0"
+activityCompose = "1.11.0"
+autofill = "1.1.0"
+buildkonfigGradlePlugin = "0.13.3"
+core = "1.7.0"
+cryptographyProviderOptimal = "0.5.0"
+cryptographyCore = "0.5.0"
+datastorePreferences = "1.1.7"
+kotlin = "2.3.20"
+compose = "1.9.3"
+decompose = "3.4.0"
+kover = "0.9.8"
+dokka = "2.2.0"
+koin = "4.2.2"
+color = "1.2.8"
+coroutines = "1.7.3"
+material = "1.13.0"
+sql = "2.1.0"
+settings = "1.1.1"
+sqlVersion = "2.1.0"
+startupRuntime = "1.2.0"
+swift = "0.6.4"
+
+[libraries]
+activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlVersion" }
+autofill = { module = "androidx.autofill:autofill", version.ref = "autofill" }
+core = { module = "androidx.test:core", version.ref = "core" }
+cryptography-core = { module = "dev.whyoleg.cryptography:cryptography-core", version.ref = "cryptographyCore" }
+cryptography-provider-optimal = { module = "dev.whyoleg.cryptography:cryptography-provider-optimal", version.ref = "cryptographyProviderOptimal" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
+decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
+decompose-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
+koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+color = { module = "com.materialkolor:material-kolor", version.ref = "color" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
+material = { module = "com.google.android.material:material", version.ref = "material" }
+sql = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sql" }
+sql-sqlite = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sql" }
+sql-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sql" }
+sql-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sql" }
+settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
+settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "settings" }
+settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "settings" }
+settings-test = { module = "com.russhwolf:multiplatform-settings-test", version.ref = "settings" }
+
+startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "startupRuntime" }
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose  = { id = "org.jetbrains.compose", version.ref = "compose" }
+kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
+dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
+android-app = { id = "com.android.application", version.ref = "android" }
+android-library = { id = "com.android.library", version.ref = "android" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfigGradlePlugin" }
+sql-delight = { id = "app.cash.sqldelight", version.ref = "sql" }
+swift = { id = "io.github.ttypic.swiftklib", version.ref = "swift" }

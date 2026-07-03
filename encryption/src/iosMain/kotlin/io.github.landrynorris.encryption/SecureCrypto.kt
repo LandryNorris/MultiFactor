@@ -1,6 +1,5 @@
 package io.github.landrynorris.encryption
 
-import io.github.landrynorris.encryption.swift.Attributes
 import kotlinx.cinterop.*
 import platform.CoreFoundation.*
 import platform.Foundation.CFBridgingRelease
@@ -110,4 +109,21 @@ actual object SecureCrypto: Crypto {
         val nsErrorText = CFBridgingRelease(CFErrorCopyDescription(this)) as NSString
         return nsErrorText as String
     }
+}
+
+// Temporary workaround for building on non-mac platforms.
+// TODO(Landry): Handle fact that the swift plugin disables itself on non-mac platforms
+class Attributes {
+    companion object {
+        @OptIn(ExperimentalForeignApi::class)
+        fun keyAttributes(access: SecAccessControlRef?, alias: Any): CFDictionaryRef {
+            TODO("Figure out the new way to interop with swift while maintaining buildability on non-mac")
+        }
+
+        @OptIn(ExperimentalForeignApi::class)
+        fun keyQuery(alias: String): CFDictionaryRef? {
+            TODO("Figure out the new way to interop with swift while maintaining buildability on non-mac")
+        }
+    }
+
 }
