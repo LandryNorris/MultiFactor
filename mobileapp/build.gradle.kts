@@ -1,8 +1,6 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-import org.jetbrains.kotlin.gradle.plugin.mpp.TestExecutable
 import java.util.*
 
 val keystoreProperties =
@@ -11,10 +9,6 @@ val keystoreProperties =
         if (file.exists()) load(file.reader())
     }
 
-val decomposeVersion: String by project
-val koinVersion: String by project
-val sqlVersion: String by project
-val settingsVersion: String by project
 val appVersion: String by project
 
 plugins {

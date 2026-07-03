@@ -1,6 +1,7 @@
 [versions]
 android = "8.11.0"
 activityCompose = "1.11.0"
+autofill = "1.1.0"
 buildkonfigGradlePlugin = "0.13.3"
 core = "1.7.0"
 cryptographyProviderOptimal = "0.5.0"
@@ -24,6 +25,7 @@ swift = "0.6.4"
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqlVersion" }
+autofill = { module = "androidx.autofill:autofill", version.ref = "autofill" }
 core = { module = "androidx.test:core", version.ref = "core" }
 cryptography-core = { module = "dev.whyoleg.cryptography:cryptography-core", version.ref = "cryptographyCore" }
 cryptography-provider-optimal = { module = "dev.whyoleg.cryptography:cryptography-provider-optimal", version.ref = "cryptographyProviderOptimal" }
@@ -40,6 +42,7 @@ material = { module = "com.google.android.material:material", version.ref = "mat
 sql = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sql" }
 sql-sqlite = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sql" }
 sql-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sql" }
+sql-android = { module = "app.cash.sqldelight:android-driver", version.ref = "sql" }
 settings = { module = "com.russhwolf:multiplatform-settings", version.ref = "settings" }
 settings-coroutines = { module = "com.russhwolf:multiplatform-settings-coroutines", version.ref = "settings" }
 settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore", version.ref = "settings" }
