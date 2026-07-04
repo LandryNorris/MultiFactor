@@ -14,3 +14,5 @@ include(":encryption")
 include(":password-generator")
 include(":autofill")
 include(":database")
+
+include(":androidApp")

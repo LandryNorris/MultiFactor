@@ -3,19 +3,13 @@ import org.gradle.kotlin.dsl.implementation
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.util.*
 
-val keystoreProperties =
-    Properties().apply {
-        val file = File("key.properties")
-        if (file.exists()) load(file.reader())
-    }
-
 val appVersion: String by project
 
 plugins {
     alias(libs.plugins.kotlin)
     kotlin("native.cocoapods")
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.android.app)
+    alias(libs.plugins.android.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.sql.delight)
@@ -105,45 +99,6 @@ kotlin {
     }
 }
 
-android {
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 26
-        targetSdk = 36
-
-        applicationId = "io.github.landrynorris.multifactor"
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    flavorDimensions += "track"
-
-    productFlavors {
-        val production by creating {
-            if(keystoreProperties.isNotEmpty()) {
-                signingConfigs {
-                    create("release") {
-                        storeFile = file(keystoreProperties.getProperty("storeFile"))
-                        storePassword = keystoreProperties.getProperty("storePassword")
-                        keyAlias = keystoreProperties.getProperty("keyAlias")
-                        keyPassword = keystoreProperties.getProperty("keyPassword")
-                    }
-                }
-                signingConfig = signingConfigs.getByName("release")
-            }
-        }
-
-        val dev by creating {
-            applicationIdSuffix = ".dev"
-        }
-    }
-
-    namespace = "io.github.landrynorris.multifactor"
-}
-
 dependencies {
     implementation(project(mapOf("path" to ":database")))
 }
@@ -174,4 +129,17 @@ buildkonfig {
         buildConfigField(FieldSpec.Type.STRING, "version", version.toString())
         buildConfigField(FieldSpec.Type.STRING, "buildId", buildId)
     }
+}
+
+android {
+    compileSdk = 36
+    defaultConfig {
+        minSdk = 21
+    }
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    namespace = "io.github.landrynorris.app"
 }
