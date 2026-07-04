@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.kover
 
 plugins {
     alias(libs.plugins.android.app) apply false
-    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.multiplatform.library) apply false
     alias(libs.plugins.compose) apply false
     alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlin) apply false

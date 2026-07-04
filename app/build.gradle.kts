@@ -1,5 +1,5 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
-import org.gradle.kotlin.dsl.implementation
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.util.*
 
@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.kotlin)
     kotlin("native.cocoapods")
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.sql.delight)
@@ -20,7 +20,15 @@ plugins {
 version = appVersion
 
 kotlin {
-    androidTarget()
+    androidLibrary {
+        compileSdk = 36
+        minSdk = 21
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
+
+        namespace = "io.github.landrynorris.app"
+    }
     jvm()
 
     listOf(
@@ -56,6 +64,7 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(project(":autofill"))
+            implementation(project(":database"))
             implementation(libs.activity.compose)
             implementation(libs.material)
             implementation(libs.startup.runtime)
@@ -99,10 +108,6 @@ kotlin {
     }
 }
 
-dependencies {
-    implementation(project(mapOf("path" to ":database")))
-}
-
 compose.desktop {
     application {
         mainClass = "MainKt"
@@ -129,17 +134,4 @@ buildkonfig {
         buildConfigField(FieldSpec.Type.STRING, "version", version.toString())
         buildConfigField(FieldSpec.Type.STRING, "buildId", buildId)
     }
-}
-
-android {
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 21
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    namespace = "io.github.landrynorris.app"
 }

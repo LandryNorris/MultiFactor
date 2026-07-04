@@ -1,13 +1,23 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.swift)
 }
 
 kotlin {
-    androidTarget()
+    androidLibrary {
+        compileSdk = 36
+        minSdk = 23
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
+
+        namespace = "io.github.landrynorris.encryption"
+    }
+
     jvm()
 
     listOf(
@@ -45,18 +55,6 @@ kotlin {
             iosX64Main.dependsOn(this)
         }
     }
-}
-
-android {
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 23
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    namespace = "io.github.landrynorris.encryption"
 }
 
 swiftklib {

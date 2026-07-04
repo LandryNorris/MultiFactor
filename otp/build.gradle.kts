@@ -1,8 +1,9 @@
 import java.util.Properties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.kover)
     alias(libs.plugins.dokka)
     id("maven-publish")
@@ -13,8 +14,16 @@ group = "io.github.landrynorris"
 version = "0.1.0"
 
 kotlin {
-    androidTarget {
-        publishLibraryVariants("debug", "release")
+    androidLibrary {
+        compileSdk = 36
+        minSdk = 21
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
+
+        withSourcesJar()
+
+        namespace = "io.github.landrynorris.otp"
     }
     jvm()
 
@@ -37,26 +46,6 @@ kotlin {
             implementation(kotlin("test"))
         }
     }
-}
-
-android {
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 21
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    publishing {
-        multipleVariants {
-            allVariants()
-            withJavadocJar()
-        }
-    }
-
-    namespace = "io.github.landrynorris.otp"
 }
 
 val properties by lazy {

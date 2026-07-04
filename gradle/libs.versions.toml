@@ -58,6 +58,7 @@ compose  = { id = "org.jetbrains.compose", version.ref = "compose" }
 kover = { id = "org.jetbrains.kotlinx.kover", version.ref = "kover" }
 dokka = { id = "org.jetbrains.dokka", version.ref = "dokka" }
 android-app = { id = "com.android.application", version.ref = "android" }
+android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "android" }
 android-library = { id = "com.android.library", version.ref = "android" }
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfigGradlePlugin" }
 sql-delight = { id = "app.cash.sqldelight", version.ref = "sql" }

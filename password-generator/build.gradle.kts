@@ -1,13 +1,22 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.multiplatform.library)
     id("org.jetbrains.kotlinx.kover")
     alias(libs.plugins.dokka)
 }
 
 kotlin {
-    androidTarget()
+    androidLibrary {
+        compileSdk = 36
+        minSdk = 23
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
+
+        namespace = "io.github.landrynorris.password.generator"
+    }
     jvm()
 
     listOf(iosX64(), iosArm64(), iosSimulatorArm64())
@@ -17,16 +26,4 @@ kotlin {
             implementation(kotlin("test"))
         }
     }
-}
-
-android {
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 23
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    namespace = "io.github.landrynorris.password.generator"
 }
