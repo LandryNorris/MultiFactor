@@ -32,7 +32,7 @@ allprojects {
 
 dependencies {
     kover(project(":otp"))
-    kover(project(":mobileapp"))
+    "kover"(project(":app"))
     kover(project(":password-generator"))
 }
 
