@@ -1,5 +1,5 @@
 [versions]
-android = "9.0.0"
+android = "9.2.0"
 activityCompose = "1.11.0"
 autofill = "1.1.0"
 buildkonfigGradlePlugin = "0.13.3"
