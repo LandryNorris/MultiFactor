@@ -5,8 +5,6 @@ plugins {
     alias(libs.plugins.android.app)
     alias(libs.plugins.compose)
     alias(libs.plugins.composeCompiler)
-
-    id("org.jetbrains.kotlin.android") // can be removed after AGP 9 update
 }
 
 val keystoreProperties =
@@ -57,7 +55,7 @@ android {
         }
     }
 
-    namespace = "io.github.landrynorris.app"
+    namespace = "io.github.landrynorris.multifactor"
 }
 
 dependencies {
