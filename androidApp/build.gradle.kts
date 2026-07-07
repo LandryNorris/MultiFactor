@@ -33,6 +33,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
     flavorDimensions += "track"
 
     productFlavors {
@@ -69,4 +73,9 @@ dependencies {
     implementation(libs.decompose)
 
     implementation(libs.activity.compose)
+
+    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.core)
+    androidTestImplementation(libs.ui.test.junit4)
+
 }

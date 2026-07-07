@@ -20,7 +20,6 @@ plugins {
 version = appVersion
 
 kotlin {
-    applyDefaultHierarchyTemplate()
     android {
         compileSdk = 37
         minSdk = 21
@@ -74,13 +73,8 @@ kotlin {
             implementation(libs.settings.datastore)
             implementation(libs.datastore.preferences)
         }
-        androidUnitTest.dependencies {
+        getByName("androidHostTest").dependencies {
             implementation(libs.sql.sqlite)
-        }
-        androidInstrumentedTest.dependencies {
-            implementation(kotlin("test"))
-            implementation(libs.core)
-            implementation(libs.ui.test.junit4)
         }
 
         jvmMain.dependencies {
