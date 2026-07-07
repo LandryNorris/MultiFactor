@@ -22,9 +22,6 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":database"))
         }
-        commonTest.dependencies {
-            implementation(kotlin("test"))
-        }
         androidMain.dependencies {
             implementation(libs.sql.android)
             implementation(libs.activity.compose)
@@ -32,10 +29,10 @@ kotlin {
             implementation(libs.decompose)
             implementation(libs.autofill)
 
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.ui)
-            implementation(compose.material)
+            implementation(libs.runtime)
+            implementation(libs.foundation)
+            implementation(libs.ui)
+            implementation(libs.material)
         }
     }
 }
