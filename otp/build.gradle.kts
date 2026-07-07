@@ -116,5 +116,6 @@ fun getProperty(name: String): String? {
 }
 
 fun hasLocalProperties(): Boolean {
-    return project.rootProject.file("local.properties").exists()
+    return project.rootProject.file("local.properties").exists() &&
+            getProperty("signing.enable") != "false"
 }
