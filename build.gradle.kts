@@ -11,7 +11,6 @@ plugins {
 }
 
 buildscript {
-    val sqlVersion: String by project
     repositories {
         gradlePluginPortal()
         google()
