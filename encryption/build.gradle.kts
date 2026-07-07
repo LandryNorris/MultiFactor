@@ -26,7 +26,7 @@ kotlin {
     ).forEach {
         it.compilations {
             if(HostManager.hostIsMac) {
-                val main by getting {
+                getByName("main") {
                     cinterops {
                         create("Attributes")
                     }
@@ -42,14 +42,6 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
-        }
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain.get())
-
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
         }
     }
 }
