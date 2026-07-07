@@ -77,5 +77,5 @@ dependencies {
     androidTestImplementation(kotlin("test"))
     androidTestImplementation(libs.core)
     androidTestImplementation(libs.ui.test.junit4)
-
+    androidTestImplementation(project(":otp"))
 }
