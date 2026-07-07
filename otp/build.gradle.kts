@@ -17,6 +17,7 @@ kotlin {
         compileSdk = 37
         minSdk = 21
         namespace = "io.github.landrynorris.otp"
+        withHostTest { }
     }
     jvm()
 

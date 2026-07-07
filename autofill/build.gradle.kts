@@ -12,6 +12,7 @@ kotlin {
         compileSdk = 37
         minSdk = 26
         namespace = "io.github.landrynorris.autofill"
+        withHostTest { }
     }
 
     sourceSets {

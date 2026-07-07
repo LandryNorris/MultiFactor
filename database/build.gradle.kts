@@ -9,6 +9,7 @@ kotlin {
         compileSdk = 37
         minSdk = 23
         namespace = "io.github.landrynorris.database"
+        withHostTest { }
     }
     jvm()
 

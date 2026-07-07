@@ -29,6 +29,7 @@ kotlin {
         }
 
         namespace = "io.github.landrynorris.app"
+        withHostTest { }
     }
     jvm()
 
