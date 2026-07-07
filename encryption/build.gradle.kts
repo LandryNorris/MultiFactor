@@ -1,5 +1,4 @@
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
@@ -8,13 +7,9 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
-        compileSdk = 36
+    android {
+        compileSdk = 37
         minSdk = 23
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
-
         namespace = "io.github.landrynorris.encryption"
     }
 

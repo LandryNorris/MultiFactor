@@ -8,13 +8,9 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
-        compileSdk = 36
+    android {
+        compileSdk = 37
         minSdk = 23
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
-
         namespace = "io.github.landrynorris.password.generator"
     }
     jvm()
