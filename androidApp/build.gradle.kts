@@ -13,7 +13,11 @@ val keystoreProperties =
         if (file.exists()) load(file.reader())
     }
 
-val appVersion: String by project
+val appVersion = project.property("appVersion") as String
+
+kotlin {
+    jvmToolchain(17)
+}
 
 android {
     compileSdk = 36
@@ -27,10 +31,6 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlin {
-        jvmToolchain(17)
     }
 
     flavorDimensions += "track"
