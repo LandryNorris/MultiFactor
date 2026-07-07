@@ -1,11 +1,11 @@
-package io.github.landrynorris.multifactor
+package io.github.landrynorris.app
 
 import androidx.compose.ui.window.ComposeUIViewController
 import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
+import io.github.landrynorris.app.components.RootComponent
+import io.github.landrynorris.app.compose.RootScreen
 import io.github.landrynorris.encryption.SecureCrypto
-import io.github.landrynorris.multifactor.components.RootComponent
-import io.github.landrynorris.multifactor.compose.RootScreen
 import kotlinx.cinterop.*
 import platform.Foundation.NSStringFromClass
 import platform.UIKit.*

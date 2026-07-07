@@ -20,6 +20,7 @@ plugins {
 version = appVersion
 
 kotlin {
+    applyDefaultHierarchyTemplate()
     androidLibrary {
         compileSdk = 36
         minSdk = 21

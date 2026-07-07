@@ -1,12 +1,12 @@
-package io.github.landrynorris.multifactor.platform
+package io.github.landrynorris.app.platform
 
 import com.russhwolf.settings.ExperimentalSettingsApi
 import com.russhwolf.settings.NSUserDefaultsSettings
 import com.russhwolf.settings.coroutines.SuspendSettings
 import com.russhwolf.settings.coroutines.toFlowSettings
 import app.cash.sqldelight.driver.native.NativeSqliteDriver
+import io.github.landrynorris.app.repository.SettingsRepository
 import io.github.landrynorris.database.AppDatabase
-import io.github.landrynorris.multifactor.repository.SettingsRepository
 import org.koin.dsl.module
 import platform.Foundation.NSUserDefaults
 
