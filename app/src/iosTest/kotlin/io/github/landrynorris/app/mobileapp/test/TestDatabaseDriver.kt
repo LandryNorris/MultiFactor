@@ -1,4 +1,4 @@
-package io.github.landrynorris.multifactor.mobileapp.test
+package io.github.landrynorris.app.mobileapp.test
 
 import app.cash.sqldelight.db.SqlDriver
 import app.cash.sqldelight.driver.native.NativeSqliteDriver

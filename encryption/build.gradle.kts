@@ -21,7 +21,6 @@ kotlin {
     jvm()
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     ).forEach {
@@ -45,14 +44,12 @@ kotlin {
             implementation(kotlin("test"))
         }
         val iosArm64Main by getting
-        val iosX64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
             dependsOn(commonMain.get())
 
             iosArm64Main.dependsOn(this)
             iosSimulatorArm64Main.dependsOn(this)
-            iosX64Main.dependsOn(this)
         }
     }
 }

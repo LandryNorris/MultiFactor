@@ -20,6 +20,7 @@ plugins {
 version = appVersion
 
 kotlin {
+    applyDefaultHierarchyTemplate()
     androidLibrary {
         compileSdk = 36
         minSdk = 21
@@ -32,7 +33,6 @@ kotlin {
     jvm()
 
     listOf(
-        iosX64(),
         iosArm64(),
         iosSimulatorArm64()
     )
@@ -68,7 +68,7 @@ kotlin {
             implementation(libs.activity.compose)
             implementation(libs.material)
             implementation(libs.startup.runtime)
-            implementation(libs.android.driver)
+            implementation(libs.sql.android)
             implementation(libs.koin.android)
             implementation(libs.settings.datastore)
             implementation(libs.datastore.preferences)
