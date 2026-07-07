@@ -51,7 +51,7 @@ val properties by lazy {
     Properties().also { it.load(project.rootProject.file("local.properties").inputStream()) }
 }
 
-val javadocJar by tasks.registering(Jar::class) {
+val javadocJar = tasks.register<Jar>("javadocJar") {
     archiveClassifier.set("javadoc")
 }
 
@@ -59,7 +59,7 @@ if(hasLocalProperties()) {
     publishing {
         publications {
             withType<MavenPublication> {
-                artifact(javadocJar.get())
+                artifact(javadocJar)
                 pom {
                     name.set("otp")
                     description.set("OTP implementation for Kotlin Multiplatform")

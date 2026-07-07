@@ -36,7 +36,7 @@ android {
     flavorDimensions += "track"
 
     productFlavors {
-        val production by creating {
+        create("production") {
             if(keystoreProperties.isNotEmpty()) {
                 signingConfigs {
                     create("release") {
@@ -50,7 +50,7 @@ android {
             }
         }
 
-        val dev by creating {
+        create("dev") {
             applicationIdSuffix = ".dev"
         }
     }
