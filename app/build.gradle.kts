@@ -67,7 +67,7 @@ kotlin {
             implementation(libs.activity.compose)
             implementation(libs.material)
             implementation(libs.startup.runtime)
-            implementation(libs.android.driver)
+            implementation(libs.sql.android)
             implementation(libs.koin.android)
             implementation(libs.settings.datastore)
             implementation(libs.datastore.preferences)
