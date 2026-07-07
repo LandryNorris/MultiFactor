@@ -8,9 +8,11 @@ pluginManagement {
 
 rootProject.name = "MultiFactor"
 //include(":iosApp")
-include(":mobileapp")
+include(":app")
 include(":otp")
 include(":encryption")
 include(":password-generator")
 include(":autofill")
 include(":database")
+
+include(":androidApp")

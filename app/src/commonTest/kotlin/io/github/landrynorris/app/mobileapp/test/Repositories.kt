@@ -1,0 +1,32 @@
+package io.github.landrynorris.app.mobileapp.test
+
+import com.russhwolf.settings.MapSettings
+import com.russhwolf.settings.coroutines.toSuspendSettings
+import app.cash.sqldelight.db.SqlDriver
+import io.github.landrynorris.database.AppDatabase
+import io.github.landrynorris.app.repository.OtpRepository
+import io.github.landrynorris.app.repository.PasswordRepository
+import io.github.landrynorris.app.repository.SettingsRepository
+
+var latestDriver: SqlDriver? = null
+
+fun createOtpRepository(): OtpRepository {
+    val driver = createInMemoryTestDriver()
+    latestDriver = driver
+    val database = AppDatabase(driver)
+    database.otpQueries.clear()
+    return OtpRepository(database)
+}
+
+fun createPasswordRepository(): PasswordRepository {
+    val driver = createInMemoryTestDriver()
+    latestDriver = driver
+    val database = AppDatabase(driver)
+    database.passwordQueries.clear()
+    return PasswordRepository(database, MockCrypto())
+}
+
+fun createSettingsRepository(): SettingsRepository {
+    val settings = MapSettings().toSuspendSettings()
+    return SettingsRepository(settings)
+}

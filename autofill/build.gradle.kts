@@ -1,12 +1,22 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.compose)
     alias(libs.plugins.composeCompiler)
 }
 
 kotlin {
-    androidTarget()
+    androidLibrary {
+        compileSdk = 36
+        minSdk = 26
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
+
+        namespace = "io.github.landrynorris.autofill"
+    }
 
     sourceSets {
         commonMain.dependencies {
@@ -28,16 +38,4 @@ kotlin {
             implementation(compose.material)
         }
     }
-}
-
-android {
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 26
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    namespace = "io.github.landrynorris.autofill"
 }

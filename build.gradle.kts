@@ -2,7 +2,7 @@ import org.gradle.kotlin.dsl.kover
 
 plugins {
     alias(libs.plugins.android.app) apply false
-    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.multiplatform.library) apply false
     alias(libs.plugins.compose) apply false
     alias(libs.plugins.composeCompiler) apply false
     alias(libs.plugins.kotlin) apply false
@@ -11,7 +11,6 @@ plugins {
 }
 
 buildscript {
-    val sqlVersion: String by project
     repositories {
         gradlePluginPortal()
         google()
@@ -32,7 +31,7 @@ allprojects {
 
 dependencies {
     kover(project(":otp"))
-    kover(project(":mobileapp"))
+    "kover"(project(":app"))
     kover(project(":password-generator"))
 }
 

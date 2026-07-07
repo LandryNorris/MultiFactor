@@ -1,11 +1,21 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.sql.delight)
 }
 
 kotlin {
-    androidTarget()
+    androidLibrary {
+        compileSdk = 36
+        minSdk = 23
+        compilerOptions {
+            jvmTarget = JvmTarget.JVM_17
+        }
+
+        namespace = "io.github.landrynorris.database"
+    }
     jvm()
 
     listOf(iosX64(), iosArm64(), iosSimulatorArm64())
@@ -39,18 +49,6 @@ kotlin {
             iosArm64Test.dependsOn(this)
         }
     }
-}
-
-android {
-    compileSdk = 36
-    defaultConfig {
-        minSdk = 23
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-    namespace = "io.github.landrynorris.database"
 }
 
 sqldelight {
