@@ -1,10 +1,10 @@
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.android.multiplatform.library)
-    alias(libs.plugins.swift)
 }
 
 kotlin {
@@ -44,11 +44,12 @@ kotlin {
             implementation(kotlin("test"))
         }
     }
-}
 
-swiftklib {
-    create("Attributes") {
-        path = file("src/swift")
-        packageName("io.github.landrynorris.encryption.swift")
+    swiftPMDependencies {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        localSwiftPackage(
+            directory = project.layout.projectDirectory.dir("src/swift"),
+            products = listOf("Attributes")
+        )
     }
 }
