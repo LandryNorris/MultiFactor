@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.util.*
 
-val appVersion: String by project
+val appVersion = project.property("appVersion") as String
 
 plugins {
     alias(libs.plugins.kotlin)
@@ -21,8 +21,8 @@ version = appVersion
 
 kotlin {
     applyDefaultHierarchyTemplate()
-    androidLibrary {
-        compileSdk = 36
+    android {
+        compileSdk = 37
         minSdk = 21
         compilerOptions {
             jvmTarget = JvmTarget.JVM_17
@@ -51,11 +51,11 @@ kotlin {
             implementation(libs.settings)
             implementation(libs.settings.coroutines)
             implementation(libs.color)
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.ui)
-            implementation(compose.material3)
-            implementation(compose.materialIconsExtended)
+            implementation(libs.runtime)
+            implementation(libs.foundation)
+            implementation(libs.ui)
+            implementation(libs.material3)
+            implementation(libs.material.icons.extended)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -79,7 +79,7 @@ kotlin {
         androidInstrumentedTest.dependencies {
             implementation(kotlin("test"))
             implementation(libs.core)
-            implementation(compose.desktop.uiTestJUnit4)
+            implementation(libs.ui.test.junit4)
         }
 
         jvmMain.dependencies {
@@ -125,7 +125,7 @@ compose.desktop {
     }
 }
 
-val buildId: String by project
+val buildId = project.property("buildId") as String
 
 buildkonfig {
     packageName = "io.github.landrynorris.mobileapp.config"
