@@ -2,7 +2,7 @@ package io.github.landrynorris.app.mobileapp.test
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.junit4.v2.createEmptyComposeRule
 import org.junit.Rule
 import org.junit.Test
 import kotlin.test.assertFalse
