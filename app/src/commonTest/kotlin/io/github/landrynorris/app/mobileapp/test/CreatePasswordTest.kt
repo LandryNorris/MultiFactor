@@ -9,6 +9,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import kotlin.test.*
+import kotlin.time.Duration.Companion.milliseconds
 
 class CreatePasswordTest {
 
@@ -74,7 +75,7 @@ class CreatePasswordTest {
         component.domainChanged("A domain")
         component.confirm()
 
-        delay(100)
+        delay(100.milliseconds)
 
         val passwords = passwordRepository.getPasswordsFlow().first()
         assertEquals(1, passwords.size)

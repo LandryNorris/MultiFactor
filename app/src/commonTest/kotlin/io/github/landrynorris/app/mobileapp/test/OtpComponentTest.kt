@@ -9,6 +9,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
 import kotlin.test.*
+import kotlin.time.Duration.Companion.milliseconds
 
 class OtpComponentTest {
 
@@ -66,7 +67,7 @@ class OtpComponentTest {
             "604248", "869305", "895970", "723575", "374912")
 
         repeat(10) {
-            delay(100)
+            delay(100.milliseconds)
             val otpState = component.awaitNonEmptyOtpList()
 
             //val otpState = component.state.value
@@ -89,7 +90,7 @@ class OtpComponentTest {
 
         component.deleteItem(0)
 
-        delay(100)
+        delay(100.milliseconds)
 
         assertEquals(0, component.state.value.otpList.size)
     }
@@ -119,7 +120,7 @@ class OtpComponentTest {
         val testOtp = Totp("A secret", "A value")
         component.createOtpLogic.enter(OtpModel(-1L, testOtp))
 
-        delay(100)
+        delay(100.milliseconds)
         component.incrementClicked(0)
     }
 
@@ -136,7 +137,7 @@ class OtpComponentTest {
     }
 
     private suspend fun OtpLogic.awaitNonEmptyOtpList(): OtpScreenState {
-        return withTimeout(1000) {
+        return withTimeout(1000.milliseconds) {
             var otpState: OtpScreenState
             do {
                 otpState = state.value
