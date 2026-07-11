@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.app)
     alias(libs.plugins.compose)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.ktfmt)
 }
 
 val keystoreProperties =

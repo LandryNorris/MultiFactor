@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.sql.delight)
+    alias(libs.plugins.ktfmt)
 }
 
 kotlin {

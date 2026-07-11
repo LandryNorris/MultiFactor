@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.konan.target.HostManager
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.android.multiplatform.library)
+    alias(libs.plugins.ktfmt)
 }
 
 kotlin {

@@ -1,10 +1,9 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.android.multiplatform.library)
-    id("org.jetbrains.kotlinx.kover")
+    alias(libs.plugins.kover)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.ktfmt)
 }
 
 kotlin {

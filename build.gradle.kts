@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.kover)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.ktfmt)
 }
 
 buildscript {
@@ -65,4 +66,8 @@ dokka {
     dokkaPublications.html {
         this.outputDirectory = project.projectDir.resolve("docs/html")
     }
+}
+
+ktfmt {
+    kotlinLangStyle()
 }

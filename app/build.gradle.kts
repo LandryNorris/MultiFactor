@@ -1,7 +1,6 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import java.util.*
 
 val appVersion = project.property("appVersion") as String
 
@@ -15,6 +14,7 @@ plugins {
     alias(libs.plugins.sql.delight)
     alias(libs.plugins.kover)
     alias(libs.plugins.buildkonfig)
+    alias(libs.plugins.ktfmt)
 }
 
 version = appVersion
