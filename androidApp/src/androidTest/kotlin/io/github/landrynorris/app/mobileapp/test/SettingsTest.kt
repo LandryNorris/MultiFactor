@@ -2,7 +2,7 @@ package io.github.landrynorris.app.mobileapp.test
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.junit4.v2.createEmptyComposeRule
 import io.github.landrynorris.app.components.SettingsLogic
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
@@ -156,7 +156,7 @@ class SettingsTest {
         }
     }
 
-    private val ComposeTestRule.settingsButton get() = onNodeWithContentDescription("settings")
+    private val ComposeTestRule.settingsButton get() = onNodeWithTag("settings")
 
     private fun SettingsLogic.currentSettings() = runBlocking { passwordSettings.first() }
 }

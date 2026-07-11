@@ -2,7 +2,7 @@ package io.github.landrynorris.app.mobileapp.test
 
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.ComposeTestRule
-import androidx.compose.ui.test.junit4.createEmptyComposeRule
+import androidx.compose.ui.test.junit4.v2.createEmptyComposeRule
 import io.github.landrynorris.otp.Hotp
 import io.github.landrynorris.otp.Totp
 import org.junit.Rule
@@ -73,6 +73,8 @@ class OtpEntryTest {
 
             newEntry.assertExists("No new entry added")
             newEntry.performTouchInput { swipeLeft() }
+            composeRule.mainClock.advanceTimeBy(500)
+            awaitIdle()
 
             it.withOtpLogic {
                 val anyMatch = state.value.otpList.any { otp ->
@@ -122,6 +124,8 @@ class OtpEntryTest {
 
             newEntry.assertExists("No new entry added")
             newEntry.performTouchInput { swipeLeft() }
+            composeRule.mainClock.advanceTimeBy(500)
+            awaitIdle()
 
             it.withOtpLogic {
                 val anyMatch = state.value.otpList.any { otp ->
@@ -133,12 +137,12 @@ class OtpEntryTest {
         }
     }
 
-    private val ComposeTestRule.otpButton get() = onNodeWithContentDescription("otp")
+    private val ComposeTestRule.otpButton get() = onNodeWithTag("otp")
     private val ComposeTestRule.addOtp get() = onNodeWithContentDescription("Add")
     private val ComposeTestRule.closeOtp get() = onNodeWithContentDescription("Close")
     private val ComposeTestRule.nameField get() = onNodeWithContentDescription("NameField")
     private val ComposeTestRule.secretField get() = onNodeWithContentDescription("SecretField")
-    private val ComposeTestRule.confirm get() = onNodeWithContentDescription("Confirm")
+    private val ComposeTestRule.confirm get() = onNodeWithTag("Confirm")
     private val ComposeTestRule.newEntry get() = onNodeWithContentDescription("Entry from test")
     private val ComposeTestRule.hotp get() = onNodeWithContentDescription("Hotp")
     private val ComposeTestRule.totp get() = onNodeWithContentDescription("Totp")

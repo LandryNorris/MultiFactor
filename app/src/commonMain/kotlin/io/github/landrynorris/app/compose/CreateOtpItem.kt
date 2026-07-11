@@ -8,6 +8,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import io.github.landrynorris.app.components.CreateOtpState
 import io.github.landrynorris.app.theme.colorScheme
@@ -36,9 +37,9 @@ internal fun CreateOtpItem(createOtpState: CreateOtpState,
             onTypeChanged(types[index])
         })
 
-        TextButton(onClick = onConfirmClicked) {
-            Text(modifier = Modifier.contentDescription("Confirm"),
-                text = "Confirm", color = colorScheme.onBackground)
+        TextButton(modifier = Modifier.testTag("Confirm").contentDescription("Confirm"),
+            onClick = onConfirmClicked) {
+            Text(text = "Confirm", color = colorScheme.onBackground)
         }
     }
 }
