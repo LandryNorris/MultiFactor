@@ -13,10 +13,14 @@ val keystoreProperties =
         if (file.exists()) load(file.reader())
     }
 
-val appVersion: String by project
+val appVersion = project.property("appVersion") as String
+
+kotlin {
+    jvmToolchain(17)
+}
 
 android {
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig {
         minSdk = 26
         targetSdk = 36
@@ -29,14 +33,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    kotlin {
-        jvmToolchain(17)
+    defaultConfig {
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     flavorDimensions += "track"
 
     productFlavors {
-        val production by creating {
+        create("production") {
             if(keystoreProperties.isNotEmpty()) {
                 signingConfigs {
                     create("release") {
@@ -50,7 +54,7 @@ android {
             }
         }
 
-        val dev by creating {
+        create("dev") {
             applicationIdSuffix = ".dev"
         }
     }
@@ -69,4 +73,9 @@ dependencies {
     implementation(libs.decompose)
 
     implementation(libs.activity.compose)
+
+    androidTestImplementation(kotlin("test"))
+    androidTestImplementation(libs.core)
+    androidTestImplementation(libs.ui.test.junit4)
+    androidTestImplementation(project(":otp"))
 }

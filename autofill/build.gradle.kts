@@ -8,22 +8,16 @@ plugins {
 }
 
 kotlin {
-    androidLibrary {
-        compileSdk = 36
+    android {
+        compileSdk = 37
         minSdk = 26
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
-
         namespace = "io.github.landrynorris.autofill"
+        withHostTest { }
     }
 
     sourceSets {
         commonMain.dependencies {
             implementation(project(":database"))
-        }
-        commonTest.dependencies {
-            implementation(kotlin("test"))
         }
         androidMain.dependencies {
             implementation(libs.sql.android)
@@ -32,10 +26,10 @@ kotlin {
             implementation(libs.decompose)
             implementation(libs.autofill)
 
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.ui)
-            implementation(compose.material)
+            implementation(libs.runtime)
+            implementation(libs.foundation)
+            implementation(libs.ui)
+            implementation(libs.material)
         }
     }
 }

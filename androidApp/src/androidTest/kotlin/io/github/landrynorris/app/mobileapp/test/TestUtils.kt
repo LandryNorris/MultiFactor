@@ -1,11 +1,11 @@
 package io.github.landrynorris.app.mobileapp.test
 
 import androidx.test.core.app.ActivityScenario
-import io.github.landrynorris.app.MainActivity
 import io.github.landrynorris.app.components.OtpLogic
 import io.github.landrynorris.app.components.PasswordLogic
 import io.github.landrynorris.app.components.RootComponent
 import io.github.landrynorris.app.components.SettingsLogic
+import io.github.landrynorris.multifactor.MainActivity
 
 fun ActivityScenario<MainActivity>.withRootComponent(block: RootComponent.() -> Unit) {
     onActivity {

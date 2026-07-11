@@ -2,7 +2,7 @@ package io.github.landrynorris.app.mobileapp.test
 
 import androidx.compose.ui.test.junit4.ComposeTestRule
 import androidx.test.core.app.ActivityScenario
-import io.github.landrynorris.app.MainActivity
+import io.github.landrynorris.multifactor.MainActivity
 import kotlinx.coroutines.runBlocking
 
 fun withApplication(rule: ComposeTestRule,

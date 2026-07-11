@@ -8,7 +8,7 @@ import io.github.landrynorris.app.components.OtpLogic
 import io.github.landrynorris.app.components.PasswordLogic
 import io.github.landrynorris.app.components.SettingsLogic
 import org.junit.Rule
-import kotlin.test.Test
+import org.junit.Test
 import kotlin.test.assertIs
 
 class NavigationTest {

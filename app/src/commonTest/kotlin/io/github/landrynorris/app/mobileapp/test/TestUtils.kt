@@ -8,11 +8,12 @@ import kotlinx.coroutines.withTimeoutOrNull
 import org.koin.core.context.startKoin
 import org.koin.dsl.module
 import kotlin.test.assertNotNull
+import kotlin.time.Duration.Companion.milliseconds
 
 suspend fun assertOccursWithin(duration: Long, message: String = "",
                                predicate: suspend () -> Boolean) {
-    val result = withTimeoutOrNull(duration) {
-        while(!predicate()) delay(1)
+    val result = withTimeoutOrNull(duration.milliseconds) {
+        while(!predicate()) delay(1.milliseconds)
     }
     assertNotNull(result, "Predicate${if(message.isNotEmpty()) " " else ""}" +
             "$message did not return true within $duration ms")

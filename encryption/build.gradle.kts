@@ -1,21 +1,17 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.konan.target.HostManager
 
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.android.multiplatform.library)
-    alias(libs.plugins.swift)
 }
 
 kotlin {
-    androidLibrary {
-        compileSdk = 36
+    android {
+        compileSdk = 37
         minSdk = 23
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
-
         namespace = "io.github.landrynorris.encryption"
+        withHostTest { }
     }
 
     jvm()
@@ -26,7 +22,7 @@ kotlin {
     ).forEach {
         it.compilations {
             if(HostManager.hostIsMac) {
-                val main by getting {
+                getByName("main") {
                     cinterops {
                         create("Attributes")
                     }
@@ -43,20 +39,13 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
-        val iosMain by creating {
-            dependsOn(commonMain.get())
-
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-        }
     }
-}
 
-swiftklib {
-    create("Attributes") {
-        path = file("src/swift")
-        packageName("io.github.landrynorris.encryption.swift")
+    swiftPMDependencies {
+        @OptIn(ExperimentalKotlinGradlePluginApi::class)
+        localSwiftPackage(
+            directory = project.layout.projectDirectory.dir("src/swift"),
+            products = listOf("Attributes")
+        )
     }
 }

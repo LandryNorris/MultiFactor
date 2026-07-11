@@ -1,5 +1,4 @@
 import java.util.Properties
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.kotlin)
@@ -14,16 +13,11 @@ group = "io.github.landrynorris"
 version = "0.1.0"
 
 kotlin {
-    androidLibrary {
-        compileSdk = 36
+    android {
+        compileSdk = 37
         minSdk = 21
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
-
-        withSourcesJar()
-
         namespace = "io.github.landrynorris.otp"
+        withHostTest { }
     }
     jvm()
 
@@ -51,7 +45,7 @@ val properties by lazy {
     Properties().also { it.load(project.rootProject.file("local.properties").inputStream()) }
 }
 
-val javadocJar by tasks.registering(Jar::class) {
+val javadocJar = tasks.register<Jar>("javadocJar") {
     archiveClassifier.set("javadoc")
 }
 
@@ -59,7 +53,7 @@ if(hasLocalProperties()) {
     publishing {
         publications {
             withType<MavenPublication> {
-                artifact(javadocJar.get())
+                artifact(javadocJar)
                 pom {
                     name.set("otp")
                     description.set("OTP implementation for Kotlin Multiplatform")

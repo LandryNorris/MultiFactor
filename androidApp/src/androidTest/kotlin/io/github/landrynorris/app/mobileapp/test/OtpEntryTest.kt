@@ -6,7 +6,7 @@ import androidx.compose.ui.test.junit4.createEmptyComposeRule
 import io.github.landrynorris.otp.Hotp
 import io.github.landrynorris.otp.Totp
 import org.junit.Rule
-import kotlin.test.Test
+import org.junit.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 

@@ -16,10 +16,11 @@ koin = "4.2.2"
 color = "4.1.1"
 coroutines = "1.11.0"
 material = "1.14.0"
+material3 = "1.9.0"
+materialIconsExtended = "1.7.3"
 sql = "2.3.2"
 settings = "1.3.0"
 startupRuntime = "1.2.0"
-swift = "0.6.4"
 
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
@@ -30,6 +31,7 @@ cryptography-provider-optimal = { module = "dev.whyoleg.cryptography:cryptograph
 datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 decompose = { module = "com.arkivanov.decompose:decompose", version.ref = "decompose" }
 decompose-compose = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
+foundation = { module = "org.jetbrains.compose.foundation:foundation", version.ref = "compose" }
 koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 color = { module = "com.materialkolor:material-kolor", version.ref = "color" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
@@ -37,6 +39,9 @@ koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
+material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version.ref = "materialIconsExtended" }
+material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "material3" }
+runtime = { module = "org.jetbrains.compose.runtime:runtime", version.ref = "compose" }
 sql = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sql" }
 sql-sqlite = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sql" }
 sql-native = { module = "app.cash.sqldelight:native-driver", version.ref = "sql" }
@@ -47,6 +52,8 @@ settings-datastore = { module = "com.russhwolf:multiplatform-settings-datastore"
 settings-test = { module = "com.russhwolf:multiplatform-settings-test", version.ref = "settings" }
 
 startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "startupRuntime" }
+ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose" }
+ui-test-junit4 = { module = "org.jetbrains.compose.ui:ui-test-junit4", version.ref = "compose" }
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
@@ -59,4 +66,3 @@ android-app = { id = "com.android.application", version.ref = "android" }
 android-multiplatform-library = { id = "com.android.kotlin.multiplatform.library", version.ref = "android" }
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfigGradlePlugin" }
 sql-delight = { id = "app.cash.sqldelight", version.ref = "sql" }
-swift = { id = "io.github.ttypic.swiftklib", version.ref = "swift" }

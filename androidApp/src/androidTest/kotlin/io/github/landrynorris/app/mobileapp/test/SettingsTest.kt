@@ -7,7 +7,7 @@ import io.github.landrynorris.app.components.SettingsLogic
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 import org.junit.Rule
-import kotlin.test.Test
+import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 
