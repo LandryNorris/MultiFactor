@@ -17,6 +17,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.platform.testTag
 import io.github.landrynorris.app.components.CreatePasswordLogic
 import io.github.landrynorris.app.theme.colorScheme
 
@@ -26,22 +27,22 @@ internal fun CreatePasswordPopup(logic: CreatePasswordLogic) {
     val clipboard = LocalClipboardManager.current
     Column(modifier = Modifier.fillMaxWidth().background(colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally) {
-        TextField(modifier = Modifier.fillMaxWidth().contentDescription("NameField"),
+        TextField(modifier = Modifier.fillMaxWidth().contentDescription("NameField").testTag("NameField"),
             value = state.name,
             onValueChange = logic::nameChanged, label = { Text("Name") })
-        TextField(modifier = Modifier.fillMaxWidth().contentDescription("DomainField"),
+        TextField(modifier = Modifier.fillMaxWidth().contentDescription("DomainField").testTag("DomainField"),
             value = state.domain,
             onValueChange = logic::domainChanged, label = { Text("Domain") })
 
         Row {
-            TextField(modifier = Modifier.contentDescription("PasswordField"),
+            TextField(modifier = Modifier.contentDescription("PasswordField").testTag("PasswordField"),
                 value = state.password, onValueChange = logic::passwordChanged,
                 label = { Text("Password") })
             IconButton(onClick = { logic.generateNewPassword(clipboard) }) {
                 Icon(Icons.Default.Add, "generate new password")
             }
         }
-        TextButton(modifier = Modifier.contentDescription("Confirm"),
+        TextButton(modifier = Modifier.contentDescription("Confirm").testTag("Confirm"),
             onClick = logic::confirm,
             enabled = state.isConfirmEnabled) { Text("Confirm", color = colorScheme.onBackground) }
     }

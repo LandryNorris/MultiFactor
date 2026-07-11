@@ -133,12 +133,12 @@ class OtpEntryTest {
         }
     }
 
-    private val ComposeTestRule.otpButton get() = onNodeWithContentDescription("otp")
+    private val ComposeTestRule.otpButton get() = onNodeWithTag("otp")
     private val ComposeTestRule.addOtp get() = onNodeWithContentDescription("Add")
     private val ComposeTestRule.closeOtp get() = onNodeWithContentDescription("Close")
     private val ComposeTestRule.nameField get() = onNodeWithContentDescription("NameField")
     private val ComposeTestRule.secretField get() = onNodeWithContentDescription("SecretField")
-    private val ComposeTestRule.confirm get() = onNodeWithContentDescription("Confirm")
+    private val ComposeTestRule.confirm get() = onNodeWithTag("Confirm")
     private val ComposeTestRule.newEntry get() = onNodeWithContentDescription("Entry from test")
     private val ComposeTestRule.hotp get() = onNodeWithContentDescription("Hotp")
     private val ComposeTestRule.totp get() = onNodeWithContentDescription("Totp")

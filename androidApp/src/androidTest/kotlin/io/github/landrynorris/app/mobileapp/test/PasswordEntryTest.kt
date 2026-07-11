@@ -65,12 +65,12 @@ class PasswordEntryTest {
         }
     }
 
-    private val ComposeTestRule.passwordButton get() = onNodeWithContentDescription("password")
+    private val ComposeTestRule.passwordButton get() = onNodeWithTag("password")
     private val ComposeTestRule.addPassword get() = onNodeWithContentDescription("Add")
     private val ComposeTestRule.closePassword get() = onNodeWithContentDescription("Close")
     private val ComposeTestRule.nameField get() = onNodeWithContentDescription("NameField")
     private val ComposeTestRule.passwordField get() = onNodeWithContentDescription("PasswordField")
-    private val ComposeTestRule.confirm get() = onNodeWithContentDescription("Confirm")
+    private val ComposeTestRule.confirm get() = onNodeWithTag("Confirm")
     private val ComposeTestRule.newPasswordTitle get() = onNodeWithContentDescription("Entry from Test")
     private val ComposeTestRule.newPasswordContent get() = onNodeWithText("New Password Value")
 }
