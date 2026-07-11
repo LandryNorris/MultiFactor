@@ -8,14 +8,18 @@ import platform.Security.*
 import platform.darwin.OSStatus
 
 @OptIn(ExperimentalForeignApi::class)
-actual object SecureCrypto: Crypto {
+actual object SecureCrypto : Crypto {
     private val iv = ByteArray(16) { 0 }
     private val algorithm = kSecKeyAlgorithmECIESEncryptionCofactorVariableIVX963SHA256AESGCM
 
     actual override fun generateKey(alias: String): Unit = memScoped {
-        val access = SecAccessControlCreateWithFlags(kCFAllocatorDefault,
-            kSecAttrAccessibleWhenUnlockedThisDeviceOnly?.reinterpret(),
-            kSecAccessControlPrivateKeyUsage, null)
+        val access =
+            SecAccessControlCreateWithFlags(
+                kCFAllocatorDefault,
+                kSecAttrAccessibleWhenUnlockedThisDeviceOnly?.reinterpret(),
+                kSecAccessControlPrivateKeyUsage,
+                null,
+            )
 
         val error = alloc<CFErrorRefVar>()
 
@@ -23,7 +27,7 @@ actual object SecureCrypto: Crypto {
         val props = Attributes.keyAttributes(access, alias)
         SecKeyCreateRandomKey(props, error.ptr)
 
-        if(error.value != null) {
+        if (error.value != null) {
             val errorText = error.value?.errorString()
             val code = CFErrorGetCode(error.value)
             println("Error Description is $errorText, code is $code")
@@ -32,7 +36,7 @@ actual object SecureCrypto: Crypto {
 
     private fun getKey(alias: String): SecKeyRef {
         var initialKey = loadKey(alias)
-        if(initialKey == null) {
+        if (initialKey == null) {
             generateKey(alias)
             initialKey = loadKey(alias)
         }
@@ -46,13 +50,13 @@ actual object SecureCrypto: Crypto {
         val item = alloc<CFArrayRefVar>()
         val result = SecItemCopyMatching(query, item.ptr.reinterpret())
 
-        if(result != 0) println("Query result is ${result.errorString() ?: "success"}")
+        if (result != 0) println("Query result is ${result.errorString() ?: "success"}")
         val v = item.value
         return v?.reinterpret()
     }
 
     private fun OSStatus.errorString(): String? {
-        if(this == 0) return null
+        if (this == 0) return null
         val cfMessage = SecCopyErrorMessageString(this, null)
         val nsMessage = CFBridgingRelease(cfMessage) as? NSString
         return nsMessage as? String
@@ -61,29 +65,31 @@ actual object SecureCrypto: Crypto {
     actual override fun encrypt(data: ByteArray, alias: String): EncryptResult {
         val key = getKey(alias)
         val publicKey = SecKeyCopyPublicKey(key) ?: error("No public key found")
-        if(!checkCanEncrypt(publicKey)) error("Algorithm is not supported")
+        if (!checkCanEncrypt(publicKey)) error("Algorithm is not supported")
 
-        val encrypted = memScoped {
-            val error = alloc<CFErrorRefVar>()
-            val ref = data.refTo(0).getPointer(this)
+        val encrypted =
+            memScoped {
+                val error = alloc<CFErrorRefVar>()
+                val ref = data.refTo(0).getPointer(this)
 
-            val cfData = CFDataCreate(kCFAllocatorDefault, ref.reinterpret(), data.size.toLong())
-            val cipherData = SecKeyCreateEncryptedData(publicKey, algorithm, cfData, error.ptr)
+                val cfData =
+                    CFDataCreate(kCFAllocatorDefault, ref.reinterpret(), data.size.toLong())
+                val cipherData = SecKeyCreateEncryptedData(publicKey, algorithm, cfData, error.ptr)
 
-            if(error.value != null) {
-                println("Result is ${error.value?.errorString()}")
-            }
+                if (error.value != null) {
+                    println("Result is ${error.value?.errorString()}")
+                }
 
-            val length = CFDataGetLength(cipherData)
-            CFDataGetBytePtr(cipherData)?.readBytes(length.toInt())
-        } ?: error("Unable to encrypt data")
+                val length = CFDataGetLength(cipherData)
+                CFDataGetBytePtr(cipherData)?.readBytes(length.toInt())
+            } ?: error("Unable to encrypt data")
 
         return EncryptResult(iv, encrypted)
     }
 
     actual override fun decrypt(data: ByteArray, iv: ByteArray, alias: String): ByteArray {
         val key = getKey(alias)
-        if(!checkCanDecrypt(key)) error("Algorithm is not supported")
+        if (!checkCanDecrypt(key)) error("Algorithm is not supported")
 
         return memScoped {
             val error = alloc<CFErrorRefVar>()
@@ -117,13 +123,16 @@ class Attributes {
     companion object {
         @OptIn(ExperimentalForeignApi::class)
         fun keyAttributes(access: SecAccessControlRef?, alias: Any): CFDictionaryRef {
-            TODO("Figure out the new way to interop with swift while maintaining buildability on non-mac")
+            TODO(
+                "Figure out the new way to interop with swift while maintaining buildability on non-mac"
+            )
         }
 
         @OptIn(ExperimentalForeignApi::class)
         fun keyQuery(alias: String): CFDictionaryRef? {
-            TODO("Figure out the new way to interop with swift while maintaining buildability on non-mac")
+            TODO(
+                "Figure out the new way to interop with swift while maintaining buildability on non-mac"
+            )
         }
     }
-
 }

@@ -25,25 +25,41 @@ import io.github.landrynorris.app.theme.colorScheme
 internal fun CreatePasswordPopup(logic: CreatePasswordLogic) {
     val state by logic.state.collectAsState()
     val clipboard = LocalClipboardManager.current
-    Column(modifier = Modifier.fillMaxWidth().background(colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally) {
-        TextField(modifier = Modifier.fillMaxWidth().contentDescription("NameField").testTag("NameField"),
+    Column(
+        modifier = Modifier.fillMaxWidth().background(colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        TextField(
+            modifier = Modifier.fillMaxWidth().contentDescription("NameField").testTag("NameField"),
             value = state.name,
-            onValueChange = logic::nameChanged, label = { Text("Name") })
-        TextField(modifier = Modifier.fillMaxWidth().contentDescription("DomainField").testTag("DomainField"),
+            onValueChange = logic::nameChanged,
+            label = { Text("Name") },
+        )
+        TextField(
+            modifier =
+                Modifier.fillMaxWidth().contentDescription("DomainField").testTag("DomainField"),
             value = state.domain,
-            onValueChange = logic::domainChanged, label = { Text("Domain") })
+            onValueChange = logic::domainChanged,
+            label = { Text("Domain") },
+        )
 
         Row {
-            TextField(modifier = Modifier.contentDescription("PasswordField").testTag("PasswordField"),
-                value = state.password, onValueChange = logic::passwordChanged,
-                label = { Text("Password") })
+            TextField(
+                modifier = Modifier.contentDescription("PasswordField").testTag("PasswordField"),
+                value = state.password,
+                onValueChange = logic::passwordChanged,
+                label = { Text("Password") },
+            )
             IconButton(onClick = { logic.generateNewPassword(clipboard) }) {
                 Icon(Icons.Default.Add, "generate new password")
             }
         }
-        TextButton(modifier = Modifier.contentDescription("Confirm").testTag("Confirm"),
+        TextButton(
+            modifier = Modifier.contentDescription("Confirm").testTag("Confirm"),
             onClick = logic::confirm,
-            enabled = state.isConfirmEnabled) { Text("Confirm", color = colorScheme.onBackground) }
+            enabled = state.isConfirmEnabled,
+        ) {
+            Text("Confirm", color = colorScheme.onBackground)
+        }
     }
 }

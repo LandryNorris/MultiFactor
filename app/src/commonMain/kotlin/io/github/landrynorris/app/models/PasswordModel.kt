@@ -1,11 +1,17 @@
 package io.github.landrynorris.app.models
 
+import io.github.landrynorris.app.NameKeystoreAlias
 import io.github.landrynorris.database.PasswordEntry
 import io.github.landrynorris.encryption.Crypto
-import io.github.landrynorris.app.NameKeystoreAlias
 
-data class PasswordModel(val id: Long, val name: String, val salt: ByteArray,
-                         val encryptedValue: ByteArray, val domain: String?, val appId: String?) {
+data class PasswordModel(
+    val id: Long,
+    val name: String,
+    val salt: ByteArray,
+    val encryptedValue: ByteArray,
+    val domain: String?,
+    val appId: String?,
+) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || this::class != other::class) return false
@@ -16,8 +22,8 @@ data class PasswordModel(val id: Long, val name: String, val salt: ByteArray,
         if (name != other.name) return false
         if (!salt.contentEquals(other.salt)) return false
         if (!encryptedValue.contentEquals(other.encryptedValue)) return false
-        if(domain != other.domain) return false
-        if(appId != other.appId) return false
+        if (domain != other.domain) return false
+        if (appId != other.appId) return false
 
         return true
     }
@@ -32,7 +38,12 @@ data class PasswordModel(val id: Long, val name: String, val salt: ByteArray,
     }
 }
 
-fun PasswordEntry.toModel(crypto: Crypto) = PasswordModel(id,
-    name = crypto.decrypt(name, nameSalt, NameKeystoreAlias).decodeToString(),
-    salt = passwordSalt,
-    encryptedValue ?: byteArrayOf(), domain = domain?.decodeToString(), appId = appId)
+fun PasswordEntry.toModel(crypto: Crypto) =
+    PasswordModel(
+        id,
+        name = crypto.decrypt(name, nameSalt, NameKeystoreAlias).decodeToString(),
+        salt = passwordSalt,
+        encryptedValue ?: byteArrayOf(),
+        domain = domain?.decodeToString(),
+        appId = appId,
+    )

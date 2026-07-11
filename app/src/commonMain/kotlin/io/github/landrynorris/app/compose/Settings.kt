@@ -26,23 +26,26 @@ internal fun Settings(logic: SettingsLogic) {
     LazyColumn(Modifier.fillMaxSize()) {
         stickyHeader { Text("Password Settings") }
         items(state) { item ->
-            when(item.value) {
+            when (item.value) {
                 is Boolean ->
                     BooleanSettingsSwitch(item as Setting<Boolean>, item.value, item.onValueChanged)
                 is Int -> IntSettingsBox(item as Setting<Int>, item.value, item.onValueChanged)
             }
         }
-        item {
-            MultiFactorTextButton("About", onClick = logic::navigateToAbout)
-        }
+        item { MultiFactorTextButton("About", onClick = logic::navigateToAbout) }
     }
 }
 
 @Composable
-internal fun BooleanSettingsSwitch(setting: Setting<Boolean>,
-                          value: Boolean, onValueChanged: (Boolean) -> Unit) {
-    Row(Modifier.fillMaxWidth().contentDescription(setting.name),
-        verticalAlignment = Alignment.CenterVertically) {
+internal fun BooleanSettingsSwitch(
+    setting: Setting<Boolean>,
+    value: Boolean,
+    onValueChanged: (Boolean) -> Unit,
+) {
+    Row(
+        Modifier.fillMaxWidth().contentDescription(setting.name),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Column(Modifier.weight(1f)) {
             Text(setting.name, fontSize = 24.sp)
             Text(setting.description, maxLines = 2)
@@ -52,21 +55,23 @@ internal fun BooleanSettingsSwitch(setting: Setting<Boolean>,
     }
 }
 
-
-
 @Composable
-internal fun IntSettingsBox(setting: Setting<Int>,
-                   value: Int, onValueChanged: (Int) -> Unit) {
-    Row(Modifier.fillMaxWidth().contentDescription(setting.name),
-        verticalAlignment = Alignment.CenterVertically) {
+internal fun IntSettingsBox(setting: Setting<Int>, value: Int, onValueChanged: (Int) -> Unit) {
+    Row(
+        Modifier.fillMaxWidth().contentDescription(setting.name),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Column(Modifier.weight(1f)) {
             Text(setting.name, fontSize = 24.sp)
             Text(setting.description, maxLines = 2)
         }
 
-        val text = if(value == -1) "" else value.toString()
-        TextField(value = text, onValueChange = { onValueChanged(it.toIntOrNull() ?: -1) },
+        val text = if (value == -1) "" else value.toString()
+        TextField(
+            value = text,
+            onValueChange = { onValueChanged(it.toIntOrNull() ?: -1) },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier.contentDescription("IntSetting"))
+            modifier = Modifier.contentDescription("IntSetting"),
+        )
     }
 }

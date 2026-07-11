@@ -1,12 +1,12 @@
 package io.github.landrynorris.app.mobileapp.test
 
+import app.cash.sqldelight.db.SqlDriver
 import com.russhwolf.settings.MapSettings
 import com.russhwolf.settings.coroutines.toSuspendSettings
-import app.cash.sqldelight.db.SqlDriver
-import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.app.repository.OtpRepository
 import io.github.landrynorris.app.repository.PasswordRepository
 import io.github.landrynorris.app.repository.SettingsRepository
+import io.github.landrynorris.database.AppDatabase
 
 var latestDriver: SqlDriver? = null
 

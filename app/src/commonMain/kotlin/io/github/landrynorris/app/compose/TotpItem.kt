@@ -15,18 +15,19 @@ import androidx.compose.ui.unit.sp
 internal fun TotpItem(pin: String, name: String, progress: Float, onCopyClicked: () -> Unit = {}) {
     Column(modifier = Modifier.fillMaxWidth().contentDescription(name)) {
         Text(name, fontSize = 18.sp)
-        Row(modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically) {
-
-            Text(pin, modifier = Modifier.weight(1f),
-                fontSize = 20.sp, letterSpacing = 1.sp)
+        Row(modifier = Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(pin, modifier = Modifier.weight(1f), fontSize = 20.sp, letterSpacing = 1.sp)
             CopyButton(onClick = onCopyClicked)
-            Box(modifier = Modifier.size(LocalViewConfiguration.current.minimumTouchTargetSize),
-                contentAlignment = Alignment.Center) {
-                val animatedProgress = animateFloatAsState(progress,
-                    ProgressIndicatorDefaults.ProgressAnimationSpec)
-                CircularProgressIndicator(progress = animatedProgress.value,
-                    modifier = Modifier.fillMaxSize(0.6f))
+            Box(
+                modifier = Modifier.size(LocalViewConfiguration.current.minimumTouchTargetSize),
+                contentAlignment = Alignment.Center,
+            ) {
+                val animatedProgress =
+                    animateFloatAsState(progress, ProgressIndicatorDefaults.ProgressAnimationSpec)
+                CircularProgressIndicator(
+                    progress = animatedProgress.value,
+                    modifier = Modifier.fillMaxSize(0.6f),
+                )
             }
         }
     }

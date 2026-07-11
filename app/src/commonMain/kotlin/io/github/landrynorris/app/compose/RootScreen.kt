@@ -30,50 +30,64 @@ fun RootScreen(logic: Root) {
             Column {
                 TopBar(getName(stack.active.instance))
                 Children(stack = stack, modifier = Modifier.weight(1f)) {
-                    when(val child = it.instance) {
+                    when (val child = it.instance) {
                         is Root.Child.Otp -> OtpScreen(child.component)
                         is Root.Child.PasswordManager -> PasswordScreen(child.component)
                         is Root.Child.Settings -> Settings(child.component)
                         is Root.Child.About -> About(child.component)
                     }
                 }
-                BottomNav(logic::navigateToOtp, logic::navigateToPasswordManager,
-                    logic::navigateToSettings)
+                BottomNav(
+                    logic::navigateToOtp,
+                    logic::navigateToPasswordManager,
+                    logic::navigateToSettings,
+                )
             }
         }
     }
 }
 
-fun getName(child: Root.Child) = when(child) {
-    is Root.Child.Otp -> "Otp"
-    is Root.Child.PasswordManager -> "Password Manager"
-    is Root.Child.Settings -> "Settings"
-    is Root.Child.About -> "About"
-}
+fun getName(child: Root.Child) =
+    when (child) {
+        is Root.Child.Otp -> "Otp"
+        is Root.Child.PasswordManager -> "Password Manager"
+        is Root.Child.Settings -> "Settings"
+        is Root.Child.About -> "About"
+    }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TopBar(title: String) {
-    TopAppBar(title = {
-        Text(title)
-    })
+    TopAppBar(title = { Text(title) })
 }
 
 @Composable
-internal fun BottomNav(navigateToOtp: () -> Unit, navigateToPasswordManager: () -> Unit,
-              navigateToSettings: () -> Unit) {
+internal fun BottomNav(
+    navigateToOtp: () -> Unit,
+    navigateToPasswordManager: () -> Unit,
+    navigateToSettings: () -> Unit,
+) {
     NavigationBar(modifier = Modifier.fillMaxWidth()) {
-        NavigationBarItem(false, onClick = navigateToOtp,
+        NavigationBarItem(
+            false,
+            onClick = navigateToOtp,
             icon = { Icon(Icons.Default.Pin, "otp") },
             label = { Text("otp") },
-            modifier = Modifier.testTag("otp"))
-        NavigationBarItem(false, onClick = navigateToPasswordManager,
+            modifier = Modifier.testTag("otp"),
+        )
+        NavigationBarItem(
+            false,
+            onClick = navigateToPasswordManager,
             icon = { Icon(Icons.Default.Password, "password") },
             label = { Text("passwords") },
-            modifier = Modifier.testTag("password"))
-        NavigationBarItem(false, onClick = navigateToSettings,
+            modifier = Modifier.testTag("password"),
+        )
+        NavigationBarItem(
+            false,
+            onClick = navigateToSettings,
             icon = { Icon(Icons.Default.Settings, "settings") },
             label = { Text("settings") },
-            modifier = Modifier.testTag("settings"))
+            modifier = Modifier.testTag("settings"),
+        )
     }
 }

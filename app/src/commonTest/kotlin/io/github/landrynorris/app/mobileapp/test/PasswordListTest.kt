@@ -1,12 +1,12 @@
 package io.github.landrynorris.app.mobileapp.test
 
-import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.app.components.PasswordListComponent
 import io.github.landrynorris.app.components.PasswordListLogic
 import io.github.landrynorris.app.models.PasswordModel
 import io.github.landrynorris.app.repository.PasswordRepository
-import kotlinx.coroutines.runBlocking
+import io.github.landrynorris.encryption.Crypto
 import kotlin.test.Test
+import kotlinx.coroutines.runBlocking
 
 class PasswordListTest {
 
@@ -57,17 +57,19 @@ class PasswordListTest {
         }
     }
 
-    private fun createComponent(crypto: Crypto = MockCrypto(),
-                                passwordRepository: PasswordRepository =
-                            createPasswordRepository()): PasswordListLogic {
-        return PasswordListComponent(createContext(), crypto,
-            passwordRepository)
+    private fun createComponent(
+        crypto: Crypto = MockCrypto(),
+        passwordRepository: PasswordRepository = createPasswordRepository(),
+    ): PasswordListLogic {
+        return PasswordListComponent(createContext(), crypto, passwordRepository)
     }
 
     private fun PasswordRepository.fillFakePasswords(crypto: Crypto) {
-        insertPasswords(createPassword(crypto, "pass1", "password"),
+        insertPasswords(
+            createPassword(crypto, "pass1", "password"),
             createPassword(crypto, "pass2", "something"),
-            createPassword(crypto, "pass3", "multi word"))
+            createPassword(crypto, "pass3", "multi word"),
+        )
     }
 
     private fun createPassword(crypto: Crypto, name: String, password: String): PasswordModel {

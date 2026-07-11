@@ -11,14 +11,17 @@ import kotlinx.coroutines.flow.update
 
 interface CreateOtpLogic {
     val state: StateFlow<CreateOtpState>
+
     fun nameChanged(name: String)
+
     fun secretChanged(secret: String)
+
     fun methodChanged(method: OtpMethod)
+
     fun confirm()
 }
 
-class CreateOtpComponent(context: ComponentContext,
-                      private val otpCreated: (OtpModel) -> Unit):
+class CreateOtpComponent(context: ComponentContext, private val otpCreated: (OtpModel) -> Unit) :
     ComponentContext by context, CreateOtpLogic {
     override val state = MutableStateFlow(CreateOtpState())
 
@@ -36,15 +39,23 @@ class CreateOtpComponent(context: ComponentContext,
 
     override fun confirm() {
         val currentState = state.value
-        otpCreated(OtpModel(-1L, otp = if(currentState.type == OtpMethod.HOTP) {
-            Hotp(secret = currentState.secret, name = currentState.name, counter = 0L)
-        } else {
-            Totp(secret = currentState.secret, name = currentState.name)
-        }))
+        otpCreated(
+            OtpModel(
+                -1L,
+                otp =
+                    if (currentState.type == OtpMethod.HOTP) {
+                        Hotp(secret = currentState.secret, name = currentState.name, counter = 0L)
+                    } else {
+                        Totp(secret = currentState.secret, name = currentState.name)
+                    },
+            )
+        )
         state.update { it.copy(name = "", secret = "") }
     }
 }
 
-data class CreateOtpState(val name: String = "",
-                          val secret: String = "",
-                          val type: OtpMethod = OtpMethod.HOTP)
+data class CreateOtpState(
+    val name: String = "",
+    val secret: String = "",
+    val type: OtpMethod = OtpMethod.HOTP,
+)

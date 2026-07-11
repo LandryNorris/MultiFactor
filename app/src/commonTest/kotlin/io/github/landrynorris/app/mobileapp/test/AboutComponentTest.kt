@@ -1,9 +1,9 @@
 package io.github.landrynorris.app.mobileapp.test
 
 import androidx.compose.ui.platform.UriHandler
-import io.github.landrynorris.mobileapp.config.BuildKonfig
 import io.github.landrynorris.app.components.AboutComponent
 import io.github.landrynorris.app.components.AboutLogic
+import io.github.landrynorris.mobileapp.config.BuildKonfig
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -14,11 +14,13 @@ class AboutComponentTest {
         val component = createComponent()
 
         var lastUri: String? = null
-        component.openLegalPage(object: UriHandler {
-            override fun openUri(uri: String) {
-                lastUri = uri
+        component.openLegalPage(
+            object : UriHandler {
+                override fun openUri(uri: String) {
+                    lastUri = uri
+                }
             }
-        })
+        )
 
         assertNotNull(lastUri)
     }

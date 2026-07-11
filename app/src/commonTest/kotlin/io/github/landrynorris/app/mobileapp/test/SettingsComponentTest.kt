@@ -3,14 +3,14 @@ package io.github.landrynorris.app.mobileapp.test
 import io.github.landrynorris.app.components.SettingsComponent
 import io.github.landrynorris.app.components.SettingsLogic
 import io.github.landrynorris.app.repository.SettingsRepository
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 import kotlin.time.Duration.Companion.milliseconds
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
 class SettingsComponentTest {
 
@@ -21,13 +21,17 @@ class SettingsComponentTest {
 
         component.setExcludeSimilar(false)
         delay(50.milliseconds)
-        assertEquals(false, component.passwordSettings.first()
-            .first { it.name == "Exclude Similar" }.value)
+        assertEquals(
+            false,
+            component.passwordSettings.first().first { it.name == "Exclude Similar" }.value,
+        )
 
         component.setExcludeSimilar(true)
         delay(50.milliseconds)
-        assertEquals(true, component.passwordSettings.first()
-            .first { it.name == "Exclude Similar" }.value)
+        assertEquals(
+            true,
+            component.passwordSettings.first().first { it.name == "Exclude Similar" }.value,
+        )
     }
 
     @Test
@@ -37,13 +41,17 @@ class SettingsComponentTest {
 
         component.setIncludeDigits(false)
         delay(50.milliseconds)
-        assertEquals(false, component.passwordSettings.first()
-            .first { it.name == "Include Digits" }.value)
+        assertEquals(
+            false,
+            component.passwordSettings.first().first { it.name == "Include Digits" }.value,
+        )
 
         component.setIncludeDigits(true)
         delay(50.milliseconds)
-        assertEquals(true, component.passwordSettings.first()
-            .first { it.name == "Include Digits" }.value)
+        assertEquals(
+            true,
+            component.passwordSettings.first().first { it.name == "Include Digits" }.value,
+        )
     }
 
     @Test
@@ -53,13 +61,11 @@ class SettingsComponentTest {
 
         component.setPasswordLength(17)
         delay(50.milliseconds)
-        assertEquals(17, component.passwordSettings.first()
-            .first { it.name == "Length" }.value)
+        assertEquals(17, component.passwordSettings.first().first { it.name == "Length" }.value)
 
         component.setPasswordLength(50)
         delay(50.milliseconds)
-        assertEquals(50, component.passwordSettings.first()
-            .first { it.name == "Length" }.value)
+        assertEquals(50, component.passwordSettings.first().first { it.name == "Length" }.value)
     }
 
     @Test
@@ -69,21 +75,23 @@ class SettingsComponentTest {
 
         component.setIncludeSpecialChars(false)
         delay(50.milliseconds)
-        assertEquals(false, component.passwordSettings.first()
-            .first { it.name == "Include Special" }.value)
+        assertEquals(
+            false,
+            component.passwordSettings.first().first { it.name == "Include Special" }.value,
+        )
 
         component.setIncludeSpecialChars(true)
         delay(50.milliseconds)
-        assertEquals(true, component.passwordSettings.first()
-            .first { it.name == "Include Special" }.value)
+        assertEquals(
+            true,
+            component.passwordSettings.first().first { it.name == "Include Special" }.value,
+        )
     }
 
     @Test
     fun testOpenAbout() {
         var aboutOpen = false
-        val component = createComponent(createSettingsRepository()) {
-            aboutOpen = true
-        }
+        val component = createComponent(createSettingsRepository()) { aboutOpen = true }
 
         assertFalse(aboutOpen)
 
@@ -91,8 +99,10 @@ class SettingsComponentTest {
         assertTrue(aboutOpen)
     }
 
-    private fun createComponent(settingsRepository: SettingsRepository,
-                                openAbout: () -> Unit = {}): SettingsLogic {
+    private fun createComponent(
+        settingsRepository: SettingsRepository,
+        openAbout: () -> Unit = {},
+    ): SettingsLogic {
         return SettingsComponent(createContext(), settingsRepository, openAbout)
     }
 }

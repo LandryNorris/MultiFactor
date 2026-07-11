@@ -9,7 +9,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 
-actual object SecureCrypto: Crypto {
+actual object SecureCrypto : Crypto {
     private const val ANDROID_KEY_STORE = "AndroidKeyStore"
     private const val ALIAS = "MultiFactorKeyStore"
     private const val CIPHER = "AES/GCM/NoPadding"
@@ -23,25 +23,24 @@ actual object SecureCrypto: Crypto {
     }
 
     actual override fun generateKey(alias: String) {
-        val generator = KeyGenerator.getInstance(
-            KeyProperties.KEY_ALGORITHM_AES,
-            ANDROID_KEY_STORE
-        )
+        val generator = KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES, ANDROID_KEY_STORE)
 
-        val keySpec = KeyGenParameterSpec.Builder(
-            alias,
-            KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
-            .setKeySize(KEY_SIZE)
-            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
-            .build()
+        val keySpec =
+            KeyGenParameterSpec.Builder(
+                    alias,
+                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT,
+                )
+                .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                .setKeySize(KEY_SIZE)
+                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                .build()
 
         generator.init(keySpec)
         generator.generateKey()
     }
 
     private fun getKey(alias: String): SecretKey {
-        if(!keystore.isKeyEntry(alias)) generateKey(alias)
+        if (!keystore.isKeyEntry(alias)) generateKey(alias)
         val entry = keystore.getEntry(alias, null) as SecretKeyEntry
         return entry.secretKey
     }

@@ -12,22 +12,15 @@ kotlin {
         compileSdk = 37
         minSdk = 23
         namespace = "io.github.landrynorris.encryption"
-        withHostTest { }
+        withHostTest {}
     }
 
     jvm()
 
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
+    listOf(iosArm64(), iosSimulatorArm64()).forEach {
         it.compilations {
-            if(HostManager.hostIsMac) {
-                getByName("main") {
-                    cinterops {
-                        create("Attributes")
-                    }
-                }
+            if (HostManager.hostIsMac) {
+                getByName("main") { cinterops { create("Attributes") } }
             }
         }
     }
@@ -37,16 +30,14 @@ kotlin {
             implementation(libs.cryptography.provider.optimal)
             implementation(libs.cryptography.core)
         }
-        commonTest.dependencies {
-            implementation(kotlin("test"))
-        }
+        commonTest.dependencies { implementation(kotlin("test")) }
     }
 
     swiftPMDependencies {
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         localSwiftPackage(
             directory = project.layout.projectDirectory.dir("src/swift"),
-            products = listOf("Attributes")
+            products = listOf("Attributes"),
         )
     }
 }

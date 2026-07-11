@@ -6,7 +6,5 @@ import app.cash.sqldelight.driver.jdbc.sqlite.JdbcSqliteDriver.Companion.IN_MEMO
 import io.github.landrynorris.database.AppDatabase
 
 actual fun createInMemoryTestDriver(): SqlDriver {
-    return JdbcSqliteDriver(IN_MEMORY).also {
-        AppDatabase.Schema.create(it)
-    }
+    return JdbcSqliteDriver(IN_MEMORY).also { AppDatabase.Schema.create(it) }
 }

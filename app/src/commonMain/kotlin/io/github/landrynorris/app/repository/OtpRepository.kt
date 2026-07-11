@@ -2,10 +2,10 @@ package io.github.landrynorris.app.repository
 
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import io.github.landrynorris.database.AppDatabase
 import io.github.landrynorris.app.models.OtpModel
 import io.github.landrynorris.app.models.toEntry
 import io.github.landrynorris.app.models.toModel
+import io.github.landrynorris.database.AppDatabase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
@@ -15,8 +15,13 @@ class OtpRepository(private val database: AppDatabase) {
 
     fun createOtp(otp: OtpModel) {
         val entry = otp.toEntry()
-        database.otpQueries.insertOtp(id = null, secret = entry.secret, type = entry.type,
-            name = entry.name, count = entry.count)
+        database.otpQueries.insertOtp(
+            id = null,
+            secret = entry.secret,
+            type = entry.type,
+            name = entry.name,
+            count = entry.count,
+        )
     }
 
     fun getOtpModelFlow(): Flow<List<OtpModel>> {

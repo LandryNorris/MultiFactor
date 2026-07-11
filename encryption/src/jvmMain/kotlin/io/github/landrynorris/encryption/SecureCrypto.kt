@@ -8,7 +8,7 @@ import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 
-actual object SecureCrypto: Crypto {
+actual object SecureCrypto : Crypto {
     private const val CIPHER = "AES/GCM/NoPadding"
     private const val KEY_SIZE = 256
     private const val TAG_LENGTH = 128
@@ -16,7 +16,7 @@ actual object SecureCrypto: Crypto {
     private val keystore: KeyStore by lazy {
         keyFile.parentFile.mkdirs()
         val result = KeyStore.getInstance(KeyStore.getDefaultType())
-        if(keyFile.exists()) {
+        if (keyFile.exists()) {
             result.load(keyFileStream, KEY_FILE_PASSWORD.toCharArray())
         } else {
             result.load(null)
@@ -38,7 +38,7 @@ actual object SecureCrypto: Crypto {
     }
 
     private fun getKey(alias: String): SecretKey {
-        if(!keystore.isKeyEntry(alias)) generateKey(alias)
+        if (!keystore.isKeyEntry(alias)) generateKey(alias)
         val protection = KeyStore.PasswordProtection("A password".toCharArray())
         val entry = keystore.getEntry(alias, protection) as SecretKeyEntry
         return entry.secretKey
@@ -61,13 +61,15 @@ actual object SecureCrypto: Crypto {
         return cipher.doFinal(data)
     }
 
-    private val keyFile: File get() {
-        val home = System.getProperty("user.home")
+    private val keyFile: File
+        get() {
+            val home = System.getProperty("user.home")
 
-        return File(home, ".multifactor/keystore/keystore.pkcs12")
-    }
+            return File(home, ".multifactor/keystore/keystore.pkcs12")
+        }
 
-    private val keyFileStream get() = keyFile.inputStream()
+    private val keyFileStream
+        get() = keyFile.inputStream()
 }
 
 private const val KEY_FILE_PASSWORD = "changeit"

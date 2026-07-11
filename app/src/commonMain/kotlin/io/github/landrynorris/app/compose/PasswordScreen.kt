@@ -3,19 +3,19 @@ package io.github.landrynorris.app.compose
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.EnhancedEncryption
+import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.EnhancedEncryption
-import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.window.Dialog
 import io.github.landrynorris.app.components.PasswordLogic
 
 @Composable
@@ -23,12 +23,10 @@ internal fun PasswordScreen(logic: PasswordLogic) {
     val state by logic.state.collectAsState()
     val passwordListState by logic.passwordListLogic.state.collectAsState()
 
-    Scaffold(floatingActionButton = {
-        AddButton(state.showAddPassword) {
-            logic.toggleAddPassword()
-        }
-    }) {
-        if(state.showAddPassword) {
+    Scaffold(
+        floatingActionButton = { AddButton(state.showAddPassword) { logic.toggleAddPassword() } }
+    ) {
+        if (state.showAddPassword) {
             Dialog(onDismissRequest = logic::hideAddPassword) {
                 CreatePasswordPopup(logic.createPasswordLogic)
             }
@@ -39,9 +37,13 @@ internal fun PasswordScreen(logic: PasswordLogic) {
                 SwipeToDelete(onDelete = { logic.deletePassword(field.model) }) {
                     MultiFactorCard(field.model.name) {
                         val clipboardManager = LocalClipboardManager.current
-                        PasswordCard(field.model.name, field.password,
-                            onCopyClicked = { logic.copyPasswordClicked(clipboardManager,
-                                field.password ?: "") }) {
+                        PasswordCard(
+                            field.model.name,
+                            field.password,
+                            onCopyClicked = {
+                                logic.copyPasswordClicked(clipboardManager, field.password ?: "")
+                            },
+                        ) {
                             logic.passwordListLogic.showHidePressed(field)
                         }
                     }
@@ -52,22 +54,25 @@ internal fun PasswordScreen(logic: PasswordLogic) {
 }
 
 @Composable
-internal fun PasswordCard(name: String, password: String?,
-                          onCopyClicked: () -> Unit,
-                          onToggleVisibleClick: () -> Unit = {}) {
+internal fun PasswordCard(
+    name: String,
+    password: String?,
+    onCopyClicked: () -> Unit,
+    onToggleVisibleClick: () -> Unit = {},
+) {
     Row(modifier = Modifier.fillMaxWidth()) {
         Column {
             Text(modifier = Modifier.contentDescription(name), text = name)
 
-            if(password == null) HiddenPasswordText()
-            else Text(password)
+            if (password == null) HiddenPasswordText() else Text(password)
         }
         Spacer(modifier = Modifier.weight(1f))
         CopyButton(isEnabled = password != null, onClick = onCopyClicked)
         IconButton(onClick = onToggleVisibleClick) {
             Icon(
-                if(password == null) Icons.Default.EnhancedEncryption else Icons.Default.LockOpen,
-                if(password == null) "show" else "hide")
+                if (password == null) Icons.Default.EnhancedEncryption else Icons.Default.LockOpen,
+                if (password == null) "show" else "hide",
+            )
         }
     }
 }

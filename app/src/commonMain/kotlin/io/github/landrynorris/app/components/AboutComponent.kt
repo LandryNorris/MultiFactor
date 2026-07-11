@@ -6,11 +6,11 @@ import io.github.landrynorris.mobileapp.config.BuildKonfig
 
 interface AboutLogic {
     val state: AboutState
+
     fun openLegalPage(handler: UriHandler)
 }
 
-class AboutComponent(context: ComponentContext):
-    ComponentContext by context, AboutLogic {
+class AboutComponent(context: ComponentContext) : ComponentContext by context, AboutLogic {
     override val state = AboutState(BuildKonfig.version, BuildKonfig.buildId)
 
     override fun openLegalPage(handler: UriHandler) = handler.openUri(privacyPolicyUrl)

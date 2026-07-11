@@ -11,13 +11,11 @@ kotlin {
         compileSdk = 37
         minSdk = 26
         namespace = "io.github.landrynorris.autofill"
-        withHostTest { }
+        withHostTest {}
     }
 
     sourceSets {
-        commonMain.dependencies {
-            implementation(project(":database"))
-        }
+        commonMain.dependencies { implementation(project(":database")) }
         androidMain.dependencies {
             implementation(libs.sql.android)
             implementation(libs.activity.compose)

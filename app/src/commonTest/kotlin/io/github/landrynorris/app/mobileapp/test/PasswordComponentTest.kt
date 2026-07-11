@@ -1,14 +1,14 @@
 package io.github.landrynorris.app.mobileapp.test
 
-import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.app.components.PasswordComponent
 import io.github.landrynorris.app.components.PasswordLogic
 import io.github.landrynorris.app.repository.SettingsRepository
-import kotlinx.coroutines.runBlocking
+import io.github.landrynorris.encryption.Crypto
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
+import kotlinx.coroutines.runBlocking
 
 class PasswordComponentTest {
 
@@ -39,9 +39,7 @@ class PasswordComponentTest {
         component.createPasswordLogic.nameChanged("A name")
         component.createPasswordLogic.confirm()
 
-        assertOccursWithin(1000) {
-            component.passwordListLogic.state.value.passwords.size == 1
-        }
+        assertOccursWithin(1000) { component.passwordListLogic.state.value.passwords.size == 1 }
     }
 
     @Test
@@ -56,8 +54,13 @@ class PasswordComponentTest {
 
     private fun createComponent(
         settingsRepository: SettingsRepository = createSettingsRepository(),
-        crypto: Crypto = MockCrypto()): PasswordLogic {
-        return PasswordComponent(createContext(), crypto,
-            createPasswordRepository(), settingsRepository)
+        crypto: Crypto = MockCrypto(),
+    ): PasswordLogic {
+        return PasswordComponent(
+            createContext(),
+            crypto,
+            createPasswordRepository(),
+            settingsRepository,
+        )
     }
 }

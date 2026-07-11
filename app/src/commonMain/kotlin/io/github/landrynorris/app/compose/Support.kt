@@ -11,8 +11,7 @@ fun About(logic: AboutLogic) {
     LazyColumn {
         item {
             val uriHandler = LocalUriHandler.current
-            MultiFactorTextButton("Privacy Policy",
-                onClick = { logic.openLegalPage(uriHandler) })
+            MultiFactorTextButton("Privacy Policy", onClick = { logic.openLegalPage(uriHandler) })
         }
 
         item {

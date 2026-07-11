@@ -8,10 +8,13 @@ import io.github.landrynorris.autofill.parser.inlineSpec
 import io.github.landrynorris.autofill.response.AutoFillResponse
 import io.github.landrynorris.database.AppDatabase
 
-class AutoFillService: AutofillService() {
+class AutoFillService : AutofillService() {
 
-    override fun onFillRequest(request: FillRequest,
-                               cancellationSignal: CancellationSignal, callback: FillCallback) {
+    override fun onFillRequest(
+        request: FillRequest,
+        cancellationSignal: CancellationSignal,
+        callback: FillCallback,
+    ) {
         val structure = request.fillContexts.last().structure
         val parsedStructure = AssistStructureParser().parse(structure)
 

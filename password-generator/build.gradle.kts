@@ -11,15 +11,11 @@ kotlin {
         compileSdk = 37
         minSdk = 23
         namespace = "io.github.landrynorris.password.generator"
-        withHostTest { }
+        withHostTest {}
     }
     jvm()
 
     listOf(iosArm64(), iosSimulatorArm64())
 
-    sourceSets {
-        commonTest.dependencies {
-            implementation(kotlin("test"))
-        }
-    }
+    sourceSets { commonTest.dependencies { implementation(kotlin("test")) } }
 }
