@@ -16,6 +16,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import io.github.landrynorris.app.components.Root
@@ -64,12 +65,15 @@ internal fun BottomNav(navigateToOtp: () -> Unit, navigateToPasswordManager: () 
     NavigationBar(modifier = Modifier.fillMaxWidth()) {
         NavigationBarItem(false, onClick = navigateToOtp,
             icon = { Icon(Icons.Default.Pin, "otp") },
-            label = { Text("otp") })
+            label = { Text("otp") },
+            modifier = Modifier.testTag("otp"))
         NavigationBarItem(false, onClick = navigateToPasswordManager,
             icon = { Icon(Icons.Default.Password, "password") },
-            label = { Text("passwords") })
+            label = { Text("passwords") },
+            modifier = Modifier.testTag("password"))
         NavigationBarItem(false, onClick = navigateToSettings,
             icon = { Icon(Icons.Default.Settings, "settings") },
-            label = { Text("settings") })
+            label = { Text("settings") },
+            modifier = Modifier.testTag("settings"))
     }
 }
