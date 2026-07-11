@@ -76,6 +76,10 @@ dependencies {
 
     androidTestImplementation(kotlin("test"))
     androidTestImplementation(libs.core)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.test.runner)
+    androidTestImplementation(libs.test.rules)
+    androidTestImplementation(libs.test.ext.junit)
     androidTestImplementation(libs.ui.test.junit4)
     androidTestImplementation(project(":otp"))
 }
