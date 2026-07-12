@@ -28,17 +28,18 @@ import androidx.compose.ui.unit.dp
 @Composable
 internal fun LazyItemScope.SwipeToDelete(onDelete: () -> Unit, content: @Composable () -> Unit) {
     val state = rememberSwipeToDismissBoxState()
-    SwipeToDismissBox(modifier = Modifier.animateItem(),
+    SwipeToDismissBox(
+        modifier = Modifier.animateItem(),
         state = state,
         backgroundContent = { SwipeBackground(state) },
         content = { content() },
         enableDismissFromEndToStart = true,
         enableDismissFromStartToEnd = false,
         onDismiss = {
-            if(it == SwipeToDismissBoxValue.EndToStart) {
+            if (it == SwipeToDismissBoxValue.EndToStart) {
                 onDelete()
             }
-        }
+        },
     )
 }
 
@@ -46,35 +47,29 @@ internal fun LazyItemScope.SwipeToDelete(onDelete: () -> Unit, content: @Composa
 @Composable
 internal fun SwipeBackground(state: SwipeToDismissBoxState) {
     val direction = state.dismissDirection
-    val color by animateColorAsState(
-        when (state.targetValue) {
-            SwipeToDismissBoxValue.EndToStart -> Color.Red
-            else -> Color.Transparent
+    val color by
+        animateColorAsState(
+            when (state.targetValue) {
+                SwipeToDismissBoxValue.EndToStart -> Color.Red
+                else -> Color.Transparent
+            }
+        )
+    val alignment =
+        when (direction) {
+            SwipeToDismissBoxValue.StartToEnd -> Alignment.CenterStart
+            SwipeToDismissBoxValue.EndToStart -> Alignment.CenterEnd
+            else -> Alignment.CenterEnd
         }
-    )
-    val alignment = when (direction) {
-        SwipeToDismissBoxValue.StartToEnd -> Alignment.CenterStart
-        SwipeToDismissBoxValue.EndToStart -> Alignment.CenterEnd
-        else -> Alignment.CenterEnd
-    }
     val icon = Icons.Default.Delete
-    val scale by animateFloatAsState(
-        if (state.targetValue == SwipeToDismissBoxValue.Settled) 0.75f else 1f
-    )
+    val scale by
+        animateFloatAsState(if (state.targetValue == SwipeToDismissBoxValue.Settled) 0.75f else 1f)
 
     Box(
-        Modifier
-            .fillMaxSize()
-            .background(color)
-            .padding(horizontal = 20.dp),
-        contentAlignment = alignment
+        Modifier.fillMaxSize().background(color).padding(horizontal = 20.dp),
+        contentAlignment = alignment,
     ) {
-        if(direction == SwipeToDismissBoxValue.EndToStart) {
-            Icon(
-                icon,
-                contentDescription = "Delete",
-                modifier = Modifier.scale(scale)
-            )
+        if (direction == SwipeToDismissBoxValue.EndToStart) {
+            Icon(icon, contentDescription = "Delete", modifier = Modifier.scale(scale))
         }
     }
 }

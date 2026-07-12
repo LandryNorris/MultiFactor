@@ -7,7 +7,5 @@ import androidx.compose.ui.platform.testTag
 
 @Composable
 internal fun MultiFactorCard(contentDescription: String = "card", content: @Composable () -> Unit) {
-    Card(modifier = Modifier.testTag(contentDescription)) {
-        content()
-    }
+    Card(modifier = Modifier.testTag(contentDescription)) { content() }
 }

@@ -2,12 +2,12 @@ package io.github.landrynorris.app.mobileapp.test
 
 import io.github.landrynorris.app.components.Root
 import io.github.landrynorris.app.components.RootComponent
-import org.koin.core.context.stopKoin
-import org.koin.test.KoinTest
 import kotlin.test.Test
 import kotlin.test.assertIs
+import org.koin.core.context.stopKoin
+import org.koin.test.KoinTest
 
-class RootComponentTest: KoinTest {
+class RootComponentTest : KoinTest {
 
     @Test
     fun testNavigation() {
@@ -29,9 +29,10 @@ class RootComponentTest: KoinTest {
         stopKoin()
     }
 
-    private val Root.navigationState: Root.Child get() {
-        return routerState.value.active.instance
-    }
+    private val Root.navigationState: Root.Child
+        get() {
+            return routerState.value.active.instance
+        }
 
     private fun createComponent(): Root {
         initKoin()

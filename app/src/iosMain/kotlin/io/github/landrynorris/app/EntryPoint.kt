@@ -10,15 +10,13 @@ import kotlinx.cinterop.*
 import platform.Foundation.NSStringFromClass
 import platform.UIKit.*
 
-@Suppress("unused") //called from Swift
+@Suppress("unused") // called from Swift
 @OptIn(ExperimentalForeignApi::class)
 object EntryPoint {
     fun createEntryPoint(): UIViewController {
         val logic = RootComponent(DefaultComponentContext(LifecycleRegistry()), SecureCrypto)
         println("Starting application")
-        return ComposeUIViewController {
-            RootScreen(logic)
-        }
+        return ComposeUIViewController { RootScreen(logic) }
     }
 
     fun main() {
@@ -35,19 +33,25 @@ object EntryPoint {
     class SkikoAppDelegate : UIResponder, UIApplicationDelegateProtocol {
         companion object : UIResponderMeta(), UIApplicationDelegateProtocolMeta
 
-        @ObjCObjectBase.OverrideInit
-        constructor() : super()
+        @ObjCObjectBase.OverrideInit constructor() : super()
 
         private var _window: UIWindow? = null
+
         override fun window() = _window
+
         override fun setWindow(window: UIWindow?) {
             _window = window
         }
 
-        override fun application(application: UIApplication, didFinishLaunchingWithOptions: Map<Any?, *>?): Boolean {
+        override fun application(
+            application: UIApplication,
+            didFinishLaunchingWithOptions: Map<Any?, *>?,
+        ): Boolean {
             initKoin()
             window = UIWindow(frame = UIScreen.mainScreen.bounds)
-            println("Bounds: ${UIScreen.mainScreen.bounds.useContents { size.width }}x${UIScreen.mainScreen.bounds.useContents { size.width }}")
+            println(
+                "Bounds: ${UIScreen.mainScreen.bounds.useContents { size.width }}x${UIScreen.mainScreen.bounds.useContents { size.width }}"
+            )
             window!!.rootViewController = createEntryPoint()
             window!!.makeKeyAndVisible()
             println("Set up window")

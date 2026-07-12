@@ -3,12 +3,12 @@ package io.github.landrynorris.app.components
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.text.buildAnnotatedString
 import com.arkivanov.decompose.ComponentContext
-import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.app.PasswordGeneratorDefaults
 import io.github.landrynorris.app.PasswordKeystoreAlias
 import io.github.landrynorris.app.models.PasswordModel
 import io.github.landrynorris.app.repository.PasswordRepository
 import io.github.landrynorris.app.repository.SettingsRepository
+import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.password.generator.createPassword
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,22 +18,28 @@ interface CreatePasswordLogic {
     val state: StateFlow<CreatePasswordState>
 
     fun nameChanged(name: String)
+
     fun domainChanged(domain: String)
+
     fun passwordChanged(password: String)
+
     fun generateNewPassword(clipboardManager: ClipboardManager? = null)
+
     fun confirm()
 }
 
-class CreatePasswordComponent(context: ComponentContext,
-                              private val crypto: Crypto,
-                              private val passwordRepository: PasswordRepository,
-                              private val settingsRepository: SettingsRepository
-                              ): CreatePasswordLogic, ComponentContext by context {
+class CreatePasswordComponent(
+    context: ComponentContext,
+    private val crypto: Crypto,
+    private val passwordRepository: PasswordRepository,
+    private val settingsRepository: SettingsRepository,
+) : CreatePasswordLogic, ComponentContext by context {
     override val state = MutableStateFlow(CreatePasswordState())
 
     override fun nameChanged(name: String) {
-        state.update { it.copy(name = name,
-            isConfirmEnabled = isConfirmEnabled(name, it.password)) }
+        state.update {
+            it.copy(name = name, isConfirmEnabled = isConfirmEnabled(name, it.password))
+        }
     }
 
     override fun domainChanged(domain: String) {
@@ -41,8 +47,9 @@ class CreatePasswordComponent(context: ComponentContext,
     }
 
     override fun passwordChanged(password: String) {
-        state.update { it.copy(password = password,
-            isConfirmEnabled = isConfirmEnabled(it.name, password)) }
+        state.update {
+            it.copy(password = password, isConfirmEnabled = isConfirmEnabled(it.name, password))
+        }
     }
 
     override fun generateNewPassword(clipboardManager: ClipboardManager?) {
@@ -51,11 +58,13 @@ class CreatePasswordComponent(context: ComponentContext,
             includeDigits = settings.includeDigits
             includeSpecial = settings.includeSpecial
             excludeSimilar = settings.excludeSimilar
-            length = if(settings.passwordLength > 0) settings.passwordLength
-                     else PasswordGeneratorDefaults.PasswordLength
+            length =
+                if (settings.passwordLength > 0) settings.passwordLength
+                else PasswordGeneratorDefaults.PasswordLength
         }
-        state.update { it.copy(password = password,
-            isConfirmEnabled = isConfirmEnabled(it.name, password)) }
+        state.update {
+            it.copy(password = password, isConfirmEnabled = isConfirmEnabled(it.name, password))
+        }
         clipboardManager?.setText(buildAnnotatedString { append(password) })
     }
 
@@ -63,9 +72,16 @@ class CreatePasswordComponent(context: ComponentContext,
         val current = state.value
         val encrypted = crypto.encrypt(current.password.encodeToByteArray(), PasswordKeystoreAlias)
 
-        savePasswordModel(PasswordModel(-1L, current.name, salt = encrypted.iv,
-            encryptedValue = encrypted.data, domain = current.domain.takeIf { it.isNotBlank() },
-            appId = null))
+        savePasswordModel(
+            PasswordModel(
+                -1L,
+                current.name,
+                salt = encrypted.iv,
+                encryptedValue = encrypted.data,
+                domain = current.domain.takeIf { it.isNotBlank() },
+                appId = null,
+            )
+        )
         state.update { CreatePasswordState() }
     }
 
@@ -77,6 +93,9 @@ class CreatePasswordComponent(context: ComponentContext,
         password.isNotBlank() && name.isNotBlank()
 }
 
-data class CreatePasswordState(val name: String = "", val password: String = "",
-                               val domain: String = "",
-                               val isConfirmEnabled: Boolean = false)
+data class CreatePasswordState(
+    val name: String = "",
+    val password: String = "",
+    val domain: String = "",
+    val isConfirmEnabled: Boolean = false,
+)

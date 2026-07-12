@@ -7,7 +7,5 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun MultiFactorTextButton(text: String, onClick: () -> Unit) {
-    TextButton(onClick = onClick) {
-        Text(text, color = MaterialTheme.colorScheme.onBackground)
-    }
+    TextButton(onClick = onClick) { Text(text, color = MaterialTheme.colorScheme.onBackground) }
 }

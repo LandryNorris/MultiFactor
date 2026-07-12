@@ -1,7 +1,6 @@
 import com.codingfeline.buildkonfig.compiler.FieldSpec
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import java.util.*
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 val appVersion = project.property("appVersion") as String
 
@@ -15,6 +14,7 @@ plugins {
     alias(libs.plugins.sql.delight)
     alias(libs.plugins.kover)
     alias(libs.plugins.buildkonfig)
+    alias(libs.plugins.ktfmt)
 }
 
 version = appVersion
@@ -23,19 +23,14 @@ kotlin {
     android {
         compileSdk = 37
         minSdk = 21
-        compilerOptions {
-            jvmTarget = JvmTarget.JVM_17
-        }
+        compilerOptions { jvmTarget = JvmTarget.JVM_17 }
 
         namespace = "io.github.landrynorris.app"
-        withHostTest { }
+        withHostTest {}
     }
     jvm()
 
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    )
+    listOf(iosArm64(), iosSimulatorArm64())
 
     sourceSets {
         commonMain.dependencies {
@@ -73,9 +68,7 @@ kotlin {
             implementation(libs.settings.datastore)
             implementation(libs.datastore.preferences)
         }
-        getByName("androidHostTest").dependencies {
-            implementation(libs.sql.sqlite)
-        }
+        getByName("androidHostTest").dependencies { implementation(libs.sql.sqlite) }
 
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
@@ -83,9 +76,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.swing)
         }
 
-        iosMain.dependencies {
-            implementation(libs.sql.native)
-        }
+        iosMain.dependencies { implementation(libs.sql.native) }
     }
 }
 
@@ -97,9 +88,7 @@ kotlin {
 
         podfile = project.file("../iosAppXcode/Podfile")
 
-        framework {
-            baseName = "MobileApp"
-        }
+        framework { baseName = "MobileApp" }
     }
 }
 

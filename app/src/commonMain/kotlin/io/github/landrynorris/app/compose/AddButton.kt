@@ -12,8 +12,8 @@ import androidx.compose.ui.draw.rotate
 
 @Composable
 internal fun AddButton(isAdding: Boolean, onClick: () -> Unit) {
-    val degrees by animateFloatAsState(if(isAdding) 45f else 0f)
+    val degrees by animateFloatAsState(if (isAdding) 45f else 0f)
     IconButton(onClick = onClick, modifier = Modifier.rotate(degrees)) {
-        Icon(Icons.Default.Add, if(isAdding) "Close" else "Add")
+        Icon(Icons.Default.Add, if (isAdding) "Close" else "Add")
     }
 }

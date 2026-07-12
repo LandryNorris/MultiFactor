@@ -11,7 +11,11 @@ import androidx.compose.ui.semantics.semantics
 @Composable
 internal fun CopyButton(isEnabled: Boolean = true, onClick: () -> Unit) {
     val color = MaterialTheme.colorScheme.onBackground
-    TextButton(onClick, enabled = isEnabled) { Text(modifier = Modifier.semantics { contentDescription = "Copy" },
-        text = "copy",
-        color = if(isEnabled) color else color.copy(alpha = 0.38f) ) }
+    TextButton(onClick, enabled = isEnabled) {
+        Text(
+            modifier = Modifier.semantics { contentDescription = "Copy" },
+            text = "copy",
+            color = if (isEnabled) color else color.copy(alpha = 0.38f),
+        )
+    }
 }

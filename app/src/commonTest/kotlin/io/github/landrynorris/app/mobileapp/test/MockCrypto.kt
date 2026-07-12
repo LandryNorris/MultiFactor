@@ -5,7 +5,7 @@ import io.github.landrynorris.encryption.EncryptResult
 import io.github.landrynorris.encryption.Encryption
 import kotlin.random.Random
 
-class MockCrypto: Crypto {
+class MockCrypto : Crypto {
     private var key: ByteArray = byteArrayOf()
 
     override fun generateKey(alias: String) {
@@ -13,12 +13,12 @@ class MockCrypto: Crypto {
     }
 
     override fun decrypt(data: ByteArray, iv: ByteArray, alias: String): ByteArray {
-        if(key.isEmpty()) generateKey(alias)
+        if (key.isEmpty()) generateKey(alias)
         return Encryption.decrypt(data, iv, key)
     }
 
     override fun encrypt(data: ByteArray, alias: String): EncryptResult {
-        if(key.isEmpty()) generateKey(alias)
+        if (key.isEmpty()) generateKey(alias)
         val iv = createSalt()
         val encryptedData = Encryption.encrypt(data, iv, key)
 
@@ -27,5 +27,5 @@ class MockCrypto: Crypto {
 
     private fun createSalt(): ByteArray = Random.nextBytes(16)
 
-    private fun createKey(): ByteArray = Random.nextBytes(128/8)
+    private fun createKey(): ByteArray = Random.nextBytes(128 / 8)
 }

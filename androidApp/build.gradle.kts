@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.android.app)
     alias(libs.plugins.compose)
     alias(libs.plugins.composeCompiler)
+    alias(libs.plugins.ktfmt)
 }
 
 val keystoreProperties =
@@ -15,9 +16,7 @@ val keystoreProperties =
 
 val appVersion = project.property("appVersion") as String
 
-kotlin {
-    jvmToolchain(17)
-}
+kotlin { jvmToolchain(17) }
 
 android {
     compileSdk = 37
@@ -33,15 +32,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
+    defaultConfig { testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner" }
 
     flavorDimensions += "track"
 
     productFlavors {
         create("production") {
-            if(keystoreProperties.isNotEmpty()) {
+            if (keystoreProperties.isNotEmpty()) {
                 signingConfigs {
                     create("release") {
                         storeFile = file(keystoreProperties.getProperty("storeFile"))
@@ -54,9 +51,7 @@ android {
             }
         }
 
-        create("dev") {
-            applicationIdSuffix = ".dev"
-        }
+        create("dev") { applicationIdSuffix = ".dev" }
     }
 
     namespace = "io.github.landrynorris.multifactor"

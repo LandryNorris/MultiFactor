@@ -5,11 +5,11 @@ import io.github.landrynorris.app.models.OtpModel
 import io.github.landrynorris.otp.Hotp
 import io.github.landrynorris.otp.OtpMethod
 import io.github.landrynorris.otp.Totp
+import kotlin.test.*
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withTimeout
-import kotlin.test.*
-import kotlin.time.Duration.Companion.milliseconds
 
 class OtpComponentTest {
 
@@ -63,14 +63,25 @@ class OtpComponentTest {
         val testOtp = Hotp("A secret", "A value", 0)
         component.createOtpLogic.enter(OtpModel(-1L, testOtp))
 
-        val codes = listOf("760185", "139820", "724745", "506633", "181744",
-            "604248", "869305", "895970", "723575", "374912")
+        val codes =
+            listOf(
+                "760185",
+                "139820",
+                "724745",
+                "506633",
+                "181744",
+                "604248",
+                "869305",
+                "895970",
+                "723575",
+                "374912",
+            )
 
         repeat(10) {
             delay(100.milliseconds)
             val otpState = component.awaitNonEmptyOtpList()
 
-            //val otpState = component.state.value
+            // val otpState = component.state.value
             assertEquals(1, otpState.otpList.size)
 
             val hotp = otpState.otpList.first()
@@ -108,8 +119,8 @@ class OtpComponentTest {
         component.createOtpLogic.enter(OtpModel(-1L, testHotp))
         component.awaitNonEmptyOtpList()
 
-        //We currently don't provide an easy way to set the timeStep, so don't test
-        //that the values change, since we don't want the test to run for 30 seconds
+        // We currently don't provide an easy way to set the timeStep, so don't test
+        // that the values change, since we don't want the test to run for 30 seconds
         component.updateTotps()
     }
 
@@ -141,7 +152,7 @@ class OtpComponentTest {
             var otpState: OtpScreenState
             do {
                 otpState = state.value
-            } while(otpState.otpList.isEmpty())
+            } while (otpState.otpList.isEmpty())
             otpState
         }
     }
@@ -151,7 +162,7 @@ class OtpComponentTest {
     }
 
     private fun CreateOtpLogic.enter(model: OtpModel) {
-        methodChanged(if(model.otp is Totp) OtpMethod.TOTP else OtpMethod.HOTP)
+        methodChanged(if (model.otp is Totp) OtpMethod.TOTP else OtpMethod.HOTP)
         nameChanged(model.otp.name)
         secretChanged(model.otp.secretBase32)
         confirm()

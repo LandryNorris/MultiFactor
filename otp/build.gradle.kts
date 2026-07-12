@@ -5,11 +5,13 @@ plugins {
     alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.kover)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.ktfmt)
     id("maven-publish")
     id("signing")
 }
 
 group = "io.github.landrynorris"
+
 version = "0.1.0"
 
 kotlin {
@@ -17,17 +19,12 @@ kotlin {
         compileSdk = 37
         minSdk = 21
         namespace = "io.github.landrynorris.otp"
-        withHostTest { }
+        withHostTest {}
     }
     jvm()
 
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach {
-        it.binaries.framework {
-            baseName = "shared"
-        }
+    listOf(iosArm64(), iosSimulatorArm64()).forEach {
+        it.binaries.framework { baseName = "shared" }
     }
 
     sourceSets {
@@ -35,9 +32,7 @@ kotlin {
             implementation(libs.cryptography.provider.optimal)
             implementation(libs.cryptography.core)
         }
-        commonTest.dependencies {
-            implementation(kotlin("test"))
-        }
+        commonTest.dependencies { implementation(kotlin("test")) }
     }
 }
 
@@ -45,11 +40,9 @@ val properties by lazy {
     Properties().also { it.load(project.rootProject.file("local.properties").inputStream()) }
 }
 
-val javadocJar = tasks.register<Jar>("javadocJar") {
-    archiveClassifier.set("javadoc")
-}
+val javadocJar = tasks.register<Jar>("javadocJar") { archiveClassifier.set("javadoc") }
 
-if(hasLocalProperties()) {
+if (hasLocalProperties()) {
     publishing {
         publications {
             withType<MavenPublication> {
@@ -94,7 +87,7 @@ if(hasLocalProperties()) {
     }
 }
 
-if(hasLocalProperties()) {
+if (hasLocalProperties()) {
     project.signing {
         val secretKeyFile = getProperty("signing.secretKeyRingFile") ?: error("No key file found")
         val secretKey = File(secretKeyFile).readText()
@@ -110,5 +103,5 @@ fun getProperty(name: String): String? {
 
 fun hasLocalProperties(): Boolean {
     return project.rootProject.file("local.properties").exists() &&
-            getProperty("signing.enable") != "false"
+        getProperty("signing.enable") != "false"
 }

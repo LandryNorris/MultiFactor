@@ -10,9 +10,12 @@ import io.github.landrynorris.app.components.CreateOtpLogic
 internal fun CreateOtpDialog(logic: CreateOtpLogic, onDismiss: () -> Unit) {
     val state by logic.state.collectAsState()
     Dialog(onDismissRequest = onDismiss) {
-        CreateOtpItem(state, onNameChanged = logic::nameChanged,
+        CreateOtpItem(
+            state,
+            onNameChanged = logic::nameChanged,
             onSecretChanged = logic::secretChanged,
             onTypeChanged = logic::methodChanged,
-            onConfirmClicked = logic::confirm)
+            onConfirmClicked = logic::confirm,
+        )
     }
 }

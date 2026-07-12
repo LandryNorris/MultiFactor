@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.android.multiplatform.library)
     alias(libs.plugins.sql.delight)
+    alias(libs.plugins.ktfmt)
 }
 
 kotlin {
@@ -9,23 +10,15 @@ kotlin {
         compileSdk = 37
         minSdk = 23
         namespace = "io.github.landrynorris.database"
-        withHostTest { }
+        withHostTest {}
     }
     jvm()
 
     listOf(iosArm64(), iosSimulatorArm64())
 
     sourceSets {
-        commonMain {
-            dependencies {
-                implementation(libs.sql)
-            }
-        }
-        commonTest {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
+        commonMain { dependencies { implementation(libs.sql) } }
+        commonTest { dependencies { implementation(kotlin("test")) } }
     }
 }
 

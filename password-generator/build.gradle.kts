@@ -1,10 +1,9 @@
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-
 plugins {
     alias(libs.plugins.kotlin)
     alias(libs.plugins.android.multiplatform.library)
-    id("org.jetbrains.kotlinx.kover")
+    alias(libs.plugins.kover)
     alias(libs.plugins.dokka)
+    alias(libs.plugins.ktfmt)
 }
 
 kotlin {
@@ -12,15 +11,11 @@ kotlin {
         compileSdk = 37
         minSdk = 23
         namespace = "io.github.landrynorris.password.generator"
-        withHostTest { }
+        withHostTest {}
     }
     jvm()
 
     listOf(iosArm64(), iosSimulatorArm64())
 
-    sourceSets {
-        commonTest.dependencies {
-            implementation(kotlin("test"))
-        }
-    }
+    sourceSets { commonTest.dependencies { implementation(kotlin("test")) } }
 }

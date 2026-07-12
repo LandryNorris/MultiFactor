@@ -1,10 +1,10 @@
 package io.github.landrynorris.app.components
 
 import com.arkivanov.decompose.ComponentContext
-import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.app.PasswordKeystoreAlias
 import io.github.landrynorris.app.models.PasswordModel
 import io.github.landrynorris.app.repository.PasswordRepository
+import io.github.landrynorris.encryption.Crypto
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,10 +18,11 @@ interface PasswordListLogic {
     fun showHidePressed(field: PasswordField)
 }
 
-class PasswordListComponent(context: ComponentContext,
-                            private val crypto: Crypto,
-                            repository: PasswordRepository): ComponentContext by context,
-    PasswordListLogic {
+class PasswordListComponent(
+    context: ComponentContext,
+    private val crypto: Crypto,
+    repository: PasswordRepository,
+) : ComponentContext by context, PasswordListLogic {
     private val modelsFlow = repository.getPasswordsFlow()
     override val state = MutableStateFlow(PasswordListState())
 
@@ -29,18 +30,19 @@ class PasswordListComponent(context: ComponentContext,
         CoroutineScope(Dispatchers.Default).launch {
             modelsFlow.collect { models ->
                 state.update {
-                    //the existing passwords to keep
-                    val filteredPasswords = it.passwords.filter { field ->
-                        models.any { model -> model == field.model }
-                    }
+                    // the existing passwords to keep
+                    val filteredPasswords =
+                        it.passwords.filter { field ->
+                            models.any { model -> model == field.model }
+                        }
 
-                    //the new passwords to add
+                    // the new passwords to add
                     val newModels = models.filter { model ->
                         filteredPasswords.none { field -> model == field.model }
                     }
 
-                    val passwords = filteredPasswords +
-                            newModels.map { model -> model.toNewField() }
+                    val passwords =
+                        filteredPasswords + newModels.map { model -> model.toNewField() }
 
                     it.copy(passwords = passwords)
                 }
@@ -50,16 +52,19 @@ class PasswordListComponent(context: ComponentContext,
 
     override fun showHidePressed(field: PasswordField) {
         state.update {
-            it.copy(passwords = it.passwords.map { value ->
-                if(value == field) {
-                    if(field.isHidden) {
-                        val decryptedPassword = decryptPassword(field.model)
-                        field.copy(isHidden = false, password = decryptedPassword)
-                    } else {
-                        field.copy(isHidden = true, password = null)
+            it.copy(
+                passwords =
+                    it.passwords.map { value ->
+                        if (value == field) {
+                            if (field.isHidden) {
+                                val decryptedPassword = decryptPassword(field.model)
+                                field.copy(isHidden = false, password = decryptedPassword)
+                            } else {
+                                field.copy(isHidden = true, password = null)
+                            }
+                        } else value
                     }
-                } else value
-            })
+            )
         }
     }
 
@@ -71,7 +76,6 @@ class PasswordListComponent(context: ComponentContext,
     private fun PasswordModel.toNewField() = PasswordField(this, null, true)
 }
 
-data class PasswordField(val model: PasswordModel, val password: String?,
-                         val isHidden: Boolean)
+data class PasswordField(val model: PasswordModel, val password: String?, val isHidden: Boolean)
 
 data class PasswordListState(val passwords: List<PasswordField> = listOf())

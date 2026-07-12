@@ -18,33 +18,47 @@ val names = listOf("Hotp", "Totp")
 val types = listOf(OtpMethod.HOTP, OtpMethod.TOTP)
 
 @Composable
-internal fun CreateOtpItem(createOtpState: CreateOtpState,
-                  onNameChanged: (String) -> Unit = {},
-                  onSecretChanged: (String) -> Unit = {},
-                  onTypeChanged: (OtpMethod) -> Unit = {},
-                  onConfirmClicked: () -> Unit = {}) {
-    Column(modifier = Modifier.fillMaxWidth()
-        .background(colorScheme.background),
-        horizontalAlignment = Alignment.CenterHorizontally) {
-        TextField(modifier = Modifier.contentDescription("NameField"),
+internal fun CreateOtpItem(
+    createOtpState: CreateOtpState,
+    onNameChanged: (String) -> Unit = {},
+    onSecretChanged: (String) -> Unit = {},
+    onTypeChanged: (OtpMethod) -> Unit = {},
+    onConfirmClicked: () -> Unit = {},
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth().background(colorScheme.background),
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        TextField(
+            modifier = Modifier.contentDescription("NameField"),
             label = { Text("Name") },
-            value = createOtpState.name, onValueChange = onNameChanged)
-        TextField(modifier = Modifier.contentDescription("SecretField"),
+            value = createOtpState.name,
+            onValueChange = onNameChanged,
+        )
+        TextField(
+            modifier = Modifier.contentDescription("SecretField"),
             label = { Text("Secret") },
-            value = createOtpState.secret, onValueChange = onSecretChanged)
+            value = createOtpState.secret,
+            onValueChange = onSecretChanged,
+        )
         Spacer(modifier = Modifier.height(8.dp))
-        MultiToggleSwitch(createOtpState.type.index(), names, onToggleChanged = { index ->
-            onTypeChanged(types[index])
-        })
+        MultiToggleSwitch(
+            createOtpState.type.index(),
+            names,
+            onToggleChanged = { index -> onTypeChanged(types[index]) },
+        )
 
-        TextButton(modifier = Modifier.testTag("Confirm").contentDescription("Confirm"),
-            onClick = onConfirmClicked) {
+        TextButton(
+            modifier = Modifier.testTag("Confirm").contentDescription("Confirm"),
+            onClick = onConfirmClicked,
+        ) {
             Text(text = "Confirm", color = colorScheme.onBackground)
         }
     }
 }
 
-fun OtpMethod.index(): Int = when(this) {
-    is OtpMethod.HOTP -> 0
-    is OtpMethod.TOTP -> 1
-}
+fun OtpMethod.index(): Int =
+    when (this) {
+        is OtpMethod.HOTP -> 0
+        is OtpMethod.TOTP -> 1
+    }

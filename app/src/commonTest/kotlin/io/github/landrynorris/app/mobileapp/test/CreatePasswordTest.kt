@@ -1,15 +1,15 @@
 package io.github.landrynorris.app.mobileapp.test
 
-import io.github.landrynorris.encryption.Crypto
 import io.github.landrynorris.app.components.CreatePasswordComponent
 import io.github.landrynorris.app.components.CreatePasswordLogic
 import io.github.landrynorris.app.repository.PasswordRepository
 import io.github.landrynorris.app.repository.SettingsRepository
+import io.github.landrynorris.encryption.Crypto
+import kotlin.test.*
+import kotlin.time.Duration.Companion.milliseconds
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
-import kotlin.test.*
-import kotlin.time.Duration.Companion.milliseconds
 
 class CreatePasswordTest {
 
@@ -55,12 +55,13 @@ class CreatePasswordTest {
 
         assertEquals("", component.state.value.password)
 
-        val anyHasDigits = (0 until 10).any {
-            component.generateNewPassword()
-            val randomPassword = component.state.value.password
+        val anyHasDigits =
+            (0 until 10).any {
+                component.generateNewPassword()
+                val randomPassword = component.state.value.password
 
-            randomPassword.any { it.isDigit() }
-        }
+                randomPassword.any { it.isDigit() }
+            }
 
         assertFalse(anyHasDigits)
     }
@@ -90,9 +91,13 @@ class CreatePasswordTest {
     private fun createComponent(
         crypto: Crypto = MockCrypto(),
         passwordRepository: PasswordRepository = createPasswordRepository(),
-        settingsRepository: SettingsRepository = createSettingsRepository()
+        settingsRepository: SettingsRepository = createSettingsRepository(),
     ): CreatePasswordLogic {
-        return CreatePasswordComponent(createContext(), crypto,
-            passwordRepository, settingsRepository)
+        return CreatePasswordComponent(
+            createContext(),
+            crypto,
+            passwordRepository,
+            settingsRepository,
+        )
     }
 }

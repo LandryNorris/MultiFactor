@@ -11,17 +11,11 @@ import kotlin.test.assertFalse
 class PasswordGeneratorTest {
     @Test
     fun testLength() {
-        assertEquals(10, createPassword {
-            length = 10
-        }.length)
+        assertEquals(10, createPassword { length = 10 }.length)
 
-        assertEquals(25, createPassword {
-            length = 25
-        }.length)
+        assertEquals(25, createPassword { length = 25 }.length)
 
-        assertEquals(100, createPassword {
-            length = 100
-        }.length)
+        assertEquals(100, createPassword { length = 100 }.length)
     }
 
     @Test
