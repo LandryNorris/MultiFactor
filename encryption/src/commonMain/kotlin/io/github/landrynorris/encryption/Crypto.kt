@@ -7,3 +7,5 @@ interface Crypto {
 
     fun decrypt(data: ByteArray, iv: ByteArray, alias: String): ByteArray
 }
+
+class EncryptResult(val iv: ByteArray, val data: ByteArray)
