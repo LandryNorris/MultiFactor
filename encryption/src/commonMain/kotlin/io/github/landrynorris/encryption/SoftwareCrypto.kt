@@ -1,6 +1,5 @@
 package io.github.landrynorris.encryption
 
-import dev.whyoleg.cryptography.BinarySize
 import dev.whyoleg.cryptography.BinarySize.Companion.bytes
 import dev.whyoleg.cryptography.CryptographyProvider
 import dev.whyoleg.cryptography.DelicateCryptographyApi
@@ -30,9 +29,7 @@ object SoftwareCrypto {
 
         val aesKey = aes.keyDecoder().decodeFromByteArray(AES.Key.Format.RAW, key)
 
-        // TODO(Landry): Make randomization more secure
-        val iv = ByteArray(IV_SIZE_BYTES)
-        Random.nextBytes(iv)
+        val iv = generateSalt(IV_SIZE_BYTES)
 
         val ciphertext = aesKey.cipher()
             .encryptWithIv(iv, data)
@@ -77,4 +74,21 @@ object SoftwareCrypto {
             .deriveSecretBlocking(password)
             .toByteArray()
     }
+
+    fun generateSalt(length: Int = 16): ByteArray {
+        // TODO(Landry): Make randomization more secure
+        val result = ByteArray(length)
+        Random.nextBytes(result)
+        return result
+    }
+
+    fun getCryptographyInformation(): CryptoInfo {
+        return CryptoInfo(
+            name = "PBKDF2-HMAC-SHA256",
+            keySizeBytes = KEY_SIZE_BYTES,
+            iterations = PBKDF2_ITERATIONS,
+        )
+    }
+
+    data class CryptoInfo(val name: String, val iterations: Int, val keySizeBytes: Int)
 }
