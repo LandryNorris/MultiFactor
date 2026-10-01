@@ -1,5 +1,6 @@
 package io.github.landrynorris.app
 
+import io.github.landrynorris.app.export.PasswordExporter
 import io.github.landrynorris.app.platform.platformModule
 import io.github.landrynorris.app.repository.OtpRepository
 import io.github.landrynorris.app.repository.PasswordRepository
@@ -20,4 +21,5 @@ val commonModule = module {
     single<Crypto> { SecureCrypto }
     single { OtpRepository(get()) }
     single { PasswordRepository(get(), get()) }
+    single { PasswordExporter(get(), get()) }
 }

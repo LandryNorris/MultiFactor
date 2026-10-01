@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -32,8 +33,12 @@ internal fun Settings(logic: SettingsLogic) {
                 is Int -> IntSettingsBox(item as Setting<Int>, item.value, item.onValueChanged)
             }
         }
+        item {
+            MultiFactorTextButton("Export Data", onClick = logic.passwordExportLogic::show)
+        }
         item { MultiFactorTextButton("About", onClick = logic::navigateToAbout) }
     }
+    PasswordExportPopup(logic.passwordExportLogic)
 }
 
 @Composable
