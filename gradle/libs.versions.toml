@@ -59,6 +59,8 @@ settings-test = { module = "com.russhwolf:multiplatform-settings-test", version.
 
 startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "startupRuntime" }
 ui = { module = "org.jetbrains.compose.ui:ui", version.ref = "compose" }
+ui-tooling = { module = "org.jetbrains.compose.ui:ui-tooling", version.ref = "compose" }
+ui-tooling-preview = { module = "org.jetbrains.compose.ui:ui-tooling-preview", version.ref = "compose" }
 ui-test-junit4 = { module = "org.jetbrains.compose.ui:ui-test-junit4", version.ref = "compose" }
 
 espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "espresso" }
