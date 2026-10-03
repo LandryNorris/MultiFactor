@@ -7,14 +7,14 @@ import io.github.landrynorris.app.repository.PasswordRepository
 import io.github.landrynorris.encryption.SecureCrypto
 import io.github.landrynorris.encryption.SoftwareCrypto
 import io.github.landrynorris.otp.Otp
+import kotlin.io.encoding.Base64
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlin.io.encoding.Base64
 
 class PasswordExporter(
     private val passwordRepository: PasswordRepository,
-    private val otpRepository: OtpRepository
+    private val otpRepository: OtpRepository,
 ) {
     private val crypto = SoftwareCrypto
     private val json = Json {
@@ -22,23 +22,24 @@ class PasswordExporter(
         ignoreUnknownKeys = true
     }
 
-    suspend fun createExportModel(encryptionPassword: ByteArray, key: ByteArray, salt: ByteArray): ExportedPasswordsFile {
+    suspend fun createExportModel(
+        encryptionPassword: ByteArray,
+        key: ByteArray,
+        salt: ByteArray,
+    ): ExportedPasswordsFile {
         val passwordModelList = buildList {
             loadPasswords { model, passwordBytes ->
                 add(toExportedPassword(model, passwordBytes, key))
             }
         }
-        val otpModelList = buildList {
-            loadOtp { otp ->
-                add(toExportedOtp(otp, key))
-            }
-        }
+        val otpModelList = buildList { loadOtp { otp -> add(toExportedOtp(otp, key)) } }
         return ExportedPasswordsFile(
             header = createHeader(salt),
-            contents = ExportedPasswordsContents(
-                passwordModelList = passwordModelList,
-                otpModelList = otpModelList
-            )
+            contents =
+                ExportedPasswordsContents(
+                    passwordModelList = passwordModelList,
+                    otpModelList = otpModelList,
+                ),
         )
     }
 
@@ -74,7 +75,7 @@ class PasswordExporter(
             secretBase64 = Base64.encode(secretResult.data),
             secretIvBase64 = Base64.encode(secretResult.iv),
             nameBase64 = Base64.encode(nameResult.data),
-            nameIvBase64 = Base64.encode(nameResult.iv)
+            nameIvBase64 = Base64.encode(nameResult.iv),
         )
     }
 
@@ -106,15 +107,18 @@ class PasswordExporter(
         )
     }
 
-    private suspend fun loadPasswords(onPasswordDecrypted: suspend (PasswordModel, ByteArray) -> Unit) {
+    private suspend fun loadPasswords(
+        onPasswordDecrypted: suspend (PasswordModel, ByteArray) -> Unit
+    ) {
         val passwords = passwordRepository.getPasswordsFlow().firstOrNull() ?: return
 
         passwords.forEach { passwordModel ->
-            val decryptedPassword = SecureCrypto.decrypt(
-                passwordModel.encryptedValue,
-                passwordModel.salt,
-                PasswordKeystoreAlias,
-            )
+            val decryptedPassword =
+                SecureCrypto.decrypt(
+                    passwordModel.encryptedValue,
+                    passwordModel.salt,
+                    PasswordKeystoreAlias,
+                )
 
             onPasswordDecrypted(passwordModel, decryptedPassword)
             decryptedPassword.fill(0)
@@ -124,9 +128,7 @@ class PasswordExporter(
     private suspend fun loadOtp(onOtpDecrypted: suspend (Otp) -> Unit) {
         val otpList = otpRepository.getOtpModelFlow().firstOrNull() ?: return
 
-        otpList.forEach { otpModel ->
-            onOtpDecrypted(otpModel.otp)
-        }
+        otpList.forEach { otpModel -> onOtpDecrypted(otpModel.otp) }
     }
 }
 

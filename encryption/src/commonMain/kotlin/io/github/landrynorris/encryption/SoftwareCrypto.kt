@@ -16,63 +16,40 @@ object SoftwareCrypto {
     private const val PBKDF2_ITERATIONS = 600_000
 
     private val aes = CryptographyProvider.Default.get(AES.GCM)
-    private val pbkdf2 =
-        CryptographyProvider.Default.get(PBKDF2)
+    private val pbkdf2 = CryptographyProvider.Default.get(PBKDF2)
 
-    suspend fun encrypt(
-        data: ByteArray,
-        key: ByteArray,
-    ): EncryptResult {
-        require(key.size == KEY_SIZE_BYTES) {
-            "AES-256 keys must contain exactly 32 bytes"
-        }
+    suspend fun encrypt(data: ByteArray, key: ByteArray): EncryptResult {
+        require(key.size == KEY_SIZE_BYTES) { "AES-256 keys must contain exactly 32 bytes" }
 
         val aesKey = aes.keyDecoder().decodeFromByteArray(AES.Key.Format.RAW, key)
 
         val iv = generateSalt(IV_SIZE_BYTES)
 
-        val ciphertext = aesKey.cipher()
-            .encryptWithIv(iv, data)
+        val ciphertext = aesKey.cipher().encryptWithIv(iv, data)
 
-        return EncryptResult(
-            iv = iv,
-            data = ciphertext,
-        )
+        return EncryptResult(iv = iv, data = ciphertext)
     }
 
-    suspend fun decrypt(
-        data: ByteArray,
-        iv: ByteArray,
-        key: ByteArray,
-    ): ByteArray {
-        require(key.size == KEY_SIZE_BYTES) {
-            "AES-256 keys must contain exactly 32 bytes"
-        }
+    suspend fun decrypt(data: ByteArray, iv: ByteArray, key: ByteArray): ByteArray {
+        require(key.size == KEY_SIZE_BYTES) { "AES-256 keys must contain exactly 32 bytes" }
 
-        require(iv.size == IV_SIZE_BYTES) {
-            "AES-GCM IV must contain exactly 12 bytes"
-        }
+        require(iv.size == IV_SIZE_BYTES) { "AES-GCM IV must contain exactly 12 bytes" }
 
         val aesKey = aes.keyDecoder().decodeFromByteArray(AES.Key.Format.RAW, key)
 
-        return aesKey.cipher()
-            .decryptWithIv(iv, data)
+        return aesKey.cipher().decryptWithIv(iv, data)
     }
 
-    fun deriveKey(
-        password: ByteArray,
-        salt: ByteArray,
-    ): ByteArray {
-        val derivation = pbkdf2.secretDerivation(
-            digest = SHA256,
-            iterations = PBKDF2_ITERATIONS,
-            outputSize = KEY_SIZE_BYTES.bytes,
-            salt = salt,
-        )
+    fun deriveKey(password: ByteArray, salt: ByteArray): ByteArray {
+        val derivation =
+            pbkdf2.secretDerivation(
+                digest = SHA256,
+                iterations = PBKDF2_ITERATIONS,
+                outputSize = KEY_SIZE_BYTES.bytes,
+                salt = salt,
+            )
 
-        return derivation
-            .deriveSecretBlocking(password)
-            .toByteArray()
+        return derivation.deriveSecretBlocking(password).toByteArray()
     }
 
     fun generateSalt(length: Int = 16): ByteArray {

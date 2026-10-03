@@ -18,7 +18,6 @@ import io.github.landrynorris.app.theme.colorScheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 @Composable
 fun PasswordExportPopup(component: PasswordExportLogic) {
@@ -30,13 +29,8 @@ fun PasswordExportPopup(component: PasswordExportLogic) {
 }
 
 @Composable
-private fun PasswordExportPopupContent(
-    component: PasswordExportLogic,
-    state: PasswordExportData
-) {
-    Dialog(
-        onDismissRequest = component::dismiss,
-    ) {
+private fun PasswordExportPopupContent(component: PasswordExportLogic, state: PasswordExportData) {
+    Dialog(onDismissRequest = component::dismiss) {
         Column(
             modifier = Modifier.fillMaxWidth().background(colorScheme.background),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -48,11 +42,9 @@ private fun PasswordExportPopupContent(
                 onValueChange = component::setExportPassword,
             )
 
-            TextButton(onClick = {
-                CoroutineScope(Dispatchers.Default).launch {
-                    component.export()
-                }
-            }) {
+            TextButton(
+                onClick = { CoroutineScope(Dispatchers.Default).launch { component.export() } }
+            ) {
                 Text("Export")
             }
         }

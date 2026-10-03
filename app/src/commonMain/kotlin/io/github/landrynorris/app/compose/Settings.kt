@@ -8,17 +8,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import io.github.landrynorris.app.components.Setting
 import io.github.landrynorris.app.components.SettingsLogic
+import io.github.landrynorris.app.theme.AppTheme
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -33,9 +35,7 @@ internal fun Settings(logic: SettingsLogic) {
                 is Int -> IntSettingsBox(item as Setting<Int>, item.value, item.onValueChanged)
             }
         }
-        item {
-            MultiFactorTextButton("Export Data", onClick = logic.passwordExportLogic::show)
-        }
+        item { MultiFactorTextButton("Export Data", onClick = logic.passwordExportLogic::show) }
         item { MultiFactorTextButton("About", onClick = logic::navigateToAbout) }
     }
     PasswordExportPopup(logic.passwordExportLogic)
@@ -78,5 +78,34 @@ internal fun IntSettingsBox(setting: Setting<Int>, value: Int, onValueChanged: (
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             modifier = Modifier.contentDescription("IntSetting"),
         )
+    }
+}
+
+@Preview
+@Composable
+private fun BooleanSettingsSwitchPreview() {
+    AppTheme {
+        Surface {
+            BooleanSettingsSwitch(
+                setting =
+                    Setting("Include Digits", "Include numbers in generated passwords", true, {}),
+                value = true,
+                onValueChanged = {},
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun IntSettingsBoxPreview() {
+    AppTheme {
+        Surface {
+            IntSettingsBox(
+                setting = Setting("Password Length", "Length of generated passwords", 16, {}),
+                value = 16,
+                onValueChanged = {},
+            )
+        }
     }
 }

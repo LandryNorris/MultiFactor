@@ -74,7 +74,7 @@ class RootComponent(context: ComponentContext, private val crypto: Crypto) :
             context,
             passwordExporter,
             settingsRepository,
-            openAbout = ::navigateToAbout
+            openAbout = ::navigateToAbout,
         )
 
     private fun about(context: ComponentContext) = AboutComponent(context)

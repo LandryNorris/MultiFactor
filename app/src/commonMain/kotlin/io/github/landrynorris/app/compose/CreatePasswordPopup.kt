@@ -8,6 +8,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -18,8 +19,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import io.github.landrynorris.app.components.CreatePasswordLogic
+import io.github.landrynorris.app.theme.AppTheme
 import io.github.landrynorris.app.theme.colorScheme
+import kotlinx.coroutines.flow.MutableStateFlow
 
 @Composable
 internal fun CreatePasswordPopup(logic: CreatePasswordLogic) {
@@ -60,6 +64,41 @@ internal fun CreatePasswordPopup(logic: CreatePasswordLogic) {
             enabled = state.isConfirmEnabled,
         ) {
             Text("Confirm", color = colorScheme.onBackground)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CreatePasswordPopupPreview() {
+    AppTheme {
+        Surface {
+            CreatePasswordPopup(
+                logic =
+                    object : CreatePasswordLogic {
+                        override val state =
+                            MutableStateFlow(
+                                io.github.landrynorris.app.components.CreatePasswordState(
+                                    name = "Example Password",
+                                    domain = "example.com",
+                                    password = "Password123!",
+                                    isConfirmEnabled = true,
+                                )
+                            )
+
+                        override fun nameChanged(name: String) {}
+
+                        override fun domainChanged(domain: String) {}
+
+                        override fun passwordChanged(password: String) {}
+
+                        override fun generateNewPassword(
+                            clipboardManager: androidx.compose.ui.platform.ClipboardManager?
+                        ) {}
+
+                        override fun confirm() {}
+                    }
+            )
         }
     }
 }

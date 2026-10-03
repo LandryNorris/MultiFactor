@@ -55,6 +55,7 @@ kotlin {
             implementation(libs.kotlinx.io.core)
             implementation(libs.cmp.share)
             implementation(libs.cmp.share.compose)
+            implementation(libs.ui.tooling.preview)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))

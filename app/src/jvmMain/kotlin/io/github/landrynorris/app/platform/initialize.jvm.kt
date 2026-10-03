@@ -8,9 +8,9 @@ import com.russhwolf.settings.coroutines.toSuspendSettings
 import io.github.landrynorris.app.Directories
 import io.github.landrynorris.app.repository.SettingsRepository
 import io.github.landrynorris.database.AppDatabase
-import kotlinx.io.files.Path
 import java.io.File
 import java.util.prefs.Preferences
+import kotlinx.io.files.Path
 import org.koin.dsl.module
 
 @OptIn(ExperimentalSettingsApi::class)

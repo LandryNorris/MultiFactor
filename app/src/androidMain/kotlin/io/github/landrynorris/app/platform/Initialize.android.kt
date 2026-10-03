@@ -32,7 +32,8 @@ actual val platformModule = module {
 
     single {
         val context = androidContext()
-        val downloads = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) ?: context.filesDir
+        val downloads =
+            context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) ?: context.filesDir
         val temp = context.cacheDir
         Directories(
             downloadsDirectory = Path(downloads.absolutePath),

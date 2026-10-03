@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import io.github.landrynorris.app.components.Root
@@ -89,5 +90,21 @@ internal fun BottomNav(
             label = { Text("settings") },
             modifier = Modifier.testTag("settings"),
         )
+    }
+}
+
+@Preview
+@Composable
+private fun TopBarPreview() {
+    AppTheme { Surface { TopBar(title = "Otp") } }
+}
+
+@Preview
+@Composable
+private fun BottomNavPreview() {
+    AppTheme {
+        Surface {
+            BottomNav(navigateToOtp = {}, navigateToPasswordManager = {}, navigateToSettings = {})
+        }
     }
 }

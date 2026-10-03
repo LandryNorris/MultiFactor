@@ -3,7 +3,6 @@ package io.github.landrynorris.app.components
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.childContext
 import io.github.landrynorris.app.export.PasswordExporter
-import io.github.landrynorris.app.repository.PasswordRepository
 import io.github.landrynorris.app.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -23,6 +22,7 @@ interface SettingsLogic {
     fun setPasswordLength(length: Int)
 
     fun navigateToAbout()
+
     fun onPasswordExportPressed()
 }
 

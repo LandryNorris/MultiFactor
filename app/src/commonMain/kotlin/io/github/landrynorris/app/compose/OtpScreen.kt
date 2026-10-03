@@ -3,12 +3,17 @@ package io.github.landrynorris.app.compose
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.ClipboardManager
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.tooling.preview.Preview
 import io.github.landrynorris.app.components.OtpLogic
 import io.github.landrynorris.app.components.OtpState
+import io.github.landrynorris.app.models.OtpModel
+import io.github.landrynorris.app.theme.AppTheme
 import io.github.landrynorris.otp.OtpMethod
+import io.github.landrynorris.otp.Totp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -65,6 +70,29 @@ internal fun OtpList(
                         )
                 }
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun OtpListPreview() {
+    val sampleOtp =
+        OtpState(
+            model = OtpModel(1L, Totp("JBSWY3DPEHPK3PXP", "GitHub")),
+            type = OtpMethod.TOTP,
+            name = "GitHub",
+            pin = "123456",
+            value = 0.5f,
+        )
+    AppTheme {
+        Surface {
+            OtpList(
+                otpStates = listOf(sampleOtp),
+                onIncrementClicked = {},
+                onDelete = {},
+                onCopyClicked = { _, _ -> },
+            )
         }
     }
 }

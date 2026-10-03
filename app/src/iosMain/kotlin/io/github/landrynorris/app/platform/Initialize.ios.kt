@@ -29,10 +29,11 @@ actual val platformModule = module {
     single { SettingsRepository(get()) }
 
     single {
-        val downloadsPath = (NSFileManager.defaultManager.URLsForDirectory(
-            NSDownloadsDirectory,
-            NSUserDomainMask
-        ).firstOrNull() as? NSURL)?.path ?: NSTemporaryDirectory()
+        val downloadsPath =
+            (NSFileManager.defaultManager
+                    .URLsForDirectory(NSDownloadsDirectory, NSUserDomainMask)
+                    .firstOrNull() as? NSURL)
+                ?.path ?: NSTemporaryDirectory()
 
         Directories(
             downloadsDirectory = Path(downloadsPath),
