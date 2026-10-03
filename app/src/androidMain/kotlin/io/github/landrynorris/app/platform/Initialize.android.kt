@@ -1,14 +1,17 @@
 package io.github.landrynorris.app.platform
 
 import android.content.Context
+import android.os.Environment
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import app.cash.sqldelight.driver.android.AndroidSqliteDriver
 import com.russhwolf.settings.coroutines.SuspendSettings
 import com.russhwolf.settings.datastore.DataStoreSettings
+import io.github.landrynorris.app.Directories
 import io.github.landrynorris.app.repository.SettingsRepository
 import io.github.landrynorris.database.AppDatabase
+import kotlinx.io.files.Path
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 
@@ -26,6 +29,16 @@ actual val platformModule = module {
     }
 
     single { SettingsRepository(get()) }
+
+    single {
+        val context = androidContext()
+        val downloads = context.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS) ?: context.filesDir
+        val temp = context.cacheDir
+        Directories(
+            downloadsDirectory = Path(downloads.absolutePath),
+            tempDirectory = Path(temp.absolutePath),
+        )
+    }
 }
 
 val Context.datastore: DataStore<Preferences> by preferencesDataStore(name = "settings")
