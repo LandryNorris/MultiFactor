@@ -9,14 +9,17 @@ import androidx.compose.material.icons.filled.LockOpen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.window.Dialog
 import io.github.landrynorris.app.components.PasswordLogic
+import io.github.landrynorris.app.theme.AppTheme
 
 @Composable
 internal fun PasswordScreen(logic: PasswordLogic) {
@@ -80,4 +83,32 @@ internal fun PasswordCard(
 @Composable
 internal fun HiddenPasswordText() {
     Text("************")
+}
+
+@Preview
+@Composable
+private fun PasswordCardPreview() {
+    AppTheme {
+        Surface {
+            PasswordCard(
+                name = "GitHub",
+                password = "password123",
+                onCopyClicked = {},
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun PasswordCardHiddenPreview() {
+    AppTheme {
+        Surface {
+            PasswordCard(
+                name = "GitHub",
+                password = null,
+                onCopyClicked = {},
+            )
+        }
+    }
 }

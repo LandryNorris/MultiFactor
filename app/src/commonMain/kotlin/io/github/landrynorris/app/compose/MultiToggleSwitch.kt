@@ -7,13 +7,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.material3.Divider
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.text.toUpperCase
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import io.github.landrynorris.app.theme.AppTheme
 
 @Composable
 internal fun MultiToggleSwitch(
@@ -54,6 +57,20 @@ internal fun MultiToggleSwitch(
                     modifier = Modifier.padding(4.dp).contentDescription(toggleState),
                 )
             }
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun MultiToggleSwitchPreview() {
+    AppTheme {
+        Surface {
+            MultiToggleSwitch(
+                currentIndex = 0,
+                names = listOf("HOTP", "TOTP"),
+                onToggleChanged = {},
+            )
         }
     }
 }

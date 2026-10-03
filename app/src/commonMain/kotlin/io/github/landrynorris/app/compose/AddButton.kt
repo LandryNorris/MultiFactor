@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.tooling.preview.Preview
 
 @Composable
 internal fun AddButton(isAdding: Boolean, onClick: () -> Unit) {
@@ -16,4 +17,16 @@ internal fun AddButton(isAdding: Boolean, onClick: () -> Unit) {
     IconButton(onClick = onClick, modifier = Modifier.rotate(degrees)) {
         Icon(Icons.Default.Add, if (isAdding) "Close" else "Add")
     }
+}
+
+@Preview
+@Composable
+private fun AddButtonPreview() {
+    AddButton(isAdding = false, onClick = {})
+}
+
+@Preview
+@Composable
+private fun AddButtonAddingPreview() {
+    AddButton(isAdding = true, onClick = {})
 }

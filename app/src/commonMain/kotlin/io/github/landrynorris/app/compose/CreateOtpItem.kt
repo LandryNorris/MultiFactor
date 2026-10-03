@@ -2,6 +2,7 @@ package io.github.landrynorris.app.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
@@ -9,8 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import io.github.landrynorris.app.components.CreateOtpState
+import io.github.landrynorris.app.theme.AppTheme
 import io.github.landrynorris.app.theme.colorScheme
 import io.github.landrynorris.otp.OtpMethod
 
@@ -53,6 +56,23 @@ internal fun CreateOtpItem(
             onClick = onConfirmClicked,
         ) {
             Text(text = "Confirm", color = colorScheme.onBackground)
+        }
+    }
+}
+
+@Preview
+@Composable
+private fun CreateOtpItemPreview() {
+    AppTheme {
+        Surface {
+            CreateOtpItem(
+                createOtpState =
+                    CreateOtpState(
+                        name = "Example",
+                        secret = "JBSWY3DPEHPK3PXP",
+                        type = OtpMethod.TOTP
+                    )
+            )
         }
     }
 }
