@@ -39,9 +39,5 @@ internal fun TotpItem(pin: String, name: String, progress: Float, onCopyClicked:
 @Preview
 @Composable
 private fun TotpItemPreview() {
-    AppTheme {
-        Surface {
-            TotpItem(pin = "123456", name = "GitHub TOTP", progress = 0.75f)
-        }
-    }
+    AppTheme { Surface { TotpItem(pin = "123456", name = "GitHub TOTP", progress = 0.75f) } }
 }

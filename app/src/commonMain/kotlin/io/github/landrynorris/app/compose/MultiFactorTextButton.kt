@@ -16,9 +16,5 @@ fun MultiFactorTextButton(text: String, onClick: () -> Unit) {
 @Preview
 @Composable
 private fun MultiFactorTextButtonPreview() {
-    AppTheme {
-        Surface {
-            MultiFactorTextButton(text = "Click Me", onClick = {})
-        }
-    }
+    AppTheme { Surface { MultiFactorTextButton(text = "Click Me", onClick = {}) } }
 }

@@ -26,19 +26,11 @@ internal fun CopyButton(isEnabled: Boolean = true, onClick: () -> Unit) {
 @Preview
 @Composable
 private fun CopyButtonPreview() {
-    AppTheme {
-        Surface {
-            CopyButton(isEnabled = true, onClick = {})
-        }
-    }
+    AppTheme { Surface { CopyButton(isEnabled = true, onClick = {}) } }
 }
 
 @Preview
 @Composable
 private fun CopyButtonDisabledPreview() {
-    AppTheme {
-        Surface {
-            CopyButton(isEnabled = false, onClick = {})
-        }
-    }
+    AppTheme { Surface { CopyButton(isEnabled = false, onClick = {}) } }
 }

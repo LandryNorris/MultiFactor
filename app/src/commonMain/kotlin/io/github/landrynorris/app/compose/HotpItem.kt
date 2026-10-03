@@ -39,9 +39,5 @@ internal fun HotpItem(
 @Preview
 @Composable
 private fun HotpItemPreview() {
-    AppTheme {
-        Surface {
-            HotpItem(index = 0, pin = "123456", name = "GitHub HOTP")
-        }
-    }
+    AppTheme { Surface { HotpItem(index = 0, pin = "123456", name = "GitHub HOTP") } }
 }

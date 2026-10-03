@@ -70,7 +70,7 @@ private fun CreateOtpItemPreview() {
                     CreateOtpState(
                         name = "Example",
                         secret = "JBSWY3DPEHPK3PXP",
-                        type = OtpMethod.TOTP
+                        type = OtpMethod.TOTP,
                     )
             )
         }

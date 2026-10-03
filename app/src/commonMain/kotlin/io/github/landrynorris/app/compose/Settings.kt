@@ -85,11 +85,8 @@ private fun BooleanSettingsSwitchPreview() {
     AppTheme {
         Surface {
             BooleanSettingsSwitch(
-                setting = Setting(
-                    "Include Digits",
-                    "Include numbers in generated passwords",
-                    true,
-                    {}),
+                setting =
+                    Setting("Include Digits", "Include numbers in generated passwords", true, {}),
                 value = true,
                 onValueChanged = {},
             )

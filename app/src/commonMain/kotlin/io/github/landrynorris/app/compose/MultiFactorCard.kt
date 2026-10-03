@@ -17,11 +17,5 @@ internal fun MultiFactorCard(contentDescription: String = "card", content: @Comp
 @Preview
 @Composable
 private fun MultiFactorCardPreview() {
-    AppTheme {
-        Surface {
-            MultiFactorCard {
-                Text("Card Content")
-            }
-        }
-    }
+    AppTheme { Surface { MultiFactorCard { Text("Card Content") } } }
 }

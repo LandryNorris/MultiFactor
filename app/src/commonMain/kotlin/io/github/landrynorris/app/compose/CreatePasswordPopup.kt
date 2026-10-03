@@ -92,7 +92,9 @@ private fun CreatePasswordPopupPreview() {
 
                         override fun passwordChanged(password: String) {}
 
-                        override fun generateNewPassword(clipboardManager: androidx.compose.ui.platform.ClipboardManager?) {}
+                        override fun generateNewPassword(
+                            clipboardManager: androidx.compose.ui.platform.ClipboardManager?
+                        ) {}
 
                         override fun confirm() {}
                     }

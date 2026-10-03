@@ -89,26 +89,12 @@ internal fun HiddenPasswordText() {
 @Composable
 private fun PasswordCardPreview() {
     AppTheme {
-        Surface {
-            PasswordCard(
-                name = "GitHub",
-                password = "password123",
-                onCopyClicked = {},
-            )
-        }
+        Surface { PasswordCard(name = "GitHub", password = "password123", onCopyClicked = {}) }
     }
 }
 
 @Preview
 @Composable
 private fun PasswordCardHiddenPreview() {
-    AppTheme {
-        Surface {
-            PasswordCard(
-                name = "GitHub",
-                password = null,
-                onCopyClicked = {},
-            )
-        }
-    }
+    AppTheme { Surface { PasswordCard(name = "GitHub", password = null, onCopyClicked = {}) } }
 }

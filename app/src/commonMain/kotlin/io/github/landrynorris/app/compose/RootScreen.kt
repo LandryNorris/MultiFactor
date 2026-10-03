@@ -96,11 +96,7 @@ internal fun BottomNav(
 @Preview
 @Composable
 private fun TopBarPreview() {
-    AppTheme {
-        Surface {
-            TopBar(title = "Otp")
-        }
-    }
+    AppTheme { Surface { TopBar(title = "Otp") } }
 }
 
 @Preview
@@ -108,11 +104,7 @@ private fun TopBarPreview() {
 private fun BottomNavPreview() {
     AppTheme {
         Surface {
-            BottomNav(
-                navigateToOtp = {},
-                navigateToPasswordManager = {},
-                navigateToSettings = {},
-            )
+            BottomNav(navigateToOtp = {}, navigateToPasswordManager = {}, navigateToSettings = {})
         }
     }
 }
