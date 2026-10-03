@@ -6,6 +6,7 @@ import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.value.Value
+import io.github.landrynorris.app.export.PasswordExporter
 import io.github.landrynorris.app.repository.OtpRepository
 import io.github.landrynorris.app.repository.PasswordRepository
 import io.github.landrynorris.app.repository.SettingsRepository
@@ -44,6 +45,7 @@ class RootComponent(context: ComponentContext, private val crypto: Crypto) :
     private val otpRepository by inject<OtpRepository>()
     private val passwordRepository by inject<PasswordRepository>()
     private val settingsRepository by inject<SettingsRepository>()
+    private val passwordExporter by inject<PasswordExporter>()
 
     override val routerState: Value<ChildStack<*, Root.Child>> =
         childStack(
@@ -68,7 +70,12 @@ class RootComponent(context: ComponentContext, private val crypto: Crypto) :
         PasswordComponent(context, crypto, passwordRepository, settingsRepository)
 
     private fun settings(context: ComponentContext) =
-        SettingsComponent(context, settingsRepository, openAbout = ::navigateToAbout)
+        SettingsComponent(
+            context,
+            passwordExporter,
+            settingsRepository,
+            openAbout = ::navigateToAbout,
+        )
 
     private fun about(context: ComponentContext) = AboutComponent(context)
 

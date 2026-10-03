@@ -1,6 +1,8 @@
 package io.github.landrynorris.app.components
 
 import com.arkivanov.decompose.ComponentContext
+import com.arkivanov.decompose.childContext
+import io.github.landrynorris.app.export.PasswordExporter
 import io.github.landrynorris.app.repository.SettingsRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -8,6 +10,8 @@ import kotlinx.coroutines.runBlocking
 
 interface SettingsLogic {
     val passwordSettings: Flow<List<Setting<*>>>
+
+    val passwordExportLogic: PasswordExportLogic
 
     fun setIncludeDigits(enable: Boolean)
 
@@ -18,10 +22,13 @@ interface SettingsLogic {
     fun setPasswordLength(length: Int)
 
     fun navigateToAbout()
+
+    fun onPasswordExportPressed()
 }
 
 class SettingsComponent(
     val context: ComponentContext,
+    passwordExporter: PasswordExporter,
     private val settingsRepository: SettingsRepository,
     private val openAbout: () -> Unit,
 ) : ComponentContext by context, SettingsLogic {
@@ -64,6 +71,9 @@ class SettingsComponent(
             )
         }
 
+    override val passwordExportLogic =
+        PasswordExportComponent(childContext("PasswordExport"), passwordExporter)
+
     override fun setIncludeDigits(enable: Boolean) = runBlocking {
         settingsRepository.setIncludeDigits(enable)
     }
@@ -81,6 +91,10 @@ class SettingsComponent(
     }
 
     override fun navigateToAbout() = openAbout()
+
+    override fun onPasswordExportPressed() {
+        passwordExportLogic.show()
+    }
 }
 
 data class Setting<T>(

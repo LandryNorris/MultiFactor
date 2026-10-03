@@ -2,6 +2,7 @@ package io.github.landrynorris.app.mobileapp.test
 
 import io.github.landrynorris.app.components.SettingsComponent
 import io.github.landrynorris.app.components.SettingsLogic
+import io.github.landrynorris.app.export.PasswordExporter
 import io.github.landrynorris.app.repository.SettingsRepository
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -91,7 +92,8 @@ class SettingsComponentTest {
     @Test
     fun testOpenAbout() {
         var aboutOpen = false
-        val component = createComponent(createSettingsRepository()) { aboutOpen = true }
+        val component =
+            createComponent(createSettingsRepository(), openAbout = { aboutOpen = true })
 
         assertFalse(aboutOpen)
 
@@ -102,7 +104,9 @@ class SettingsComponentTest {
     private fun createComponent(
         settingsRepository: SettingsRepository,
         openAbout: () -> Unit = {},
+        passwordExporter: PasswordExporter =
+            PasswordExporter(createPasswordRepository(), createOtpRepository()),
     ): SettingsLogic {
-        return SettingsComponent(createContext(), settingsRepository, openAbout)
+        return SettingsComponent(createContext(), passwordExporter, settingsRepository, openAbout)
     }
 }

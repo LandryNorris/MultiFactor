@@ -35,8 +35,10 @@ internal fun Settings(logic: SettingsLogic) {
                 is Int -> IntSettingsBox(item as Setting<Int>, item.value, item.onValueChanged)
             }
         }
+        item { MultiFactorTextButton("Export Data", onClick = logic.passwordExportLogic::show) }
         item { MultiFactorTextButton("About", onClick = logic::navigateToAbout) }
     }
+    PasswordExportPopup(logic.passwordExportLogic)
 }
 
 @Composable

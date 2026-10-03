@@ -15,6 +15,9 @@ dokka = "2.2.0"
 koin = "4.2.2"
 color = "4.1.1"
 coroutines = "1.11.0"
+kotlinxIo = "0.9.1"
+cmpShare = "3.5.31"
+serialization = "1.11.0"
 material = "1.14.0"
 material3 = "1.9.0"
 materialIconsExtended = "1.7.3"
@@ -31,6 +34,8 @@ androidxJunit = "1.3.0"
 [libraries]
 activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 autofill = { module = "androidx.autofill:autofill", version.ref = "autofill" }
+cmp-share = { module = "io.github.mobilebytelabs:cmp-share", version.ref = "cmpShare" }
+cmp-share-compose = { module = "io.github.mobilebytelabs:cmp-share-compose", version.ref = "cmpShare" }
 core = { module = "androidx.test:core", version.ref = "core" }
 cryptography-core = { module = "dev.whyoleg.cryptography:cryptography-core", version.ref = "cryptographyCore" }
 cryptography-provider-optimal = { module = "dev.whyoleg.cryptography:cryptography-provider-optimal", version.ref = "cryptographyProviderOptimal" }
@@ -42,6 +47,8 @@ koin = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 color = { module = "com.materialkolor:material-kolor", version.ref = "color" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "serialization" }
+kotlinx-io-core = { module = "org.jetbrains.kotlinx:kotlinx-io-core", version.ref = "kotlinxIo" }
 kotlin-coroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
 kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "coroutines" }
 material = { module = "com.google.android.material:material", version.ref = "material" }

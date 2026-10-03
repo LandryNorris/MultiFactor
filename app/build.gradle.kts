@@ -51,6 +51,10 @@ kotlin {
             implementation(libs.ui)
             implementation(libs.material3)
             implementation(libs.material.icons.extended)
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.kotlinx.io.core)
+            implementation(libs.cmp.share)
+            implementation(libs.cmp.share.compose)
             implementation(libs.ui.tooling.preview)
         }
         commonTest.dependencies {
@@ -68,7 +72,6 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.settings.datastore)
             implementation(libs.datastore.preferences)
-            implementation(libs.ui.tooling)
         }
         getByName("androidHostTest").dependencies { implementation(libs.sql.sqlite) }
 
